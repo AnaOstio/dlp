@@ -1,0 +1,57 @@
+PROGRAMA
+========
+Un programa es una secuencia de definiciones. 
+Las definiciones pueden ser de variables o de funciones.
+
+DEFINICION DE VARIABLE
+======================
+La sintaxis de la definici�n de una variable consta de la palabra reservada 'var' seguida de una lista de identificadores
+separados por comas (con al menos un elemento) seguido de un tipo.
+Las definiciones de variables terminan mediante el caracter ';'
+
+DEFINICION DE FUNCION
+======================
+Las funciones se definen mediante la palabra reservada 'func', el identificador de la funci�n, una lista de par�metros
+separados por comas entre '(' y ')' seguido del tipo de retorno (cuando sea necesario).
+El tipo de retorno y de los par�metros debe ser de tipo simple (no se permiten ni arrays ni registros). 
+El cuerpo de la funci�n va entre '{' y '}'.
+El cuerpo de las funciones se compone de una secuencias de cero o m�s definiciones de variables seguida de una secuencia de cero o m�s sentencias. 
+Tanto sentencias como definiciones de variables terminan con el car�cter ';' (salvo las sentencias if-else y while que no necesitan ';').
+La funci�n 'main' no devuelve nada, no recibe par�metros y obligatoriamente debe estar declarada en �ltimo lugar.
+
+TIPOS
+=====
+Los tipos simples son 'int', 'float32' y 'char'.
+Los arrays se pueden crear con el constructor de tipos '[]', especificando el tama�o con una constante entera (como en C) seguido de cualquier tipo.
+Se usa el constructor de tipos 'struct' para la creaci�n de registros. 
+Los registros no tienen identificador, y los campos son declarados como variables dentro de '{' '}'. No se permite la definici�n de tipos (p.e. typedef).
+
+SENTENCIAS
+==========
+Una escritura es la palabra reservada 'write' seguida de una lista de una o m�s expresiones separadas por comas. check
+Una lectura es la palabra reservada 'read' seguida de una lista de una o m�s expresiones separadas por comas. check
+Una asignaci�n est� compuesta por dos expresiones separadas por el operador '='. check
+La sentencia condicional 'if-else' y la sentencia iterativa 'while' siguen la sintaxis del lenguaje Java (con par�ntesis en la condici�n).
+En ambos casos el cuerpo sigue la sintaxis de Java, las sentencias van entre '{' '}' y si solamente hay una sentencia pueden omitirse. 
+Se permite la sentencia 'return' <expresion> (la expresion es obligatoria).
+La invocaci�n a una funci�n sin retorno (se denomina procedimiento) ser� siempre una sentencia.
+
+EXPRESIONES
+===========
+La invocaci�n a una funci�n ser� una expresi�n cuando retorne un valor.
+La conversi�n expl�cita a tipos simples (cast) se realizar� utilizando la siguiente sintaxis: 'tipo' '(' expresion ')'
+Las expresiones est�n formadas por:
+- Constantes enteras, reales y car�cter sin signo.
+- Identificadores
+- Los siguientes operadores aplicados a una o dos expresiones (por 
+orden de precedencia descendente):
+		( )			Non associative
+		[]			Non associative
+ 		.			Left associative
+        CAST     	Non associative
+		- (unary)	Non associative
+        !			Non associative
+		* / %		Left associative
+		+ -			Left associative
+	> >= < <= != ==	Left associative
+		&& ||		Left associative
