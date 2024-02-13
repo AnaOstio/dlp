@@ -1,4 +1,4 @@
-// Generated from C:/Users/UO275780/Desktop/DLP/dlp/src/parser/GoJa.g4 by ANTLR 4.13.1
+// Generated from C:/Users/Usuario/Documents/UNI/5ºAño/2º Semestre/DLP/dlp/src/parser/GoJa.g4 by ANTLR 4.13.1
 package parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -17,7 +17,8 @@ public class GoJaParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		INT_CONSTANT=1, REAL_CONSTANT=2, REAL_1=3, REAL_2=4;
+		INT_CONSTANT=1, REAL_CONSTANT=2, REAL_1=3, REAL_2=4, CHAR_CONSTANT=5, 
+		IDENTIFICADOR=6, COMMENT=7, MULTI_COMMENT=8, WS=9;
 	public static final int
 		RULE_program = 0;
 	private static String[] makeRuleNames() {
@@ -34,7 +35,8 @@ public class GoJaParser extends Parser {
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "INT_CONSTANT", "REAL_CONSTANT", "REAL_1", "REAL_2"
+			null, "INT_CONSTANT", "REAL_CONSTANT", "REAL_1", "REAL_2", "CHAR_CONSTANT", 
+			"IDENTIFICADOR", "COMMENT", "MULTI_COMMENT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -90,7 +92,7 @@ public class GoJaParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ProgramContext extends ParserRuleContext {
-		public TerminalNode REAL_CONSTANT() { return getToken(GoJaParser.REAL_CONSTANT, 0); }
+		public TerminalNode CHAR_CONSTANT() { return getToken(GoJaParser.CHAR_CONSTANT, 0); }
 		public ProgramContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -109,7 +111,7 @@ public class GoJaParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(2);
-			match(REAL_CONSTANT);
+			match(CHAR_CONSTANT);
 			}
 		}
 		catch (RecognitionException re) {
@@ -124,10 +126,10 @@ public class GoJaParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u0004\u0005\u0002\u0000\u0007\u0000\u0001\u0000\u0001\u0000"+
-		"\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0003\u0000\u0002\u0001"+
-		"\u0000\u0000\u0000\u0002\u0003\u0005\u0002\u0000\u0000\u0003\u0001\u0001"+
-		"\u0000\u0000\u0000\u0000";
+		"\u0004\u0001\t\u0005\u0002\u0000\u0007\u0000\u0001\u0000\u0001\u0000\u0001"+
+		"\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0003\u0000\u0002\u0001\u0000"+
+		"\u0000\u0000\u0002\u0003\u0005\u0005\u0000\u0000\u0003\u0001\u0001\u0000"+
+		"\u0000\u0000\u0000";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
