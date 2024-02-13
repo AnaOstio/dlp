@@ -2,6 +2,7 @@ package ast.statements;
 
 import ast.expressions.Expression;
 
+// TODO revisar este
 public class Read extends AbstractStatement {
 
     private Expression expression;

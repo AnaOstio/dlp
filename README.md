@@ -1,26 +1,35 @@
-# DISEÑO Y LENGUAJES DE PROGRAMACION
+# DISEÑO Y LENGUAJES DE PROGRAMACIÓN
 
-Simula lo que es el codigo en Go
+Simula lo que es el código en Go
 
 ## Lab 01
-Programa tiene una lista de definiciones para los metodos y las variables
+Programa tiene una lista de definiciones para los métodos y las variables
 
 Además, vamos a añadir una lista de sentencias que para este caso, se va a hacer uso para el tema del `main`. 
 
-- En los metodos va primero una lista de variables y luego metodos
+- En los métodos va primero una lista de variables y luego métodos
 - El if-else y while si el del tipo `while(a) { print b; }` no necesita los `{}`
 
-Dudas: 
+## Lab 03
+El `lexer` analiza diferentes entradas de forma que nos devuelven Tokens que nos dicen el tipo y el valor de cada uno 
+de estos.
+
+En el caso de los comentarios los va a analizar, pero los va a eliminar a la hora de retornar los valores, pero si 
+que tenemos que tener una expresión que nos detecte esta información.
+
+Cada vez que cambiemos el `Lexer` lo que tenemos que hacer es `Control + Shift + G`
+
+## Dudas: 
 - ¿Se puede tener algo como `a = 5 + ( 3 < 2 )`?
 - `Main` no va a tener retorno?
-- ¿Por que la asignacion son dos expresiones?
+- ¿Por qué la asignación son dos expresiones?
 - ¿Tienen que estar primero definidas las variables y luego las funciones?
 - ¿Se pueden tener tipos `array` y `struct` definidos de manera global? 
 
 ## Examenes de Otros Años
 - Añadir el tipo `boolean` (mayo 2022) 
 - Destructor (wtf, ni puta idea de que es) (junio 2022)
-- Conversion implicita de tipos (mayo 2023)
+- Conversion implícita de tipos (mayo 2023)
 - Asignación multiple: (junio 2023)
   ```
   char char1;
