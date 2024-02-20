@@ -19,6 +19,9 @@ que tenemos que tener una expresión que nos detecte esta información.
 
 Cada vez que cambiemos el `Lexer` lo que tenemos que hacer es `Control + Shift + G`
 
+## Lab 04
+- Solucionar error de que me está recociendo el elemento `.`, `.e`   -> Solucionado
+
 ## Dudas: 
 - ¿Se puede tener algo como `a = 5 + ( 3 < 2 )`?
 - `Main` no va a tener retorno?
