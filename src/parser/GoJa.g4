@@ -1,27 +1,60 @@
 grammar GoJa;	
 
-program: def_variable
+// Tengo que cambiar esto de program para que sea una lista de de definiciones de variables y/o de funciones
+program: definition*
        ;
 
-// Meterle ya algo de restriccion a los tipos
+definition:
+    def_variable
+    | func_definition
+    ;
+
 tipo:
-    'int' | 'char' | 'float32' | IDENTIFICADOR | '[' INT_CONSTANT ']'tipo;
+    tipo_simple
+    | tipo_compuesto
+    ;
+
+tipo_compuesto:
+    IDENTIFICADOR
+    | ('[' INT_CONSTANT ']')+tipo_simple ;
+
+tipo_simple:
+    'int'
+    | 'char'
+    | 'float32';
+
+definicion:
+    def_variable
+    | struct_definition
+    ;
 
 def_variable:
-     'var' IDENTIFICADOR ( ',' IDENTIFICADOR)*? tipo;
+     'var' IDENTIFICADOR ( ',' IDENTIFICADOR)*? tipo ';';
 
 struct_definition:
-     'var' IDENTIFICADOR 'struct {' def_variable*? '}';
+     'var' IDENTIFICADOR 'struct {' def_variable* '};';
+
+func_definition:
+    'func' IDENTIFICADOR '(' func_parameters* ')' tipo_simple? '{' definicion* sentencia* '}'
+    ;
+
+func_parameters:
+    'var' IDENTIFICADOR tipo_simple
+    | 'var' IDENTIFICADOR tipo_simple (',' 'var' IDENTIFICADOR tipo_simple)*
+    ;
 
 // Expresiones
-// Hay que poner precedencia de signos
 expresion:
-    INT_CONSTANT | REAL_CONSTANT | CHAR_CONSTANT | IDENTIFICADOR
-    | expresion ('+' | '-' | '*' | '/' | '%' ) expresion
-    | expresion ('<' | '>' | '<=' | '>=' | '!=' | '==' ) expresion
-    | expresion ('&&' | '||' ) expresion
+    INT_CONSTANT
+    | REAL_CONSTANT
+    | CHAR_CONSTANT
+    | IDENTIFICADOR
     | '-' expresion
     | '!' expresion
+    | expresion ( '*' | '/' | '%' ) expresion
+    | expresion ('+' | '-' ) expresion
+    | expresion ('<' | '>' | '<=' | '>=' | '!=' | '==' ) expresion
+    | expresion ('&&' | '||' ) expresion
     | IDENTIFICADOR '(' (expresion (',' expresion)*)? ')'
     | tipo '(' expresion ')'
     | '(' expresion ')'
@@ -29,14 +62,15 @@ expresion:
     | expresion '.' IDENTIFICADOR
     ;
 
+// sentencias
 sentencia:
      expresion '=' expresion ';'
      | 'write' expresion (',' expresion)* ';'
      | 'read' expresion (',' expresion)* ';'
      | IDENTIFICADOR '(' (expresion (',' expresion)*)? ')' ';'
      | 'return' expresion ';'
-     | 'while (' expresion ')' sentencia*  // esto hay que mirarlo bien
-     | 'if' '(' expresion ')' sentencia ('else' sentencia )?  // esto hay que mirarlo bien, tambien puede estar vacio siempre que lleve '{}'
+     | 'while (' expresion ')' (sentencia | '{' sentencia* '}')
+     | 'if' '(' expresion ')' (sentencia | '{' sentencia* '}') ('else' (sentencia | '{' sentencia* '}'))?
     ;
 
 

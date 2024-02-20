@@ -1,22 +1,55 @@
-/*
-comentario
-de varias lineas*/
+// Variable and function definitions
+var i, j, n int;
+var c char;
 
-//Constantes enteras
-    0 123
-    0 12
+// Empty function
+func p() { }
 
+func f(var n int, var r float32) int {
+  	var real float32;
+  	var c1, c2 char;
+	c1 = char(n);
+  	real = float32(c1) + float32(n) + r;
+  	p(); // Invocation as a ast.statement
+  	return int(c1);
+}
 
-//Constantes real
-    12.3  2.  .34
-    34.12E-3  3e3
+// Variable definition
+var d float32;
 
+// Main function definition
+func main() {
+	// Record
+  	var pair struct {
+    	var integer int;
+    	var character char;
+  	};
 
-//Identificadores
-    var1  _var_1  VAR_1_AB_2
+  	// Array
+  	var vector [10][5]int;
+  	var a, b, c, d, e, f, g, h, i int;
 
+  	i=0;
+  	j=0;
+  	while (i<10) {
+    	while (j<5) {
+      		vector[i][j] = i + j;
+      		j=j+1;
+		}
+		i=i+1;
+  	}
 
-//Constantes char
-    'a'  'b'  '.'  '-'  '~'
-    '\n'  '\t'
-    '\126'
+  	i=0;
+	pair.character = '0';
+  	pair.integer = 48;
+  	while (pair.integer >= i) {
+    	if (pair.integer == vector[0][0] || !int(pair.character) || i%2==0)
+      		write 't', 'r', 'u', 'e', '\n';
+    	else
+      		write 'f', 'a', 'l', 's', 'e', '\n';
+    	i=i+1;
+  	}
+  	write f(i, float32(i)); // Invocation as an ast.expression
+  	vector[9][int(4.3)] = 5;
+  	f(1, 2.2); // Invocation as a ast.statement
+}
