@@ -2,21 +2,22 @@ package ast.statements;
 
 import ast.expressions.Expression;
 
-// TODO revisar este
+import java.util.List;
+
 public class Write extends AbstractStatement {
 
-    private Expression expression;
+    private List<Expression> expression;
 
-    public Write(int line, int column, Expression expression) {
+    public Write(int line, int column, List<Expression> expression) {
         super(line, column);
         this.expression = expression;
     }
 
-    public Expression getExpression() {
+    public List<Expression> getExpression() {
         return expression;
     }
 
-    public void setExpression(Expression expression) {
+    public void setExpression(List<Expression> expression) {
         this.expression = expression;
     }
 }

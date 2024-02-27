@@ -23,8 +23,8 @@ Cada vez que cambiemos el `Lexer` lo que tenemos que hacer es `Control + Shift +
 - Solucionar error de que me está recociendo el elemento `.`, `.e`   -> Solucionado
 
 ## Lab 05
-[ ] Meter el `main` como un requisito del sintáctico
-[ ] Repasar que tengo tipos simples en la definición de parámetros, asi como el tipo del return 
+- Meter el `main` como un requisito del sintáctico
+- Repasar que tengo tipos simples en la definición de parámetros, asi como el tipo del return 
 
 Que hacer cuando tenemos algo que es opcional
   -> Opcion mala: tener dos definiciones, uno que tenga todos los parametros necesarios y luego otro en el que no lo tenga
@@ -33,10 +33,8 @@ Que hacer cuando tenemos algo que es opcional
 ## Dudas: 
 - ¿Se puede tener algo como `a = 5 + ( 3 < 2 )`?
 - `Main` no va a tener retorno?
-- ¿Por qué la asignación son dos expresiones?
 - ¿Tienen que estar primero definidas las variables y luego las funciones?
-- ¿Se pueden tener tipos `array` y `struct` definidos de manera global? 
-- ¿Puede tener como tipo de diseño un método `void`? 
+- ¿Se pueden tener tipos `array` y `struct` definidos de manera global?  
 
 ## Exámenes de Otros Años
 - Añadir el tipo `boolean` (mayo 2022) 

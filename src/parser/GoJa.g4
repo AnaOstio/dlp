@@ -23,14 +23,15 @@ tipo returns [Type ast]:
     | tipo_compuesto { $ast = $tipo_compuesto.ast}
     ;
 
-tipo_compuesto:
+tipo_compuesto returns [Type ast]:
     IDENTIFICADOR
-    | ('[' INT_CONSTANT ']')+tipo_simple ;
+    | i='[' INT_CONSTANT ']' tipo
+        { $ast = new ArrayType($i.getLine(), $i.getCharPositionInLine() + 1, LexerHelper.lexemeToInt($INT_CONSTANT.text), $tipo.ast); };
 
 tipo_simple returns [Type ast]:
-    'int' { $ast = new IntType(); }
-    | 'char' { $ast = new CharType(); }
-    | 'float32' { $ast = new FloatType(); } ;
+    'int' { $ast = IntType.getInstance(); }
+    | 'char' { $ast = CharType.getInstance(); }
+    | 'float32' { $ast = FloatType.getInstance(); } ;
 
 definicion:
     def_variable
@@ -81,16 +82,26 @@ expresion returns [Expression ast]
     ;
 
 // sentencias
-sentencia:
-     expresion '=' expresion ';'
-     | 'write' expresion (',' expresion)* ';'
-     | 'read' expresion (',' expresion)* ';'
-     | IDENTIFICADOR '(' (expresion (',' expresion)*)? ')' ';'
-     | 'return' expresion ';'
-     | 'while (' expresion ')' (sentencia | '{' sentencia* '}')
-     | 'if' '(' expresion ')' (sentencia | '{' sentencia* '}') ('else' (sentencia | '{' sentencia* '}'))?
+sentencia returns [Statement ast]
+          locals [List<Statement> body = new ArrayList<>(),
+                List<Expression> params = new ArrayList<>();]:
+     exp1=expresion '=' exp2=expresion ';' { $ast = new Assignment($exp1.ast.getLine(),$exp1.ast.getCharPositionInLine() + 1, $exp1.ast, $exp2.ast); }
+     | l='write' expresiones ';' { $ast = new Write($l.getLine(), $l.getCharPositionInLine() + 1, $expresiones.ast); }
+     | l='read' expresiones ';' { $ast = new Read($l.getLine(), $l.getCharPositionInLine() + 1, $expresiones.ast); }
+     | l=IDENTIFICADOR '(' (expresiones { $params.addAll($expresiones.ast); })? ')' ';'
+                    { $ast = new FunctionInvocation($l.getLine(), $l.getCharPositionInLine() + 1,
+                        new Variable($l.getLine(), $l.getCharPositionInLine() + 1, $l.text, $params
+                    ); }
+     | l='return' expresion ';' { $ast = new Return($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast); }
+     | l='while' '(' e=expresion ')' (s=sentencia { $body.add($s.ast); } | '{' ss=sentencia* { $body.addAll($ss.ast); } '}')
+                    { $ast = new While($l.getLine(), $l.getCharPositionInLine() + 1, $e.ast, $body.ast); }
+     | 'if' '(' e=expresion ')' (s=sentencia | '{' ss=sentencia* '}') ('else' (sn=sentencia | '{' ssn=sentencia* '}'))?
     ;
 
+expresiones returns [List<Expression> ast = new ArrayList<>()]:
+    expresion { $ast.add($expresion.ast); }
+    | expresion ',' expresiones { $expresiones.ast.add($expresion.ast); }
+    ;
 
 // LEXICO
 INT_CONSTANT: [0-9]+ 
