@@ -2,18 +2,18 @@ package ast.expressions;
 
 public class FloatLiteral extends AbstractExpression {
 
-    private float value;
+    private double value;
 
-    public FloatLiteral(int line, int column, float value) {
+    public FloatLiteral(int line, int column, double value) {
         super(line, column);
         this.value = value;
     }
 
-    public float getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(float value) {
+    public void setValue(double value) {
         this.value = value;
     }
 }

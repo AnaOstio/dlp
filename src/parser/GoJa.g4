@@ -1,7 +1,16 @@
-grammar GoJa;	
+grammar GoJa;
+
+@header {
+    import ast.*;
+    import ast.statements.*;
+    import ast.types.*;
+    import ast.expressions.*;
+    import ast.definitions.*;
+    import java.util.List;
+}
 
 // Tengo que cambiar esto de program para que sea una lista de de definiciones de variables y/o de funciones
-program: definition*
+program returns [ASTNode ast]: definition*
        ;
 
 definition:
@@ -9,19 +18,19 @@ definition:
     | func_definition
     ;
 
-tipo:
-    tipo_simple
-    | tipo_compuesto
+tipo returns [Type ast]:
+    tipo_simple { $ast = $tipo_simple.ast}
+    | tipo_compuesto { $ast = $tipo_compuesto.ast}
     ;
 
 tipo_compuesto:
     IDENTIFICADOR
     | ('[' INT_CONSTANT ']')+tipo_simple ;
 
-tipo_simple:
-    'int'
-    | 'char'
-    | 'float32';
+tipo_simple returns [Type ast]:
+    'int' { $ast = new IntType(); }
+    | 'char' { $ast = new CharType(); }
+    | 'float32' { $ast = new FloatType(); } ;
 
 definicion:
     def_variable
@@ -44,22 +53,31 @@ func_parameters:
     ;
 
 // Expresiones
-expresion:
-    INT_CONSTANT
-    | REAL_CONSTANT
-    | CHAR_CONSTANT
-    | IDENTIFICADOR
+expresion returns [Expression ast]
+            locals [List<Expression> lista = new ArrayList<>()]:
+
+    INT_CONSTANT { $ast = new IntLiteral($INT_CONSTANT.getLine(), $INT_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToInt($INT_CONSTANT.text)); }
+    | REAL_CONSTANT { $ast = new FloatLiteral($REAL_CONSTANT.getLine(), $REAL_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToReal($REAL_CONSTANT.text)); }
+    | CHAR_CONSTANT { $ast = new CharLiteral($CHAR_CONSTANT.getLine(), $CHAR_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToChar($CHAR_CONSTANT.text)); }
+    | IDENTIFICADOR { $ast = new Variable($IDENTIFICADOR.getLine(), $IDENTIFICADOR.getCharPositionInLine() + 1, $IDENTIFICADOR.text); }
     | '-' expresion
-    | '!' expresion
-    | expresion ( '*' | '/' | '%' ) expresion
-    | expresion ('+' | '-' ) expresion
-    | expresion ('<' | '>' | '<=' | '>=' | '!=' | '==' ) expresion
-    | expresion ('&&' | '||' ) expresion
-    | IDENTIFICADOR '(' (expresion (',' expresion)*)? ')'
-    | tipo '(' expresion ')'
-    | '(' expresion ')'
-    | expresion '[' expresion ']'
-    | expresion '.' IDENTIFICADOR
+            { $ast = new UnaryMinus($expresion.ast.getLine(), $expresion.ast.getCharPositionInLine() + 1, $expresion.ast); }
+    | '!' expresion { $ast = new UnaryNot($expresion.ast.getLine(), $expresion.ast.getCharPositionInLine() + 1, $expresion.ast); }
+    | exp1=expresion op=( '*' | '/' | '%' ) exp2=expresion
+                    { $ast = new Arithmetic($exp1.ast.getLine(), $exp1.ast.getCharPositionInLine() + 1, $exp1.ast, $exp2.ast, $op.text); }
+    | exp1=expresion op=('+' | '-' ) exp2=expresion
+                    { $ast = new Arithmetic($exp1.ast.getLine(), $exp1.ast.getCharPositionInLine() + 1, $exp1.ast, $exp2.ast, $op.text); }
+    | exp1=expresion op=('<' | '>' | '<=' | '>=' | '!=' | '==' ) exp2=expresion
+                    { $ast = new Comparasion($exp1.ast.getLine(), $exp1.ast.getCharPositionInLine() + 1, $exp1.ast, $exp2.ast, $op.text); }
+    | exp1=expresion op=('&&' | '||' ) exp2=expresion
+                    { $ast = new Logic($exp1.ast.getLine(), $exp1.ast.getCharPositionInLine() + 1, $exp1.ast, $exp2.ast, $op.text); }
+    | IDENTIFICADOR '(' (expresion { $lista.add($expresion.ast); } ((',' expresion)*)? { $ast = $expresion.ast; }) ')'
+    | tipo '(' expresion ')' { $ast = new Cast($expresion.ast.getLine(), $expresion.ast.getCharPositionInLine() + 1, $tipo.ast, $expresion.ast); }
+    | '(' expresion ')' { $ast = $expresion.ast; }
+    | exp1=expresion '[' exp2=expresion ']'
+                    { $ast = new ArrayAccess($exp1.ast.getLine(), $exp1.ast.getCharPositionInLine() + 1, $exp1.ast, $exp2.ast); }
+    | exp1=expresion '.' IDENTIFICADOR
+                    { $ast = new FieldAccess($exp1.ast.getLine(), $exp1.ast.getCharPositionInLine() + 1, $IDENTIFICADOR, $exp1.ast); }
     ;
 
 // sentencias
