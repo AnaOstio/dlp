@@ -1,7 +1,6 @@
-// Generated from C:/Users/UO275780/Desktop/DLP/dlp/src/parser/GoJa.g4 by ANTLR 4.13.1
+// Generated from C:/Users/Usuario/Documents/UNI/5ºAño/2º Semestre/DLP/dlp/src/parser/GoJa.g4 by ANTLR 4.13.1
 package parser;
 
-    // Para que reconzca las clases que queremos utilizar
     import ast.*;
     import ast.statements.*;
     import ast.types.*;
@@ -91,4 +90,10 @@ public interface GoJaVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSentencia(GoJaParser.SentenciaContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GoJaParser#expresiones}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpresiones(GoJaParser.ExpresionesContext ctx);
 }

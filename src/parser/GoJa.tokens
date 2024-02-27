@@ -78,6 +78,6 @@ WS=46
 'write'=32
 'read'=33
 'return'=34
-'while ('=35
+'while'=35
 'if'=36
 'else'=37
