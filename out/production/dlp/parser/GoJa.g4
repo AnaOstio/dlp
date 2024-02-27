@@ -1,7 +1,16 @@
-grammar GoJa;	
+grammar GoJa;
+
+@header {
+    import ast.*;
+    import ast.statements.*;
+    import ast.types.*;
+    import ast.expressions.*;
+    import ast.definitions.*;
+    import java.util.List;
+}
 
 // Tengo que cambiar esto de program para que sea una lista de de definiciones de variables y/o de funciones
-program: definition*
+program returns [ASTNode ast]: definition*
        ;
 
 definition:
@@ -44,20 +53,26 @@ func_parameters:
     ;
 
 // Expresiones
-expresion:
-    INT_CONSTANT
-    | REAL_CONSTANT
-    | CHAR_CONSTANT
-    | IDENTIFICADOR
-    | '-' expresion
-    | '!' expresion
-    | expresion ( '*' | '/' | '%' ) expresion
-    | expresion ('+' | '-' ) expresion
-    | expresion ('<' | '>' | '<=' | '>=' | '!=' | '==' ) expresion
-    | expresion ('&&' | '||' ) expresion
+expresion returns [Expression ast]
+            locals [List<Expression> lista = new ArrayList<>()]:
+
+    INT_CONSTANT { $ast = new IntLiteral($INT_CONSTANT.getLine(), $INT_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToInt($INT_CONSTANT.text)); }
+    | REAL_CONSTANT { $ast = new FloatLiteral($REAL_CONSTANT.getLine(), $REAL_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToReal($REAL_CONSTANT.text)); }
+    | CHAR_CONSTANT { $ast = new CharLiteral($CHAR_CONSTANT.getLine(), $CHAR_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToChar($CHAR_CONSTANT.text)); }
+    | IDENTIFICADOR { $ast = new Variable($IDENTIFICADOR.getLine(), $IDENTIFICADOR.getCharPositionInLine() + 1, $IDENTIFICADOR.text); }
+    | '-' exp=expresion { $ast = new UnaryMinus($exp.getLine(), $exp.getCharPositionInLine() + 1, $exp.ast); }
+    | '!' exp=expresion { $ast = new UnaryNot($exp.getLine(), $exp.getCharPositionInLine() + 1, $exp.ast); }
+    | exp1=expresion op=( '*' | '/' | '%' ) exp2=expresion
+                    { $ast = new Arithmetic($exp1.getLine(), $exp1.getCharPositionInLine() + 1, $exp1.ast, $exp2.ast, $op.text); }
+    | exp1=expresion op=('+' | '-' ) exp2=expresion
+                    { $ast = new Arithmetic($exp1.getLine(), $exp1.getCharPositionInLine() + 1, $exp1.ast, $exp2.ast, $op.text); }
+    | exp1=expresion op=('<' | '>' | '<=' | '>=' | '!=' | '==' ) exp2=expresion
+                    { $ast = new Comparasion($exp1.getLine(), $exp1.getCharPositionInLine() + 1, $exp1.ast, $exp2.ast, $op.text); }
+    | exp1=expresion op=('&&' | '||' ) exp2=expresion
+                    { $ast = new Logic($exp1.getLine(), $exp1.getCharPositionInLine() + 1, $exp1.ast, $exp2.ast, $op.text); }
     | IDENTIFICADOR '(' (expresion (',' expresion)*)? ')'
-    | tipo '(' expresion ')'
-    | '(' expresion ')'
+    | tipo '(' expresion ')' { $ast = new Cast($exp1.getLine(), $expresion.getCharPositionInLine() + 1, $type.ast, $expresion.ast; }
+    | '(' expresion ')' { $ast = $expresion.ast}
     | expresion '[' expresion ']'
     | expresion '.' IDENTIFICADOR
     ;
