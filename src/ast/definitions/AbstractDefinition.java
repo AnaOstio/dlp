@@ -6,13 +6,11 @@ import ast.types.Type;
 public abstract class AbstractDefinition extends AbstractASTNode implements Definition {
 
     private Type type;
-    private int scope; // Para decir si es local o cosas asi
     private String name;
 
-    public AbstractDefinition(int line, int column, Type type, int scope, String name) {
+    public AbstractDefinition(int line, int column, Type type, String name) {
         super(line, column);
         this.type = type;
-        this.scope = scope;
         this.name = name;
     }
 
@@ -24,16 +22,6 @@ public abstract class AbstractDefinition extends AbstractASTNode implements Defi
     @Override
     public void setType(Type type) {
         this.type = type;
-    }
-
-    @Override
-    public int getScope() {
-        return scope;
-    }
-
-    @Override
-    public void setScope(int scope) {
-        this.scope = scope;
     }
 
     @Override
