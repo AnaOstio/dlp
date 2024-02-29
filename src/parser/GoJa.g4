@@ -9,6 +9,9 @@ grammar GoJa;
     import java.util.List;
 }
 
+
+// TODO Cuanto mas profundo en la gramatica antes se ejecuta
+
 program returns [Program ast]
         locals [List<Definition> others = new ArrayList<>(),
                 List<Statement> mainBody = new ArrayList<Statement>();]:
@@ -34,13 +37,28 @@ definiciones returns [List<Definition> ast = new ArrayList<>(); ]:
     | f=func_definition  { $ast.add($f.ast); }
     ;
 
-var_definition returns [List<VarDefinition> ast = new ArrayList<>();]:
+var_definition returns [List<VarDefinition> ast = new ArrayList<>();]
+                locals [List<StructField> campos = new ArrayList<>();]:
     l='var' vars tipo ';'
         {   for(String v: $vars.ast) {
                 $ast.add(new VarDefinition($l.getLine(), $l.getCharPositionInLine() + 1, $tipo.ast, v));
             }
         }
-    // se pueden structs como variables globales?
+    // se pueden structs como variables globales? -> si
+    l='var' vars 'struct' '{' ((f=fields { $campos.addAll($f.ast); })* ) '}' ';'
+        {   for(String v: $vars.ast) {
+                  $ast.add(new VarDefinition($l.getLine(), $l.getCharPositionInLine() + 1,
+                  new StructType($l.getLine(), $l.getCharPositionInLine() + 1, $campos), v));
+             }
+        }
+    ;
+
+fields returns [List<StructField> ast = new ArrayList<>(); ]:
+    l='var' vars tipo ';'
+        {   for (String v: $vars.ast) {
+                $ast.add(new StructField($l.getLine(), $l.getCharPositionInLine() + 1, $tipo.ast, v));
+            }
+        }
     ;
 
 vars returns [List<String> ast = new ArrayList<>();]:
@@ -64,7 +82,12 @@ func_definition returns [FunctionDefinition ast]
             (tipo_simple { $t = $tipo_simple.ast; })? '{'
 
              (v=var_definition { $body.addAll($v.ast); })*
-             (s=statement { $body.addAll($s.ast); })* '}'
+
+             // TODO cambiar esto para que sea una lista de Statements
+             (s=statement {
+                for(Statement st: $s.ast) {
+                    $body.add(st);
+                }; })* '}'
 
         { $ast = new FunctionDefinition($d.getLine(), $d.getCharPositionInLine() + 1,
                                      new FunctionType($d.getLine(), $d.getCharPositionInLine() + 1,
@@ -137,9 +160,13 @@ expresion returns [ Expression ast]
      | exp1=expresion '[' exp2=expresion ']'
              { $ast = new ArrayAccess($exp1.ast.getLine(), $exp1.ast.getColumn() + 1, $exp1.ast, $exp2.ast); }
      | l=IDENTIFICADOR '(' (expresiones { $fparams.addAll($expresiones.ast); }) ? ')'
-        { $ast = new FunctionInvocation($l.getLine(), $l.getCharPositionInLine() + 1,
-            new Variable($l.getLine(), $l.getCharPositionInLine() + 1, $l.text), $fparams); }
+            { $ast = new FunctionInvocation($l.getLine(), $l.getCharPositionInLine() + 1,
+                new Variable($l.getLine(), $l.getCharPositionInLine() + 1, $l.text), $fparams); }
+     | exp1=expresion '.' exp2=expresion
+            { $ast = new FieldAccess($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $exp2.ast) ;}
      ;
+
+
 
 expresiones returns [List<Expression> ast = new ArrayList<>();]:
     expresion { $ast.add($expresion.ast);}

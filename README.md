@@ -32,9 +32,6 @@ Que hacer cuando tenemos algo que es opcional
 
 ## Dudas: 
 - ¿Se puede tener algo como `a = 5 + ( 3 < 2 )`?
-- `Main` no va a tener retorno?
-- ¿Tienen que estar primero definidas las variables y luego las funciones?
-- ¿Se pueden tener tipos `array` y `struct` definidos de manera global?  
 
 ## Exámenes de Otros Años
 - Añadir el tipo `boolean` (mayo 2022) 

@@ -1,4 +1,4 @@
-// Generated from C:/Users/Usuario/Documents/UNI/5ºAño/2º Semestre/DLP/dlp/src/parser/GoJa.g4 by ANTLR 4.13.1
+// Generated from C:/Users/UO275780/IdeaProjects/dlp/src/parser/GoJa.g4 by ANTLR 4.13.1
 package parser;
 
     import ast.*;
@@ -41,6 +41,13 @@ public class GoJaBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements G
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitVar_definition(GoJaParser.Var_definitionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitFields(GoJaParser.FieldsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

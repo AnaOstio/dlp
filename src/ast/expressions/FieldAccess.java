@@ -1,29 +1,27 @@
 package ast.expressions;
 
-public class FieldAccess extends AbstractExpression{
+public class FieldAccess extends AbstractExpression {
+    private Expression left, right;
 
-    private String field;
-    private Expression expression;
-
-    public FieldAccess(int line, int column, String field, Expression expression) {
+    public FieldAccess(int line, int column, Expression left, Expression right) {
         super(line, column);
-        this.field = field;
-        this.expression = expression;
+        this.left = left;
+        this.right = right;
     }
 
-    public String getField() {
-        return field;
+    public Expression getLeft() {
+        return left;
     }
 
-    public void setField(String field) {
-        this.field = field;
+    public void setLeft(Expression left) {
+        this.left = left;
     }
 
-    public Expression getExpression() {
-        return expression;
+    public Expression getRight() {
+        return right;
     }
 
-    public void setExpression(Expression expression) {
-        this.expression = expression;
+    public void setRight(Expression right) {
+        this.right = right;
     }
 }

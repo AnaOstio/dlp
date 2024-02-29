@@ -1,4 +1,4 @@
-// Generated from C:/Users/Usuario/Documents/UNI/5ºAño/2º Semestre/DLP/dlp/src/parser/GoJa.g4 by ANTLR 4.13.1
+// Generated from C:/Users/UO275780/IdeaProjects/dlp/src/parser/GoJa.g4 by ANTLR 4.13.1
 package parser;
 
     import ast.*;
@@ -36,6 +36,12 @@ public interface GoJaVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVar_definition(GoJaParser.Var_definitionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GoJaParser#fields}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFields(GoJaParser.FieldsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GoJaParser#vars}.
 	 * @param ctx the parse tree

@@ -1,0 +1,7 @@
+var complejo struct {
+    var a int;
+    var hola struct {
+        var i char;
+        var v, b, n, m int;
+    };
+};
