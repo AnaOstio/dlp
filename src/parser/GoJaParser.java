@@ -119,7 +119,7 @@ public class GoJaParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class ProgramContext extends ParserRuleContext {
 		public Program ast;
-		public List<Definition> others = new ArrayList<>();
+		public List<Definition> pDefs = new ArrayList<>();
 		public List<Statement> mainBody = new ArrayList<Statement>();;
 		public DefinicionesContext definiciones;
 		public Token f;
@@ -171,7 +171,7 @@ public class GoJaParser extends Parser {
 				{
 				setState(28);
 				((ProgramContext)_localctx).definiciones = definiciones();
-				 _localctx.others.addAll(((ProgramContext)_localctx).definiciones.ast); 
+				 _localctx.pDefs.addAll(((ProgramContext)_localctx).definiciones.ast); 
 				}
 				}
 				setState(35);
@@ -220,12 +220,12 @@ public class GoJaParser extends Parser {
 			}
 			setState(57);
 			match(T__5);
-			 _localctx.others.add(new FunctionDefinition(((ProgramContext)_localctx).f.getLine(), ((ProgramContext)_localctx).f.getCharPositionInLine() + 1,
+			 _localctx.pDefs.add(new FunctionDefinition(((ProgramContext)_localctx).f.getLine(), ((ProgramContext)_localctx).f.getCharPositionInLine() + 1,
 			                    new FunctionType(((ProgramContext)_localctx).f.getLine(), ((ProgramContext)_localctx).f.getCharPositionInLine() + 1,
 			                    VoidType.getInstance(), new ArrayList<VarDefinition>()),
 			                    (((ProgramContext)_localctx).m!=null?((ProgramContext)_localctx).m.getText():null), _localctx.mainBody
 			                ));
-			 ((ProgramContext)_localctx).ast =  new Program(1, 1, _localctx.others); 
+			 ((ProgramContext)_localctx).ast =  new Program(1, 1, _localctx.pDefs); 
 			setState(60);
 			match(EOF);
 			}
@@ -281,9 +281,11 @@ public class GoJaParser extends Parser {
 			case T__12:
 				enterOuterAlt(_localctx, 2);
 				{
+				{
 				setState(65);
 				((DefinicionesContext)_localctx).f = func_definition();
 				 _localctx.ast.add(((DefinicionesContext)_localctx).f.ast); 
+				}
 				}
 				break;
 			default:

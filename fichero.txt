@@ -52,4 +52,12 @@ func main() {
   	write f(i, float32(i)); // Invocation as an ast.expression
   	vector[9][int(4.3)] = 5;
   	f(1, 2.2); // Invocation as a ast.statement
+
+  	var complejo struct {
+        var a int;
+        var hola struct {
+            var i char;
+            var v, b, n, m int;
+        };
+    };
 }
