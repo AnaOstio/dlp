@@ -19,7 +19,7 @@ program returns [Program ast]
         ( definiciones { $others.addAll($definiciones.ast); } )*
         f='func' m='main' '(' ')' '{'
             (var_definition { $mainBody.addAll($var_definition.ast); })*
-            (s=statement { $mainBody.addAll($s.ast); })*
+            (s=statement { $mainBody.add($s.ast); })*
             '}'
 
             { $others.add(new FunctionDefinition($f.getLine(), $f.getCharPositionInLine() + 1,
@@ -84,10 +84,7 @@ func_definition returns [FunctionDefinition ast]
              (v=var_definition { $body.addAll($v.ast); })*
 
              // TODO cambiar esto para que sea una lista de Statements
-             (s=statement {
-                for(Statement st: $s.ast) {
-                    $body.add(st);
-                }; })* '}'
+             (s=statement { $body.add($s.ast); })* '}'
 
         { $ast = new FunctionDefinition($d.getLine(), $d.getCharPositionInLine() + 1,
                                      new FunctionType($d.getLine(), $d.getCharPositionInLine() + 1,

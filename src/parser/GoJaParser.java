@@ -1,4 +1,4 @@
-// Generated from C:/Users/UO275780/IdeaProjects/dlp/src/parser/GoJa.g4 by ANTLR 4.13.1
+// Generated from C:/Users/Usuario/Documents/UNI/5ºAño/2º Semestre/DLP/dlp/src/parser/GoJa.g4 by ANTLR 4.13.1
 package parser;
 
     import ast.*;
@@ -211,7 +211,7 @@ public class GoJaParser extends Parser {
 				{
 				setState(49);
 				((ProgramContext)_localctx).s = statement();
-				 _localctx.mainBody.addAll(((ProgramContext)_localctx).s.ast); 
+				 _localctx.mainBody.add(((ProgramContext)_localctx).s.ast); 
 				}
 				}
 				setState(56);
@@ -690,10 +690,7 @@ public class GoJaParser extends Parser {
 				{
 				setState(140);
 				((Func_definitionContext)_localctx).s = statement();
-
-				                for(Statement st: ((Func_definitionContext)_localctx).s.ast) {
-				                    _localctx.body.add(st);
-				                }; 
+				 _localctx.body.add(((Func_definitionContext)_localctx).s.ast); 
 				}
 				}
 				setState(147);
