@@ -9,89 +9,148 @@ grammar GoJa;
     import java.util.List;
 }
 
-program:
-    definiciones*
-    'func' 'main' '(' ')' '{' var_definition* statement* '}'
+program returns [Program ast]
+        locals [List<Definition> defs = new ArrayList<>(),
+            List<Statement> cuerpo = new ArrayList<>(); ]:
+
+    (d=definiciones { $defs.addAll($d.ast); })*
+    l='func' m='main' '(' ')' '{' (var_definition { $cuerpo.addAll($var_definition.ast) ;})*
+                                              (statement { $cuerpo.add($statement.ast) ;})* '}'
+        { $defs.addAll(
+            new FunctionDefinition($l.getLine(), $l.getCharPositionInLine() + 1,
+                            new FunctionType($l.getLine(), $l.getCharPositionInLine() + 1, VoidType.getInstance(), new ArrayList<>())
+                            , $m.text, $cuerpo)
+        );}
     EOF
+
+    { $ast = new Program(1, 1, $defs); }
 ;
 
-definiciones:
-    v=var_definition
-    | func_definition
+definiciones returns [List<Definition> ast = new ArrayList<>();]:
+    v=var_definition { $ast.addAll($v.ast); }
+    | f=func_definition { $ast.add($f.ast); }
 ;
 
-var_definition:
-    'var' vars tipo ';'
-    | 'var' IDENTIFICADOR 'struct' '{' var_definition* '}' ';'
+var_definition returns [List<VarDefinition> ast = new ArrayList<>();]
+                locals [List<StructField> campos = new ArrayList<>()]:
+    l='var' vars tipo ';'
+        {   for (String id: $vars.ast) {
+                $ast.add(new VarDefinition($l.getLine(), $l.getCharPositionInLine() + 1, $tipo.ast, id));
+            }
+        }
+    | l='var' IDENTIFICADOR 'struct' '{' (v=var_definition { $campos.addAll($v.ast); })* '}' ';'
+            { $ast.add( new VarDefinition($l.getLine(), $l.getCharPositionInLine() + 1,
+               new StructType($l.getLine(), $l.getCharPositionInLine() + 1, $campos),
+                $IDENTIFICADOR.text
+            ));}
 ;
 
-vars:
-    IDENTIFICADOR
-    | IDENTIFICADOR ',' vars
+vars returns [List<String> ast = new ArrayList<>();]:
+    IDENTIFICADOR { $ast.add($IDENTIFICADOR.text); }
+    | IDENTIFICADOR ',' vars { $vars.ast.add($IDENTIFICADOR.text); $ast = $vars.ast; }
 ;
 
-func_definition:
-    'func' IDENTIFICADOR '(' params? ')' tipo_simple? '{' var_definition* statement* '}'
+func_definition returns [FunctionDefinition ast]
+                locals [Type t = VoidType.getInstance(),
+                    List<VarDefinition> fparams = new ArrayList<>(),
+                    List<Statement> cuerpo = new ArrayList<>();]:
+
+    l='func' IDENTIFICADOR '(' (params { $fparams.addAll($params.ast); })? ')'
+        (tipo_simple { $t = $tipo_simple.ast; })? '{' (var_definition { $cuerpo.addAll($var_definition.ast) ;})*
+            (statement { $cuerpo.add($statement.ast) ;})* '}'
+
+            { $ast = new FunctionDefinition($l.getLine(), $l.getCharPositionInLine() + 1,
+                new FunctionType($l.getLine(), $l.getCharPositionInLine() + 1, $t, $fparams)
+                , $IDENTIFICADOR.text, $cuerpo);}
 ;
 
-statement:
-    expresion '=' expresion ';'
-    |  IDENTIFICADOR '(' expresiones? ')' ';'
-    | 'write' expresiones ';'
-    | 'read' expresiones ';'
-    | 'return' expresion ';'
-    | 'while' '(' expresion ')' statements
-    | 'if' '(' expresion ')' tBody=statements* ( 'else' fBody=statements)?
+statement returns [Statement ast]
+        locals [List<Expression> fparams = new ArrayList<>(),
+                List<Statement> elseBody = new ArrayList<>();]:
+    exp1=expresion '=' exp2=expresion ';'
+            { $ast = new Assignment($exp1.ast.getLine(),$exp1.ast.getColumn(), $exp1.ast, $exp2.ast); }
+    |  l=IDENTIFICADOR '(' (expresiones { $fparams.addAll($expresiones.ast); })? ')' ';'
+            { $ast = new FunctionInvocation($l.getLine(), $l.getCharPositionInLine() + 1,
+                      new Variable($l.getLine(), $l.getCharPositionInLine() + 1, $l.text), $fparams);}
+    | l='write' expresiones ';'
+            { $ast = new Write($l.getLine(), $l.getCharPositionInLine() + 1, $expresiones.ast); }
+    | l='read' expresiones ';'
+            { $ast = new Read($l.getLine(), $l.getCharPositionInLine() + 1, $expresiones.ast); }
+    | l='return' expresion ';'
+            { $ast = new Return($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast); }
+    | l='while' '(' expresion ')' statements
+            { $ast = new While($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast, $statements.ast); }
+    | l='if' '(' expresion ')' tBody=statements ( 'else' (fBody=statements { $elseBody.addAll($fBody.ast); }))?
+            { $ast = new IfElse($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast, $tBody.ast, $elseBody); }
+
 ;
 
-statements:
-    statement
-    | '{' statement* '}'
+statements returns [List<Statement> ast = new ArrayList<>();]:
+    statement { $ast.add($statement.ast); }
+    | '{' (statement { $ast.add($statement.ast); })* '}'
 ;
 
 
 // TODO Comprobar que funcionan todas y cada una de ellas
-expresion:
+expresion returns [Expression ast]
+            locals [List<Expression> fparams = new ArrayList<>();]:
     INT_CONSTANT
+            { $ast = new IntLiteral($INT_CONSTANT.getLine(), $INT_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToInt($INT_CONSTANT.text)); }
     | REAL_CONSTANT
+            { $ast = new FloatLiteral($REAL_CONSTANT.getLine(), $REAL_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToReal($REAL_CONSTANT.text)); }
     | CHAR_CONSTANT
+            { $ast = new CharLiteral($CHAR_CONSTANT.getLine(), $CHAR_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToChar($CHAR_CONSTANT.text)); }
     | IDENTIFICADOR
-    | IDENTIFICADOR '(' expresiones? ')'
-    | '(' expresion ')'
+            { $ast = new Variable($IDENTIFICADOR.getLine(), $IDENTIFICADOR.getCharPositionInLine() + 1, $IDENTIFICADOR.text); }
+    | l=IDENTIFICADOR '(' (expresiones { $fparams.addAll($expresiones.ast); })? ')'
+            { $ast = new FunctionInvocation($l.getLine(), $l.getCharPositionInLine() + 1,
+                new Variable($l.getLine(), $l.getCharPositionInLine() + 1, $l.text), $fparams);}
+    | '(' expresion ')' { $ast = $expresion.ast; }
     | tipo '(' expresion ')'
+            { $ast = new Cast($tipo.ast.getLine(), $tipo.ast.getColumn(), $tipo.ast, $expresion.ast); }
     | expresion '[' expresion ']'
+            { $ast = new ArrayAccess($exp1.ast.getLine(), $exp1.ast.getColumn() + 1, $exp1.ast, $exp2.ast); }
     | expresion '.' expresion
-    | '!' expresion
-    | '-' expresion
+            { $ast = new FieldAccess($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $exp2.ast) ;}
+    | l='!' expresion
+             { $ast = new UnaryNot($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast); }
+    | l='-' expresion
+             { $ast = new UnaryMinus($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast); }
     | exp1=expresion op=( '*' | '/' | '%' ) exp2=expresion
+            { $ast = new Arithmetic($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $exp2.ast, $op.text); }
     | exp1=expresion op=('+' | '-' ) exp2=expresion
+            { $ast = new Arithmetic($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $exp2.ast, $op.text); }
     | exp1=expresion op=('<' | '>' | '<=' | '>=' | '!=' | '==' ) exp2=expresion
+            { $ast = new Comparasion($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $exp2.ast, $op.text); }
     | exp1=expresion op=('&&' | '||' ) exp2=expresion
+            { $ast = new Logic($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $exp2.ast, $op.text); }
 ;
 
-expresiones:
-    expresion
-    | expresion ',' expresiones
+expresiones returns [List<Expression> ast = new ArrayList<>();]:
+    expresion { $ast.add($expresion.ast); }
+    | expresion ',' expresiones { $ast.add($expresion.ast); $ast = $expresiones.ast; }
 ;
 
-params:
-    param
-    | param ',' params
+params returns [List<VarDefinition> ast = new ArrayList<>();]:
+    param { $ast.add($param.ast); }
+    | param ',' params { $params.ast.add($param.ast); $ast = $params.ast; }
 ;
 
-param:
-    'var' IDENTIFICADOR tipo_simple
+param returns [VarDefinition ast]:
+    l='var' IDENTIFICADOR tipo_simple
+        {$ast = new VarDefinition($l.getLine(), $l.getCharPositionInLine() + 1, $tipo_simple.ast, $IDENTIFICADOR.text); }
 ;
 
-tipo:
-    tipo_simple
-    | '[' INT_CONSTANT ']' tipo
+tipo returns [Type ast]:
+    t=tipo_simple { $ast = $t.ast; }
+    | a='[' s=INT_CONSTANT ']' ti=tipo
+            { $ast = new ArrayType($a.getLine(), $a.getCharPositionInLine() + 1, LexerHelper.lexemeToInt($s.text), $ti.ast);}
 ;
 
-tipo_simple:
-    'char'
-    | 'float32'
-    | 'int'
+tipo_simple returns [Type ast]:
+    'int' { $ast = IntType.getInstance(); }
+    | 'char' { $ast = CharType.getInstance(); }
+    | 'float32' { $ast = FloatType.getInstance(); }
 ;
 
 // LEXICO

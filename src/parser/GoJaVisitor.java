@@ -37,47 +37,17 @@ public interface GoJaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVar_definition(GoJaParser.Var_definitionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GoJaParser#fields}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFields(GoJaParser.FieldsContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link GoJaParser#vars}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitVars(GoJaParser.VarsContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GoJaParser#tipo}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTipo(GoJaParser.TipoContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link GoJaParser#func_definition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitFunc_definition(GoJaParser.Func_definitionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link GoJaParser#tipo_simple}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTipo_simple(GoJaParser.Tipo_simpleContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link GoJaParser#params}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitParams(GoJaParser.ParamsContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link GoJaParser#param}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitParam(GoJaParser.ParamContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GoJaParser#statement}.
 	 * @param ctx the parse tree
@@ -102,4 +72,28 @@ public interface GoJaVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpresiones(GoJaParser.ExpresionesContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GoJaParser#params}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParams(GoJaParser.ParamsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GoJaParser#param}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParam(GoJaParser.ParamContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GoJaParser#tipo}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTipo(GoJaParser.TipoContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GoJaParser#tipo_simple}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTipo_simple(GoJaParser.Tipo_simpleContext ctx);
 }
