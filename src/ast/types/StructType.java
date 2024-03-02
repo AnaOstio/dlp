@@ -1,21 +1,23 @@
 package ast.types;
 
+import ast.definitions.VarDefinition;
+
 import java.util.List;
 
 public class StructType extends AbstractType {
 
-    private List<StructField> fields;
+    private List<VarDefinition> fields;
 
-    public StructType(int line, int column, List<StructField> fields) {
+    public StructType(int line, int column, List<VarDefinition> fields) {
         super(line, column);
         this.fields = fields;
     }
 
-    public List<StructField> getFields() {
+    public List<VarDefinition> getFields() {
         return fields;
     }
 
-    public void setFields(List<StructField> fields) {
+    public void setFields(List<VarDefinition> fields) {
         this.fields = fields;
     }
 }

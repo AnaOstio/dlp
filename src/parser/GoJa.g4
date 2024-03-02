@@ -16,7 +16,7 @@ program returns [Program ast]
     (d=definiciones { $defs.addAll($d.ast); })*
     l='func' m='main' '(' ')' '{' (var_definition { $cuerpo.addAll($var_definition.ast) ;})*
                                               (statement { $cuerpo.add($statement.ast) ;})* '}'
-        { $defs.addAll(
+        { $defs.add(
             new FunctionDefinition($l.getLine(), $l.getCharPositionInLine() + 1,
                             new FunctionType($l.getLine(), $l.getCharPositionInLine() + 1, VoidType.getInstance(), new ArrayList<>())
                             , $m.text, $cuerpo)
@@ -32,17 +32,20 @@ definiciones returns [List<Definition> ast = new ArrayList<>();]:
 ;
 
 var_definition returns [List<VarDefinition> ast = new ArrayList<>();]
-                locals [List<StructField> campos = new ArrayList<>()]:
+                locals [List<VarDefinition> campos = new ArrayList<>()]:
     l='var' vars tipo ';'
         {   for (String id: $vars.ast) {
                 $ast.add(new VarDefinition($l.getLine(), $l.getCharPositionInLine() + 1, $tipo.ast, id));
             }
         }
-    | l='var' IDENTIFICADOR 'struct' '{' (v=var_definition { $campos.addAll($v.ast); })* '}' ';'
-            { $ast.add( new VarDefinition($l.getLine(), $l.getCharPositionInLine() + 1,
-               new StructType($l.getLine(), $l.getCharPositionInLine() + 1, $campos),
-                $IDENTIFICADOR.text
-            ));}
+    | l='var' vars 'struct' '{' (v=var_definition { $campos.addAll($v.ast); })* '}' ';'
+        {   for(String id: $vars.ast){
+                $ast.add( new VarDefinition($l.getLine(), $l.getCharPositionInLine() + 1,
+                               new StructType($l.getLine(), $l.getCharPositionInLine() + 1, $campos),
+                                id
+                            ));
+            }
+        }
 ;
 
 vars returns [List<String> ast = new ArrayList<>();]:
