@@ -111,10 +111,10 @@ expresion returns [Expression ast]
     | '(' expresion ')' { $ast = $expresion.ast; }
     | tipo '(' expresion ')'
             { $ast = new Cast($tipo.ast.getLine(), $tipo.ast.getColumn(), $tipo.ast, $expresion.ast); }
-    | expresion '[' expresion ']'
+    | exp1=expresion '[' exp2=expresion ']'
             { $ast = new ArrayAccess($exp1.ast.getLine(), $exp1.ast.getColumn() + 1, $exp1.ast, $exp2.ast); }
-    | expresion '.' expresion
-            { $ast = new FieldAccess($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $exp2.ast) ;}
+    | exp1=expresion '.' IDENTIFICADOR
+            { $ast = new FieldAccess($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $IDENTIFICADOR.text) ;}
     | l='!' expresion
              { $ast = new UnaryNot($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast); }
     | l='-' expresion

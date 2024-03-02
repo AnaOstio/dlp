@@ -1,12 +1,13 @@
 package ast.expressions;
 
 public class FieldAccess extends AbstractExpression {
-    private Expression left, right;
+    private Expression left;
+    private String id;
 
-    public FieldAccess(int line, int column, Expression left, Expression right) {
+    public FieldAccess(int line, int column, Expression left, String id) {
         super(line, column);
         this.left = left;
-        this.right = right;
+        this.id = id;
     }
 
     public Expression getLeft() {
@@ -17,11 +18,11 @@ public class FieldAccess extends AbstractExpression {
         this.left = left;
     }
 
-    public Expression getRight() {
-        return right;
+    public String getRight() {
+        return id;
     }
 
-    public void setRight(Expression right) {
-        this.right = right;
+    public void setRight(String right) {
+        this.id = right;
     }
 }
