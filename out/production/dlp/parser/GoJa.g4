@@ -94,7 +94,6 @@ statements returns [List<Statement> ast = new ArrayList<>();]:
 ;
 
 
-// TODO Comprobar que funcionan todas y cada una de ellas
 expresion returns [Expression ast]
             locals [List<Expression> fparams = new ArrayList<>();]:
     INT_CONSTANT
@@ -109,16 +108,16 @@ expresion returns [Expression ast]
             { $ast = new FunctionInvocation($l.getLine(), $l.getCharPositionInLine() + 1,
                 new Variable($l.getLine(), $l.getCharPositionInLine() + 1, $l.text), $fparams);}
     | '(' expresion ')' { $ast = $expresion.ast; }
+    | exp1=expresion '[' exp2=expresion ']'
+                { $ast = new ArrayAccess($exp1.ast.getLine(), $exp1.ast.getColumn() + 1, $exp1.ast, $exp2.ast); }
+    | exp1=expresion '.' IDENTIFICADOR
+                { $ast = new FieldAccess($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $IDENTIFICADOR.text) ;}
     | tipo '(' expresion ')'
             { $ast = new Cast($tipo.ast.getLine(), $tipo.ast.getColumn(), $tipo.ast, $expresion.ast); }
-    | exp1=expresion '[' exp2=expresion ']'
-            { $ast = new ArrayAccess($exp1.ast.getLine(), $exp1.ast.getColumn() + 1, $exp1.ast, $exp2.ast); }
-    | exp1=expresion '.' IDENTIFICADOR
-            { $ast = new FieldAccess($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $IDENTIFICADOR.text) ;}
+    | l='-' expresion
+                 { $ast = new UnaryMinus($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast); }
     | l='!' expresion
              { $ast = new UnaryNot($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast); }
-    | l='-' expresion
-             { $ast = new UnaryMinus($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast); }
     | exp1=expresion op=( '*' | '/' | '%' ) exp2=expresion
             { $ast = new Arithmetic($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $exp2.ast, $op.text); }
     | exp1=expresion op=('+' | '-' ) exp2=expresion

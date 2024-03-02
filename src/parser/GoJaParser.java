@@ -50,7 +50,7 @@ public class GoJaParser extends Parser {
 		return new String[] {
 			null, "'func'", "'main'", "'('", "')'", "'{'", "'}'", "'var'", "';'", 
 			"'struct'", "','", "'='", "'write'", "'read'", "'return'", "'while'", 
-			"'if'", "'else'", "'['", "']'", "'.'", "'!'", "'-'", "'*'", "'/'", "'%'", 
+			"'if'", "'else'", "'['", "']'", "'.'", "'-'", "'!'", "'*'", "'/'", "'%'", 
 			"'+'", "'<'", "'>'", "'<='", "'>='", "'!='", "'=='", "'&&'", "'||'", 
 			"'int'", "'char'", "'float32'"
 		};
@@ -1018,7 +1018,7 @@ public class GoJaParser extends Parser {
 				((ExpresionContext)_localctx).l = match(T__20);
 				setState(233);
 				((ExpresionContext)_localctx).expresion = expresion(6);
-				 ((ExpresionContext)_localctx).ast =  new UnaryNot(((ExpresionContext)_localctx).l.getLine(), ((ExpresionContext)_localctx).l.getCharPositionInLine() + 1, ((ExpresionContext)_localctx).expresion.ast); 
+				 ((ExpresionContext)_localctx).ast =  new UnaryMinus(((ExpresionContext)_localctx).l.getLine(), ((ExpresionContext)_localctx).l.getCharPositionInLine() + 1, ((ExpresionContext)_localctx).expresion.ast); 
 				}
 				break;
 			case 9:
@@ -1027,7 +1027,7 @@ public class GoJaParser extends Parser {
 				((ExpresionContext)_localctx).l = match(T__21);
 				setState(237);
 				((ExpresionContext)_localctx).expresion = expresion(5);
-				 ((ExpresionContext)_localctx).ast =  new UnaryMinus(((ExpresionContext)_localctx).l.getLine(), ((ExpresionContext)_localctx).l.getCharPositionInLine() + 1, ((ExpresionContext)_localctx).expresion.ast); 
+				 ((ExpresionContext)_localctx).ast =  new UnaryNot(((ExpresionContext)_localctx).l.getLine(), ((ExpresionContext)_localctx).l.getCharPositionInLine() + 1, ((ExpresionContext)_localctx).expresion.ast); 
 				}
 				break;
 			}
@@ -1076,7 +1076,7 @@ public class GoJaParser extends Parser {
 						setState(248);
 						((ExpresionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !(_la==T__21 || _la==T__25) ) {
+						if ( !(_la==T__20 || _la==T__25) ) {
 							((ExpresionContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						else {
@@ -1141,7 +1141,7 @@ public class GoJaParser extends Parser {
 						_localctx.exp1 = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expresion);
 						setState(262);
-						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
+						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
 						setState(263);
 						match(T__17);
 						setState(264);
@@ -1157,7 +1157,7 @@ public class GoJaParser extends Parser {
 						_localctx.exp1 = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expresion);
 						setState(268);
-						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
 						setState(269);
 						match(T__19);
 						setState(270);
@@ -1505,9 +1505,9 @@ public class GoJaParser extends Parser {
 		case 3:
 			return precpred(_ctx, 1);
 		case 4:
-			return precpred(_ctx, 8);
+			return precpred(_ctx, 9);
 		case 5:
-			return precpred(_ctx, 7);
+			return precpred(_ctx, 8);
 		}
 		return true;
 	}
@@ -1565,7 +1565,7 @@ public class GoJaParser extends Parser {
 		"\u0001\u000b\u0001\u000b\u0003\u000b\u0138\b\u000b\u0001\f\u0001\f\u0001"+
 		"\f\u0001\f\u0001\f\u0001\f\u0003\f\u0140\b\f\u0001\f\u0000\u0001\u000e"+
 		"\r\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u0000"+
-		"\u0004\u0001\u0000\u0017\u0019\u0002\u0000\u0016\u0016\u001a\u001a\u0001"+
+		"\u0004\u0001\u0000\u0017\u0019\u0002\u0000\u0015\u0015\u001a\u001a\u0001"+
 		"\u0000\u001b \u0001\u0000!\"\u015d\u0000\u001f\u0001\u0000\u0000\u0000"+
 		"\u0002B\u0001\u0000\u0000\u0000\u0004Z\u0001\u0000\u0000\u0000\u0006c"+
 		"\u0001\u0000\u0000\u0000\be\u0001\u0000\u0000\u0000\n\u00ba\u0001\u0000"+
@@ -1692,10 +1692,10 @@ public class GoJaParser extends Parser {
 		"\uffff\uffff\u0000\u0100\u0111\u0001\u0000\u0000\u0000\u0101\u0102\n\u0001"+
 		"\u0000\u0000\u0102\u0103\u0007\u0003\u0000\u0000\u0103\u0104\u0003\u000e"+
 		"\u0007\u0002\u0104\u0105\u0006\u0007\uffff\uffff\u0000\u0105\u0111\u0001"+
-		"\u0000\u0000\u0000\u0106\u0107\n\b\u0000\u0000\u0107\u0108\u0005\u0012"+
+		"\u0000\u0000\u0000\u0106\u0107\n\t\u0000\u0000\u0107\u0108\u0005\u0012"+
 		"\u0000\u0000\u0108\u0109\u0003\u000e\u0007\u0000\u0109\u010a\u0005\u0013"+
 		"\u0000\u0000\u010a\u010b\u0006\u0007\uffff\uffff\u0000\u010b\u0111\u0001"+
-		"\u0000\u0000\u0000\u010c\u010d\n\u0007\u0000\u0000\u010d\u010e\u0005\u0014"+
+		"\u0000\u0000\u0000\u010c\u010d\n\b\u0000\u0000\u010d\u010e\u0005\u0014"+
 		"\u0000\u0000\u010e\u010f\u0005+\u0000\u0000\u010f\u0111\u0006\u0007\uffff"+
 		"\uffff\u0000\u0110\u00f2\u0001\u0000\u0000\u0000\u0110\u00f7\u0001\u0000"+
 		"\u0000\u0000\u0110\u00fc\u0001\u0000\u0000\u0000\u0110\u0101\u0001\u0000"+
