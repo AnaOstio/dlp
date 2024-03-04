@@ -72,9 +72,6 @@ statement returns [Statement ast]
                 List<Statement> elseBody = new ArrayList<>();]:
     exp1=expresion '=' exp2=expresion ';'
             { $ast = new Assignment($exp1.ast.getLine(),$exp1.ast.getColumn(), $exp1.ast, $exp2.ast); }
-    |  l=IDENTIFICADOR '(' (expresiones { $fparams.addAll($expresiones.ast); })? ')' ';'
-            { $ast = new FunctionInvocation($l.getLine(), $l.getCharPositionInLine() + 1,
-                      new Variable($l.getLine(), $l.getCharPositionInLine() + 1, $l.text), $fparams);}
     | l='write' expresiones ';'
             { $ast = new Write($l.getLine(), $l.getCharPositionInLine() + 1, $expresiones.ast); }
     | l='read' expresiones ';'
@@ -85,7 +82,9 @@ statement returns [Statement ast]
             { $ast = new While($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast, $statements.ast); }
     | l='if' '(' expresion ')' tBody=statements ( 'else' (fBody=statements { $elseBody.addAll($fBody.ast); }))?
             { $ast = new IfElse($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast, $tBody.ast, $elseBody); }
-
+    |  l=IDENTIFICADOR '(' (expresiones { $fparams.addAll($expresiones.ast); })? ')' ';'
+            { $ast = new FunctionInvocation($l.getLine(), $l.getCharPositionInLine() + 1,
+                     new Variable($l.getLine(), $l.getCharPositionInLine() + 1, $l.text), $fparams);}
 ;
 
 statements returns [List<Statement> ast = new ArrayList<>();]:
@@ -96,24 +95,14 @@ statements returns [List<Statement> ast = new ArrayList<>();]:
 
 expresion returns [Expression ast]
             locals [List<Expression> fparams = new ArrayList<>();]:
-    INT_CONSTANT
-            { $ast = new IntLiteral($INT_CONSTANT.getLine(), $INT_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToInt($INT_CONSTANT.text)); }
-    | REAL_CONSTANT
-            { $ast = new FloatLiteral($REAL_CONSTANT.getLine(), $REAL_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToReal($REAL_CONSTANT.text)); }
-    | CHAR_CONSTANT
-            { $ast = new CharLiteral($CHAR_CONSTANT.getLine(), $CHAR_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToChar($CHAR_CONSTANT.text)); }
-    | IDENTIFICADOR
-            { $ast = new Variable($IDENTIFICADOR.getLine(), $IDENTIFICADOR.getCharPositionInLine() + 1, $IDENTIFICADOR.text); }
-    | l=IDENTIFICADOR '(' (expresiones { $fparams.addAll($expresiones.ast); })? ')'
-            { $ast = new FunctionInvocation($l.getLine(), $l.getCharPositionInLine() + 1,
-                new Variable($l.getLine(), $l.getCharPositionInLine() + 1, $l.text), $fparams);}
-    | '(' expresion ')' { $ast = $expresion.ast; }
-    | exp1=expresion '[' exp2=expresion ']'
-                { $ast = new ArrayAccess($exp1.ast.getLine(), $exp1.ast.getColumn() + 1, $exp1.ast, $exp2.ast); }
+
+    '(' expresion ')' { $ast = $expresion.ast; }
     | exp1=expresion '.' IDENTIFICADOR
                 { $ast = new FieldAccess($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $IDENTIFICADOR.text) ;}
-    | tipo '(' expresion ')'
-            { $ast = new Cast($tipo.ast.getLine(), $tipo.ast.getColumn(), $tipo.ast, $expresion.ast); }
+    | exp1=expresion '[' exp2=expresion ']'
+                { $ast = new ArrayAccess($exp1.ast.getLine(), $exp1.ast.getColumn() + 1, $exp1.ast, $exp2.ast); }
+    | tipo_simple '(' expresion ')'
+            { $ast = new Cast($tipo_simple.ast.getLine(), $tipo_simple.ast.getColumn(), $tipo_simple.ast, $expresion.ast); }
     | l='-' expresion
                  { $ast = new UnaryMinus($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast); }
     | l='!' expresion
@@ -126,6 +115,17 @@ expresion returns [Expression ast]
             { $ast = new Comparasion($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $exp2.ast, $op.text); }
     | exp1=expresion op=('&&' | '||' ) exp2=expresion
             { $ast = new Logic($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $exp2.ast, $op.text); }
+    | l=IDENTIFICADOR '(' (expresiones { $fparams.addAll($expresiones.ast); })? ')'
+                 { $ast = new FunctionInvocation($l.getLine(), $l.getCharPositionInLine() + 1,
+                          new Variable($l.getLine(), $l.getCharPositionInLine() + 1, $l.text), $fparams);}
+    | INT_CONSTANT
+            { $ast = new IntLiteral($INT_CONSTANT.getLine(), $INT_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToInt($INT_CONSTANT.text)); }
+    | REAL_CONSTANT
+            { $ast = new FloatLiteral($REAL_CONSTANT.getLine(), $REAL_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToReal($REAL_CONSTANT.text)); }
+    | CHAR_CONSTANT
+             { $ast = new CharLiteral($CHAR_CONSTANT.getLine(), $CHAR_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToChar($CHAR_CONSTANT.text)); }
+    | IDENTIFICADOR
+             { $ast = new Variable($IDENTIFICADOR.getLine(), $IDENTIFICADOR.getCharPositionInLine() + 1, $IDENTIFICADOR.text); }
 ;
 
 expresiones returns [List<Expression> ast = new ArrayList<>();]:
