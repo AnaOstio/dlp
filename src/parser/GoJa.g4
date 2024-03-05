@@ -143,10 +143,14 @@ param returns [VarDefinition ast]:
         {$ast = new VarDefinition($l.getLine(), $l.getCharPositionInLine() + 1, $tipo_simple.ast, $IDENTIFICADOR.text); }
 ;
 
-tipo returns [Type ast]:
+tipo returns [Type ast]
+        locals [List<VarDefinition> campos = new ArrayList<>()]:
     t=tipo_simple { $ast = $t.ast; }
     | a='[' s=INT_CONSTANT ']' ti=tipo
             { $ast = new ArrayType($a.getLine(), $a.getCharPositionInLine() + 1, LexerHelper.lexemeToInt($s.text), $ti.ast);}
+    | a='struct' '{'
+        (var_definition { $campos.addAll($var_definition.ast); })* { $ast = new StructType($a.getLine(), $a.getCharPositionInLine() + 1, $campos); }
+    '}'
 ;
 
 tipo_simple returns [Type ast]:

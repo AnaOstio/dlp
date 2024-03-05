@@ -1,4 +1,4 @@
-// Generated from C:/Users/Usuario/Documents/UNI/5ºAño/2º Semestre/DLP/dlp/src/parser/GoJa.g4 by ANTLR 4.13.1
+// Generated from C:/Users/UO275780/Desktop/DLP/dlp/src/parser/GoJa.g4 by ANTLR 4.13.1
 package parser;
 
     import ast.*;
@@ -1358,16 +1358,24 @@ public class GoJaParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class TipoContext extends ParserRuleContext {
 		public Type ast;
+		public List<VarDefinition> campos = new ArrayList<>();
 		public Tipo_simpleContext t;
 		public Token a;
 		public Token s;
 		public TipoContext ti;
+		public Var_definitionContext var_definition;
 		public Tipo_simpleContext tipo_simple() {
 			return getRuleContext(Tipo_simpleContext.class,0);
 		}
 		public TerminalNode INT_CONSTANT() { return getToken(GoJaParser.INT_CONSTANT, 0); }
 		public TipoContext tipo() {
 			return getRuleContext(TipoContext.class,0);
+		}
+		public List<Var_definitionContext> var_definition() {
+			return getRuleContexts(Var_definitionContext.class);
+		}
+		public Var_definitionContext var_definition(int i) {
+			return getRuleContext(Var_definitionContext.class,i);
 		}
 		public TipoContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1383,8 +1391,9 @@ public class GoJaParser extends Parser {
 	public final TipoContext tipo() throws RecognitionException {
 		TipoContext _localctx = new TipoContext(_ctx, getState());
 		enterRule(_localctx, 22, RULE_tipo);
+		int _la;
 		try {
-			setState(311);
+			setState(323);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__34:
@@ -1409,6 +1418,33 @@ public class GoJaParser extends Parser {
 				setState(308);
 				((TipoContext)_localctx).ti = tipo();
 				 ((TipoContext)_localctx).ast =  new ArrayType(((TipoContext)_localctx).a.getLine(), ((TipoContext)_localctx).a.getCharPositionInLine() + 1, LexerHelper.lexemeToInt((((TipoContext)_localctx).s!=null?((TipoContext)_localctx).s.getText():null)), ((TipoContext)_localctx).ti.ast);
+				}
+				break;
+			case T__8:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(311);
+				((TipoContext)_localctx).a = match(T__8);
+				setState(312);
+				match(T__4);
+				setState(318);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==T__6) {
+					{
+					{
+					setState(313);
+					((TipoContext)_localctx).var_definition = var_definition();
+					 _localctx.campos.addAll(((TipoContext)_localctx).var_definition.ast); 
+					}
+					}
+					setState(320);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				 ((TipoContext)_localctx).ast =  new StructType(((TipoContext)_localctx).a.getLine(), ((TipoContext)_localctx).a.getCharPositionInLine() + 1, _localctx.campos); 
+				setState(322);
+				match(T__5);
 				}
 				break;
 			default:
@@ -1444,13 +1480,13 @@ public class GoJaParser extends Parser {
 		Tipo_simpleContext _localctx = new Tipo_simpleContext(_ctx, getState());
 		enterRule(_localctx, 24, RULE_tipo_simple);
 		try {
-			setState(319);
+			setState(331);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__34:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(313);
+				setState(325);
 				match(T__34);
 				 ((Tipo_simpleContext)_localctx).ast =  IntType.getInstance(); 
 				}
@@ -1458,7 +1494,7 @@ public class GoJaParser extends Parser {
 			case T__35:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(315);
+				setState(327);
 				match(T__35);
 				 ((Tipo_simpleContext)_localctx).ast =  CharType.getInstance(); 
 				}
@@ -1466,7 +1502,7 @@ public class GoJaParser extends Parser {
 			case T__36:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(317);
+				setState(329);
 				match(T__36);
 				 ((Tipo_simpleContext)_localctx).ast =  FloatType.getInstance(); 
 				}
@@ -1512,7 +1548,7 @@ public class GoJaParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001.\u0142\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001.\u014e\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
@@ -1561,21 +1597,23 @@ public class GoJaParser extends Parser {
 		"\b\u011e\b\b\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0001"+
 		"\t\u0003\t\u0128\b\t\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\u000b"+
 		"\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b"+
-		"\u0001\u000b\u0001\u000b\u0003\u000b\u0138\b\u000b\u0001\f\u0001\f\u0001"+
-		"\f\u0001\f\u0001\f\u0001\f\u0003\f\u0140\b\f\u0001\f\u0000\u0001\u000e"+
-		"\r\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u0000"+
-		"\u0004\u0001\u0000\u0017\u0019\u0002\u0000\u0015\u0015\u001a\u001a\u0001"+
-		"\u0000\u001b \u0001\u0000!\"\u015d\u0000\u001f\u0001\u0000\u0000\u0000"+
-		"\u0002B\u0001\u0000\u0000\u0000\u0004Z\u0001\u0000\u0000\u0000\u0006c"+
-		"\u0001\u0000\u0000\u0000\be\u0001\u0000\u0000\u0000\n\u00ba\u0001\u0000"+
-		"\u0000\u0000\f\u00c9\u0001\u0000\u0000\u0000\u000e\u00f0\u0001\u0000\u0000"+
-		"\u0000\u0010\u011d\u0001\u0000\u0000\u0000\u0012\u0127\u0001\u0000\u0000"+
-		"\u0000\u0014\u0129\u0001\u0000\u0000\u0000\u0016\u0137\u0001\u0000\u0000"+
-		"\u0000\u0018\u013f\u0001\u0000\u0000\u0000\u001a\u001b\u0003\u0002\u0001"+
-		"\u0000\u001b\u001c\u0006\u0000\uffff\uffff\u0000\u001c\u001e\u0001\u0000"+
-		"\u0000\u0000\u001d\u001a\u0001\u0000\u0000\u0000\u001e!\u0001\u0000\u0000"+
-		"\u0000\u001f\u001d\u0001\u0000\u0000\u0000\u001f \u0001\u0000\u0000\u0000"+
-		" \"\u0001\u0000\u0000\u0000!\u001f\u0001\u0000\u0000\u0000\"#\u0005\u0001"+
+		"\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b"+
+		"\u0001\u000b\u0005\u000b\u013d\b\u000b\n\u000b\f\u000b\u0140\t\u000b\u0001"+
+		"\u000b\u0001\u000b\u0003\u000b\u0144\b\u000b\u0001\f\u0001\f\u0001\f\u0001"+
+		"\f\u0001\f\u0001\f\u0003\f\u014c\b\f\u0001\f\u0000\u0001\u000e\r\u0000"+
+		"\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u0000\u0004"+
+		"\u0001\u0000\u0017\u0019\u0002\u0000\u0015\u0015\u001a\u001a\u0001\u0000"+
+		"\u001b \u0001\u0000!\"\u016b\u0000\u001f\u0001\u0000\u0000\u0000\u0002"+
+		"B\u0001\u0000\u0000\u0000\u0004Z\u0001\u0000\u0000\u0000\u0006c\u0001"+
+		"\u0000\u0000\u0000\be\u0001\u0000\u0000\u0000\n\u00ba\u0001\u0000\u0000"+
+		"\u0000\f\u00c9\u0001\u0000\u0000\u0000\u000e\u00f0\u0001\u0000\u0000\u0000"+
+		"\u0010\u011d\u0001\u0000\u0000\u0000\u0012\u0127\u0001\u0000\u0000\u0000"+
+		"\u0014\u0129\u0001\u0000\u0000\u0000\u0016\u0143\u0001\u0000\u0000\u0000"+
+		"\u0018\u014b\u0001\u0000\u0000\u0000\u001a\u001b\u0003\u0002\u0001\u0000"+
+		"\u001b\u001c\u0006\u0000\uffff\uffff\u0000\u001c\u001e\u0001\u0000\u0000"+
+		"\u0000\u001d\u001a\u0001\u0000\u0000\u0000\u001e!\u0001\u0000\u0000\u0000"+
+		"\u001f\u001d\u0001\u0000\u0000\u0000\u001f \u0001\u0000\u0000\u0000 \""+
+		"\u0001\u0000\u0000\u0000!\u001f\u0001\u0000\u0000\u0000\"#\u0005\u0001"+
 		"\u0000\u0000#$\u0005\u0002\u0000\u0000$%\u0005\u0003\u0000\u0000%&\u0005"+
 		"\u0004\u0000\u0000&,\u0005\u0005\u0000\u0000\'(\u0003\u0004\u0002\u0000"+
 		"()\u0006\u0000\uffff\uffff\u0000)+\u0001\u0000\u0000\u0000*\'\u0001\u0000"+
@@ -1715,18 +1753,26 @@ public class GoJaParser extends Parser {
 		"\u0000\u0129\u012a\u0005\u0007\u0000\u0000\u012a\u012b\u0005+\u0000\u0000"+
 		"\u012b\u012c\u0003\u0018\f\u0000\u012c\u012d\u0006\n\uffff\uffff\u0000"+
 		"\u012d\u0015\u0001\u0000\u0000\u0000\u012e\u012f\u0003\u0018\f\u0000\u012f"+
-		"\u0130\u0006\u000b\uffff\uffff\u0000\u0130\u0138\u0001\u0000\u0000\u0000"+
+		"\u0130\u0006\u000b\uffff\uffff\u0000\u0130\u0144\u0001\u0000\u0000\u0000"+
 		"\u0131\u0132\u0005\u0013\u0000\u0000\u0132\u0133\u0005&\u0000\u0000\u0133"+
 		"\u0134\u0005\u0014\u0000\u0000\u0134\u0135\u0003\u0016\u000b\u0000\u0135"+
-		"\u0136\u0006\u000b\uffff\uffff\u0000\u0136\u0138\u0001\u0000\u0000\u0000"+
-		"\u0137\u012e\u0001\u0000\u0000\u0000\u0137\u0131\u0001\u0000\u0000\u0000"+
-		"\u0138\u0017\u0001\u0000\u0000\u0000\u0139\u013a\u0005#\u0000\u0000\u013a"+
-		"\u0140\u0006\f\uffff\uffff\u0000\u013b\u013c\u0005$\u0000\u0000\u013c"+
-		"\u0140\u0006\f\uffff\uffff\u0000\u013d\u013e\u0005%\u0000\u0000\u013e"+
-		"\u0140\u0006\f\uffff\uffff\u0000\u013f\u0139\u0001\u0000\u0000\u0000\u013f"+
-		"\u013b\u0001\u0000\u0000\u0000\u013f\u013d\u0001\u0000\u0000\u0000\u0140"+
-		"\u0019\u0001\u0000\u0000\u0000\u0018\u001f,4BSZckqy\u0081\u00ac\u00b5"+
-		"\u00ba\u00c5\u00c9\u00e4\u00f0\u0110\u0112\u011d\u0127\u0137\u013f";
+		"\u0136\u0006\u000b\uffff\uffff\u0000\u0136\u0144\u0001\u0000\u0000\u0000"+
+		"\u0137\u0138\u0005\t\u0000\u0000\u0138\u013e\u0005\u0005\u0000\u0000\u0139"+
+		"\u013a\u0003\u0004\u0002\u0000\u013a\u013b\u0006\u000b\uffff\uffff\u0000"+
+		"\u013b\u013d\u0001\u0000\u0000\u0000\u013c\u0139\u0001\u0000\u0000\u0000"+
+		"\u013d\u0140\u0001\u0000\u0000\u0000\u013e\u013c\u0001\u0000\u0000\u0000"+
+		"\u013e\u013f\u0001\u0000\u0000\u0000\u013f\u0141\u0001\u0000\u0000\u0000"+
+		"\u0140\u013e\u0001\u0000\u0000\u0000\u0141\u0142\u0006\u000b\uffff\uffff"+
+		"\u0000\u0142\u0144\u0005\u0006\u0000\u0000\u0143\u012e\u0001\u0000\u0000"+
+		"\u0000\u0143\u0131\u0001\u0000\u0000\u0000\u0143\u0137\u0001\u0000\u0000"+
+		"\u0000\u0144\u0017\u0001\u0000\u0000\u0000\u0145\u0146\u0005#\u0000\u0000"+
+		"\u0146\u014c\u0006\f\uffff\uffff\u0000\u0147\u0148\u0005$\u0000\u0000"+
+		"\u0148\u014c\u0006\f\uffff\uffff\u0000\u0149\u014a\u0005%\u0000\u0000"+
+		"\u014a\u014c\u0006\f\uffff\uffff\u0000\u014b\u0145\u0001\u0000\u0000\u0000"+
+		"\u014b\u0147\u0001\u0000\u0000\u0000\u014b\u0149\u0001\u0000\u0000\u0000"+
+		"\u014c\u0019\u0001\u0000\u0000\u0000\u0019\u001f,4BSZckqy\u0081\u00ac"+
+		"\u00b5\u00ba\u00c5\u00c9\u00e4\u00f0\u0110\u0112\u011d\u0127\u013e\u0143"+
+		"\u014b";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
