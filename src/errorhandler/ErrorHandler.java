@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ErrorHandler {
 
-    private List<ErrorHandler> list;
+    private List<ErrorType> list;
     private static ErrorHandler errorHandler;
 
     public ErrorHandler getInstance(){
@@ -20,5 +20,9 @@ public class ErrorHandler {
     }
 
     public void showErrors(OutputStreamWriter osw){
+    }
+
+    public void addError(ErrorType error){
+        this.list.add(error);
     }
 }
