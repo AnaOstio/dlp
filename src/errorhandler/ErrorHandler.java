@@ -1,14 +1,22 @@
 package errorhandler;
 
+import ast.types.ErrorType;
+
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ErrorHandler {
 
-    private List<ErrorHandler> list;
+    private List<ErrorType> list;
     private static ErrorHandler errorHandler;
 
-    public ErrorHandler getInstance(){
+    public ErrorHandler(){
+        this.list = new ArrayList<>();
+    }
+
+    public static ErrorHandler getInstance(){
         if (errorHandler == null){
             errorHandler = new ErrorHandler();
         }
@@ -19,6 +27,12 @@ public class ErrorHandler {
         return list.size() == 0;
     }
 
-    public void showErrors(OutputStreamWriter osw){
+    public void showErrors(PrintStream ps) {
+        list.stream().forEach( l -> ps.println(l));
+    }
+
+    public void addError(ErrorType error) {
+        // Compruebo que no se añade mas de una vez el mismo error
+        if (!list.contains(error)) list.add(error);
     }
 }
