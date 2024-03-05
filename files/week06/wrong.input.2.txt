@@ -1,0 +1,10 @@
+var tuple struct { 
+	var key int;	
+	var value int;	
+	var key double; // Error duplicated field
+};
+
+// Main program
+func main() {
+	tuple.key = 0;
+}

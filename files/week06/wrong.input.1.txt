@@ -1,0 +1,10 @@
+var i, i int; // Error duplicated variable
+
+
+var a int;
+var a int;
+
+// Main program
+func main() {
+	i = 0;
+}
