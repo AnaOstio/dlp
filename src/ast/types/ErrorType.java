@@ -5,7 +5,6 @@ import errorhandler.ErrorHandler;
 public class ErrorType extends AbstractType {
 
     private String message;
-    private int line, col;
 
     public ErrorType(String message, int line, int col){
         super(line, col);
@@ -22,11 +21,11 @@ public class ErrorType extends AbstractType {
 
     @Override
     public int getColumn() {
-        return col;
+        return column;
     }
 
     @Override
     public String toString() {
-        return "Error: " + message + " [line: " + line + ", col: " + col + "]";
+        return "Error: " + message + " [line: " + line + ", col: " + column + "]";
     }
 }
