@@ -32,9 +32,7 @@ definiciones returns [List<Definition> ast = new ArrayList<>();]:
 ;
 
 var_definition returns [List<VarDefinition> ast = new ArrayList<>();]
-                locals [List<VarDefinition> campos = new ArrayList<>(),
-                        List<String> cFields = new ArrayList<>(),
-                        List<String> cDefs = new ArrayList<>();]:
+                locals [List<String> cDefs = new ArrayList<>();]:
     l='var' vars tipo ';'
         {
             for (String id: $vars.ast) {
@@ -47,21 +45,8 @@ var_definition returns [List<VarDefinition> ast = new ArrayList<>();]
 
             }
         }
-    | l='var' vars 'struct' '{' (v=var_definition { $campos.addAll($v.ast); })* '}' ';'
-        {   for(String id: $vars.ast){
-
-                $ast.add( new VarDefinition($l.getLine(), $l.getCharPositionInLine() + 1,
-                               new StructType($l.getLine(), $l.getCharPositionInLine() + 1, $campos),
-                                id
-                            ));
-            }
-        }
 ;
 
-vars returns [List<String> ast = new ArrayList<>();]:
-    IDENTIFICADOR { $ast.add($IDENTIFICADOR.text); }
-    | IDENTIFICADOR ',' vars { $vars.ast.add($IDENTIFICADOR.text); $ast = $vars.ast; }
-;
 
 func_definition returns [FunctionDefinition ast]
                 locals [Type t = VoidType.getInstance(),
@@ -154,13 +139,37 @@ param returns [VarDefinition ast]:
 ;
 
 tipo returns [Type ast]
-        locals [List<VarDefinition> campos = new ArrayList<>()]:
+        locals [List<StructField> fields = new ArrayList<>(),
+                List<String> definidos = new ArrayList<>();]:
     t=tipo_simple { $ast = $t.ast; }
     | a='[' s=INT_CONSTANT ']' ti=tipo
             { $ast = new ArrayType($a.getLine(), $a.getCharPositionInLine() + 1, LexerHelper.lexemeToInt($s.text), $ti.ast);}
     | a='struct' '{'
-        (var_definition { $campos.addAll($var_definition.ast); })* { $ast = new StructType($a.getLine(), $a.getCharPositionInLine() + 1, $campos); }
+        (campos { $fields.addAll($campos.ast); })* {
+               for(StructField f: $fields){
+                    if($definidos.contains(f.getName())){
+                        ErrorType e = new ErrorType("Campo " + f.getName() + " ya definido", f.getLine(), f.getColumn());
+                    }
+                    $definidos.add(f.getName());
+               }
+                $ast = new StructType($a.getLine(), $a.getCharPositionInLine() + 1, $fields);
+            }
     '}'
+;
+
+campos returns [List<StructField> ast = new ArrayList<>();]
+        locals [List<String> definidos = new ArrayList<>();]:
+    l='var' vars tipo ';'
+        {
+            for(String id: $vars.ast) {
+                if($definidos.contains(id)){
+                    ErrorType e = new ErrorType("Variable " + id + " ya definido", $l.getLine(), $l.getCharPositionInLine() + 1);
+                } else {
+                    $ast.add(new StructField($l.getLine(), $l.getCharPositionInLine() + 1, $tipo.ast, id));
+                }
+                $definidos.add(id);
+            }
+         }
 ;
 
 tipo_simple returns [Type ast]:
@@ -169,8 +178,13 @@ tipo_simple returns [Type ast]:
     | 'float32' { $ast = FloatType.getInstance(); }
 ;
 
+vars returns [List<String> ast = new ArrayList<>();]:
+    IDENTIFICADOR { $ast.add($IDENTIFICADOR.text); }
+    | IDENTIFICADOR ',' vars { $vars.ast.add($IDENTIFICADOR.text); $ast = $vars.ast; }
+;
+
 // LEXICO
-INT_CONSTANT: [0-9]+ 
+INT_CONSTANT: [0-9]+
             ;
 
 REAL_CONSTANT: (REAL_1 | REAL_2 )

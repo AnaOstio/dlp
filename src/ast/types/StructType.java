@@ -6,18 +6,18 @@ import java.util.List;
 
 public class StructType extends AbstractType {
 
-    private List<VarDefinition> fields;
+    private List<StructField> fields;
 
-    public StructType(int line, int column, List<VarDefinition> fields) {
+    public StructType(int line, int column, List<StructField> fields) {
         super(line, column);
         this.fields = fields;
     }
 
-    public List<VarDefinition> getFields() {
+    public List<StructField> getFields() {
         return fields;
     }
 
-    public void setFields(List<VarDefinition> fields) {
+    public void setFields(List<StructField> fields) {
         this.fields = fields;
     }
 }

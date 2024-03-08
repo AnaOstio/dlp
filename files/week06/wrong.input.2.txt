@@ -1,7 +1,7 @@
 var tuple struct { 
 	var key int;	
 	var value int;	
-	var key double; // Error duplicated field
+	var key float32; // Error duplicated field
 };
 
 // Main program

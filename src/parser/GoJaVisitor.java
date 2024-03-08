@@ -37,12 +37,6 @@ public interface GoJaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVar_definition(GoJaParser.Var_definitionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GoJaParser#vars}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVars(GoJaParser.VarsContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link GoJaParser#func_definition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -91,9 +85,21 @@ public interface GoJaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTipo(GoJaParser.TipoContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link GoJaParser#campos}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCampos(GoJaParser.CamposContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link GoJaParser#tipo_simple}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitTipo_simple(GoJaParser.Tipo_simpleContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GoJaParser#vars}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVars(GoJaParser.VarsContext ctx);
 }
