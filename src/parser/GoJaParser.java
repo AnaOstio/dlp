@@ -1,4 +1,4 @@
-// Generated from C:/Users/UO275780/Desktop/DLP/dlp/src/parser/GoJa.g4 by ANTLR 4.13.1
+// Generated from C:/Users/Usuario/Documents/UNI/5ºAño/2º Semestre/DLP/dlp/src/parser/GoJa.g4 by ANTLR 4.13.1
 package parser;
 
     import ast.*;
@@ -308,6 +308,8 @@ public class GoJaParser extends Parser {
 	public static class Var_definitionContext extends ParserRuleContext {
 		public List<VarDefinition> ast = new ArrayList<>();;
 		public List<VarDefinition> campos = new ArrayList<>();
+		public List<String> cFields = new ArrayList<>();
+		public List<String> cDefs = new ArrayList<>();;
 		public Token l;
 		public VarsContext vars;
 		public TipoContext tipo;
@@ -354,8 +356,14 @@ public class GoJaParser extends Parser {
 				((Var_definitionContext)_localctx).tipo = tipo();
 				setState(71);
 				match(T__7);
-				   for (String id: ((Var_definitionContext)_localctx).vars.ast) {
-				                _localctx.ast.add(new VarDefinition(((Var_definitionContext)_localctx).l.getLine(), ((Var_definitionContext)_localctx).l.getCharPositionInLine() + 1, ((Var_definitionContext)_localctx).tipo.ast, id));
+
+				            for (String id: ((Var_definitionContext)_localctx).vars.ast) {
+				                if(_localctx.cDefs.contains(id)){
+				                    ErrorType t = new ErrorType("Variable " + id + " ya definida", ((Var_definitionContext)_localctx).l.getLine(), ((Var_definitionContext)_localctx).l.getCharPositionInLine() + 1);
+				                } else {
+				                    _localctx.ast.add(new VarDefinition(((Var_definitionContext)_localctx).l.getLine(), ((Var_definitionContext)_localctx).l.getCharPositionInLine() + 1, ((Var_definitionContext)_localctx).tipo.ast, id));
+				                }
+				                _localctx.cDefs.add(id);
 				            }
 				        
 				}
@@ -390,11 +398,17 @@ public class GoJaParser extends Parser {
 				match(T__5);
 				setState(87);
 				match(T__7);
-				   for(String id: ((Var_definitionContext)_localctx).vars.ast){
-				                _localctx.ast.add( new VarDefinition(((Var_definitionContext)_localctx).l.getLine(), ((Var_definitionContext)_localctx).l.getCharPositionInLine() + 1,
-				                               new StructType(((Var_definitionContext)_localctx).l.getLine(), ((Var_definitionContext)_localctx).l.getCharPositionInLine() + 1, _localctx.campos),
-				                                id
+
+				            for(String id: ((Var_definitionContext)_localctx).vars.ast){
+				                if(_localctx.cFields.contains(id)){
+				                   ErrorType t = new ErrorType("Campo ya definido " + id + " ya definida", ((Var_definitionContext)_localctx).l.getLine(), ((Var_definitionContext)_localctx).l.getCharPositionInLine() + 1);
+				                } else {
+				                    _localctx.ast.add( new VarDefinition(((Var_definitionContext)_localctx).l.getLine(), ((Var_definitionContext)_localctx).l.getCharPositionInLine() + 1,
+				                                   new StructType(((Var_definitionContext)_localctx).l.getLine(), ((Var_definitionContext)_localctx).l.getCharPositionInLine() + 1, _localctx.campos),
+				                                    id
 				                            ));
+				                }
+				                _localctx.cFields.add(id);
 				            }
 				        
 				}

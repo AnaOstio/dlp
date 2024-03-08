@@ -32,14 +32,24 @@ definiciones returns [List<Definition> ast = new ArrayList<>();]:
 ;
 
 var_definition returns [List<VarDefinition> ast = new ArrayList<>();]
-                locals [List<VarDefinition> campos = new ArrayList<>()]:
+                locals [List<VarDefinition> campos = new ArrayList<>(),
+                        List<String> cFields = new ArrayList<>(),
+                        List<String> cDefs = new ArrayList<>();]:
     l='var' vars tipo ';'
-        {   for (String id: $vars.ast) {
-                $ast.add(new VarDefinition($l.getLine(), $l.getCharPositionInLine() + 1, $tipo.ast, id));
+        {
+            for (String id: $vars.ast) {
+                if($cDefs.contains(id)){
+                    ErrorType t = new ErrorType("Variable " + id + " ya definida", $l.getLine(), $l.getCharPositionInLine() + 1);
+                } else {
+                    $ast.add(new VarDefinition($l.getLine(), $l.getCharPositionInLine() + 1, $tipo.ast, id));
+                }
+                $cDefs.add(id);
+
             }
         }
     | l='var' vars 'struct' '{' (v=var_definition { $campos.addAll($v.ast); })* '}' ';'
         {   for(String id: $vars.ast){
+
                 $ast.add( new VarDefinition($l.getLine(), $l.getCharPositionInLine() + 1,
                                new StructType($l.getLine(), $l.getCharPositionInLine() + 1, $campos),
                                 id

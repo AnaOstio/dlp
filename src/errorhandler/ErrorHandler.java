@@ -24,11 +24,11 @@ public class ErrorHandler {
     }
 
     public boolean anyError(){
-        return list.size() == 0;
+        return list.size() > 0;
     }
 
     public void showErrors(PrintStream ps) {
-        list.stream().forEach( l -> ps.println(l));
+        list.stream().forEach( l -> ps.println(l.toString()));
     }
 
     public void addError(ErrorType error) {
