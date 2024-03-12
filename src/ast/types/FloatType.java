@@ -1,5 +1,7 @@
 package ast.types;
 
+import visitor.Visitor;
+
 public class FloatType extends AbstractType {
 
     private static FloatType instance;
@@ -17,5 +19,10 @@ public class FloatType extends AbstractType {
 
     public static void setInstance(FloatType instance) {
         FloatType.instance = instance;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
+        return v.visit(this, o);
     }
 }

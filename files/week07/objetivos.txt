@@ -1,0 +1,1 @@
+Recorrer el AST mediante el patron de diseño Visitor, anotando el nuevo atributo LValue en todas las expressions. El compilador debe reconer como válido el programa entrada.txt y mostrar los correspondientes errores en los programas entrada.mal.1.txt y entrada.mal.2.txt

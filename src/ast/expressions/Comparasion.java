@@ -1,5 +1,7 @@
 package ast.expressions;
 
+import visitor.Visitor;
+
 public class Comparasion extends AbstractExpression {
 
     private Expression left, right;
@@ -34,5 +36,10 @@ public class Comparasion extends AbstractExpression {
 
     public void setOperator(String operator) {
         this.operator = operator;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
+        return v.visit(this, o);
     }
 }

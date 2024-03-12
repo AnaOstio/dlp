@@ -1,6 +1,7 @@
 package ast.types;
 
 import ast.AbstractASTNode;
+import visitor.Visitor;
 
 public class StructField extends AbstractASTNode  {
 
@@ -27,5 +28,10 @@ public class StructField extends AbstractASTNode  {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
+        return v.visit(this, o);
     }
 }

@@ -1,5 +1,7 @@
 package ast.expressions;
 
+import visitor.Visitor;
+
 public class ArrayAccess extends AbstractExpression {
 
     private Expression left, right;
@@ -24,5 +26,10 @@ public class ArrayAccess extends AbstractExpression {
 
     public void setRight(Expression right) {
         this.right = right;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
+        return v.visit(this, o);
     }
 }

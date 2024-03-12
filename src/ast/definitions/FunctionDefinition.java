@@ -4,6 +4,7 @@ import ast.expressions.Expression;
 import ast.expressions.Variable;
 import ast.statements.Statement;
 import ast.types.Type;
+import visitor.Visitor;
 
 import java.util.List;
 
@@ -22,5 +23,10 @@ public class FunctionDefinition extends AbstractDefinition {
 
     public void setBody(List<Statement> body) {
         this.body = body;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
+        return v.visit(this, o);
     }
 }

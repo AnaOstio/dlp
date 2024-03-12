@@ -1,6 +1,7 @@
 package ast.statements;
 
 import ast.expressions.Expression;
+import visitor.Visitor;
 
 import java.util.List;
 
@@ -19,5 +20,10 @@ public class Read extends AbstractStatement {
 
     public void setExpression(List<Expression> expression) {
         this.expression = expression;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
+        return v.visit(this, o);
     }
 }

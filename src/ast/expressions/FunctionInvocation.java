@@ -1,6 +1,7 @@
 package ast.expressions;
 
 import ast.statements.Statement;
+import visitor.Visitor;
 
 import java.util.List;
 
@@ -29,5 +30,10 @@ public class FunctionInvocation extends AbstractExpression implements Statement 
 
     public void setParameters(List<Expression> parameters) {
         this.parameters = parameters;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
+        return v.visit(this, o);
     }
 }
