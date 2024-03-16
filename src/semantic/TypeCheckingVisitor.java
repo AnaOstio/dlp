@@ -1,13 +1,9 @@
 package semantic;
 
-import ast.Program;
-import ast.definitions.FunctionDefinition;
-import ast.definitions.VarDefinition;
 import ast.expressions.*;
 import ast.statements.*;
 import ast.types.*;
 import visitor.AbstractVisitor;
-import visitor.Visitor;
 
 public class TypeCheckingVisitor extends AbstractVisitor<Void, Void> {
     @Override
@@ -36,7 +32,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Void, Void> {
         a.getLeft().accept(this, param);
         a.getRight().accept(this, param);
 
-        a.setLValue(true);
+        a.setLValue(false);
         return null;
     }
 
@@ -68,6 +64,9 @@ public class TypeCheckingVisitor extends AbstractVisitor<Void, Void> {
 
     @Override
     public Void visit(FieldAccess f, Void param) {
+        f.getLeft().accept(this, param);
+        
+        f.setLValue(true);
         return null;
     }
 

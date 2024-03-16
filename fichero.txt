@@ -1,12 +1,7 @@
-var tuple struct {
-	var key int;
-	var value int;
-	var key float32; // Error duplicated field
-};
+
 
 
 // Main program
 func main() {
 	tuple.key = 0;
-	(3+5) = 0;
 }
