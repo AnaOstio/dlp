@@ -125,7 +125,7 @@ expresion returns [Expression ast]
 
 expresiones returns [List<Expression> ast = new ArrayList<>();]:
     expresion { $ast.add($expresion.ast); }
-    | expresion ',' expresiones { $ast.add($expresion.ast); $ast = $expresiones.ast; }
+    | expresion { $ast.add($expresion.ast); } ',' expresiones { $ast.addAll($expresiones.ast); }
 ;
 
 params returns [List<VarDefinition> ast = new ArrayList<>();]:
