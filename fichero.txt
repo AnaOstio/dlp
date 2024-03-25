@@ -1,21 +1,13 @@
-// Global variables
-var i,n int;
-var c char;
-var record struct {
-  var intField int;
-  var realField float32;
-};
-// Functions
-func f(var a int, var c float32) int {
-  var real float32;
-  real = c;
-  i = a;
-  return n;
-}
-// Main program
-func main() {
-  var i int;
-  var r float32;
-  write i, f(n,r), record.intField, record.realField;
+var integer int;
+var character char;
+var real, integer float32; // Error 1
+
+func p(var a int) {
+  var a char;             // Error 2
 }
 
+func main() {
+  var character float32;
+  read integer, i;      // Error 3
+  f();                  // Error 4
+}
