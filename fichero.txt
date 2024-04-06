@@ -15,6 +15,6 @@ func g() {						        // Error 5
 
 func main() {
   f();       					        // Error 6  -> aqui se hace uso parentesis
-  f(3.2);    					        // Error 7
+  f(3.2);    					        // Error 7 -> no lo pilla
   i = g();     				            // Error 8
 }
