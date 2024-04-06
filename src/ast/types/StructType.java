@@ -1,5 +1,6 @@
 package ast.types;
 
+import ast.ASTNode;
 import ast.definitions.VarDefinition;
 import visitor.Visitor;
 
@@ -25,5 +26,18 @@ public class StructType extends AbstractType {
     @Override
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return v.visit(this, o);
+    }
+
+    /*
+     *  COMPROBACIÓN DE TIPOS
+     */
+
+    @Override
+    public Type dot(String structField, ASTNode node) {
+        for(StructField s: fields){
+            if(s.getName().equals(structField))
+                return s.getType();
+        }
+        return super.dot(structField, node);
     }
 }

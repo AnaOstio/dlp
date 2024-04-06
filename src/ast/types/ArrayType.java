@@ -1,5 +1,7 @@
 package ast.types;
 
+import ast.ASTNode;
+import errorhandler.ErrorHandler;
 import visitor.Visitor;
 
 public class ArrayType extends AbstractType {
@@ -32,5 +34,18 @@ public class ArrayType extends AbstractType {
     @Override
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return v.visit(this, o);
+    }
+
+    /*
+        COMPROBACIÓN DE TIPOS
+     */
+
+    @Override
+    public Type brackets(Type expressionType, ASTNode node) {
+        if(expressionType.equals(IntType.getInstance()))
+            return this.arrayType;
+        if(expressionType instanceof ErrorType)
+            return expressionType;
+        return super.brackets(expressionType, node);
     }
 }

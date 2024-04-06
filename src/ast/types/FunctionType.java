@@ -49,11 +49,12 @@ public class FunctionType extends AbstractType {
             return new ErrorType("El número de parametros es incorrecto", node.getLine(), node.getColumn());
 
         for (int i = 0; i < expressionList.size() - 1; i++){
-            if(getParameters().get(i).getType() != expressionList.get(i) && expressionList.get(i) instanceof ErrorType) {
+            if(getParameters().get(i).getType() != expressionList.get(i)) {
                 // Aqui solo entrara si el tipo de es de ErrorType
-                return expressionList.get(i);
-            } else {
-                return new ErrorType("El tipo de los parametros no coinciden con su definicion", node.getLine(), node.getColumn());
+                if(expressionList.get(i) instanceof ErrorType)
+                    return expressionList.get(i);
+                else
+                    return new ErrorType("El tipo de los parametros no coinciden con su definicion", node.getLine(), node.getColumn());
             }
         }
         return this;

@@ -63,14 +63,14 @@ public class CharType extends AbstractType {
 
     @Override
     public Type canBeCastTo(Type exprToCast, ASTNode node) {
-        if( exprToCast.isBuiltIn() || exprToCast instanceof ast.types.ErrorType)
+        if( exprToCast.isBuiltIn() || exprToCast instanceof ErrorType)
             return exprToCast;
         return super.canBeCastTo(exprToCast, node);
     }
 
     @Override
     public Type mustPromotesTo(Type expression, ASTNode node) {
-        if( this.equals(expression) || expression instanceof ast.types.ErrorType)
+        if( this.equals(expression) || expression instanceof ErrorType)
             return expression;
         else
             return super.mustPromotesTo(expression, node);
