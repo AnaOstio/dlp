@@ -1,20 +1,8 @@
 
-var i int;
-
-func f(var a int)int {
-  var a float32;			            // Error 1
-  return 34.5;				            // Error 2
-}
-
-func g(var b int, var b float32) {	    // Error 3
-  return 3;						        // Error 4
-}
-
-func g() {						        // Error 5
-}
-
 func main() {
-  f();       					        // Error 6  -> aqui se hace uso parentesis
-  f(3.2);    					        // Error 7 -> no lo pilla
-  i = g();     				            // Error 8
+    var a float32;
+    var v [5]char;
+    var b int;
+    a = 5.3;
+    b = int(v);
 }
