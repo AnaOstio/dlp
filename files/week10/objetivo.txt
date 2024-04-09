@@ -1,0 +1,5 @@
+Anotar el AST con los offsets de:
+- Variables globales
+- Variables locales
+- Parametros formales
+- Campos de structs

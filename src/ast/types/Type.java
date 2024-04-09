@@ -59,4 +59,6 @@ public interface Type extends ASTNode {
      * @return
      */
     boolean isBuiltIn();
+
+    int numberOfBytes();
 }

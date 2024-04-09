@@ -7,7 +7,7 @@ var c char;
 func f(var pi int, var pr float32) int {
   var lr float32;
   var li int;
-
+  
   li = pi;
   lr = pr;
   return pi;
@@ -19,7 +19,7 @@ func main() {
     var integer int;
     var character char;
   };
-
+	
   i = 3;
   c = 'a';
   r = 3.8;

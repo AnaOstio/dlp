@@ -1,0 +1,109 @@
+
+#source	"entrada.txt"
+
+	' * Tipo Integer i (offset 0)
+	' * Tipo Float32 r (offset 2)
+	' * Tipo Char c (offset 6)
+
+' Invocation to the main function
+call main
+halt
+
+
+#line	7
+
+ f:
+	' * Parameters
+	' * Tipo Integer pi (offset 8)
+	' * Tipo Float32 pr (offset 4)
+	' * Local variables
+	' * Tipo Float32 lr (offset -4)
+	' * Tipo Integer li (offset -6)
+	enter	6
+
+#line	11
+	' * Assignment
+	push	bp
+	pushi	-6
+	addi
+	push	bp
+	pushi	8
+	addi
+	loadi
+	storei
+
+#line	12
+	' * Assignment
+	push	bp
+	pushi	-4
+	addi
+	push	bp
+	pushi	4
+	addi
+	loadf
+	storef
+
+#line	13
+	' * Return
+	push	bp
+	pushi	8
+	addi
+	loadi
+	ret	2, 6, 6
+
+#line	17
+
+ main:
+	' * Parameters
+	' * Local variables
+	' * Tipo Struct[campos: {Campo: nombre integer, tipo Tipo Integer, offset 0;Campo: nombre character, tipo Tipo Char, offset 2;}] pair (offset -3)
+	enter	3
+
+#line	23
+	' * Assignment
+	pusha	0
+	pushi	3
+	storei
+
+#line	24
+	' * Assignment
+	pusha	6
+	pushb	97
+	storeb
+
+#line	25
+	' * Assignment
+	pusha	2
+	pushf	3.8
+	storef
+
+#line	26
+	' * Assignment
+	push	bp
+	pushi	-3
+	addi
+	pushi	0
+	addi
+	pusha	0
+	loadi
+	storei
+
+#line	27
+	' * Assignment
+	push	bp
+	pushi	-3
+	addi
+	pushi	2
+	addi
+	pusha	6
+	loadb
+	storeb
+
+#line	28
+	pusha	0
+	loadi
+	pusha	2
+	loadf
+	call	f
+	popi
+	ret	0, 3, 0

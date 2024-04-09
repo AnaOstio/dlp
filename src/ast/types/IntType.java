@@ -92,4 +92,13 @@ public class IntType extends AbstractType {
     public boolean isBuiltIn() {
         return true;
     }
+
+    /*
+     * CODE GENERATOR
+     */
+
+    @Override
+    public int numberOfBytes() {
+        return 2;
+    }
 }

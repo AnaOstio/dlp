@@ -20,6 +20,7 @@ public class VarDefinition extends AbstractDefinition implements Statement {
         this.offset = offset;
     }
 
+
     @Override
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return v.visit(this, o);

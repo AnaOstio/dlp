@@ -71,4 +71,9 @@ public abstract class AbstractType extends AbstractASTNode implements Type {
     public boolean isBuiltIn() {
         return false;
     }
+
+    @Override
+    public int numberOfBytes() {
+        return 0;
+    }
 }

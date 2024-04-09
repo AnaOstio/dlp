@@ -44,3 +44,13 @@ Que hacer cuando tenemos algo que es opcional
    
   char1, int1 = 'a', 1;
   ```
+  
+## TODO
+- Tengo que mirar el cast ya que no se le estan asignando de manera correcta la linea y la columna
+
+## CODE GENERATOR
+- Char mide 1
+- Integer 2
+- Float 4
+- BP (Base Pointer): nos sirve para estar en medio de las variables globales y parametros de la funcion que estamos
+ejecutando ahora mismo. 

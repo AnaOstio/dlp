@@ -66,6 +66,15 @@ public class FloatType extends AbstractType {
         return super.canBeCastTo(exprToCast, node);
     }
 
+    /*
+     * CODE GENERATOR
+     */
+
+    @Override
+    public int numberOfBytes() {
+        return 4;
+    }
+
     @Override
     public boolean isBuiltIn() {
         return true;

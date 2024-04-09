@@ -7,8 +7,7 @@ public abstract class AbstractDefinition extends AbstractASTNode implements Defi
 
     private Type type;
     private String name;
-
-    private int scope;
+    private int scope, localBytes;
 
     public AbstractDefinition(int line, int column, Type type, String name) {
         super(line, column);
@@ -44,5 +43,13 @@ public abstract class AbstractDefinition extends AbstractASTNode implements Defi
     @Override
     public void setScope(int scope) {
         this.scope = scope;
+    }
+
+    public int getLocalBytes() {
+        return localBytes;
+    }
+
+    public void setLocalBytes(int localBytes) {
+        this.localBytes = localBytes;
     }
 }
