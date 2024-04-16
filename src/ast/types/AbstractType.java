@@ -28,7 +28,7 @@ public abstract class AbstractType extends AbstractASTNode implements Type {
     }
 
     @Override
-    public Type compression(Type expressionType, ASTNode node) {
+    public Type comparison(Type expressionType, ASTNode node) {
         return new ErrorType("No se puede realizar la comparacion",node.getLine(), node.getColumn());
     }
 
@@ -74,6 +74,6 @@ public abstract class AbstractType extends AbstractASTNode implements Type {
 
     @Override
     public int numberOfBytes() {
-        return 0;
+        throw new IllegalStateException();
     }
 }

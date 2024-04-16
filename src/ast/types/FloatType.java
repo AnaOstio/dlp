@@ -44,11 +44,11 @@ public class FloatType extends AbstractType {
     }
 
     @Override
-    public Type compression(Type expressionType, ASTNode node) {
+    public Type comparison(Type expressionType, ASTNode node) {
         if( this.equals(expressionType) || expressionType instanceof ErrorType )
             return expressionType;
         else
-            return super.compression(expressionType, node);
+            return super.comparison(expressionType, node);
     }
 
     @Override

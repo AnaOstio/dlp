@@ -11,6 +11,7 @@ import java.util.List;
 public class FunctionDefinition extends AbstractDefinition {
 
     private List<Statement> body;
+    private int localVariablesBytes;
 
     public FunctionDefinition(int line, int column, Type type,  String name, List<Statement> body) {
         super(line, column, type, name);
@@ -23,6 +24,14 @@ public class FunctionDefinition extends AbstractDefinition {
 
     public void setBody(List<Statement> body) {
         this.body = body;
+    }
+
+    public int getLocalVariablesBytes() {
+        return localVariablesBytes;
+    }
+
+    public void setLocalVariablesBytes(int localVariablesBytes) {
+        this.localVariablesBytes = localVariablesBytes;
     }
 
     @Override

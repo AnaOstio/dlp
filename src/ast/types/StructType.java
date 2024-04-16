@@ -40,4 +40,13 @@ public class StructType extends AbstractType {
         }
         return super.dot(structField, node);
     }
+
+    @Override
+    public int numberOfBytes() {
+        int aux = 0;
+        for(StructField s: fields){
+            aux += s.getType().numberOfBytes();
+        }
+        return aux;
+    }
 }

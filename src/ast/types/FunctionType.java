@@ -12,6 +12,8 @@ public class FunctionType extends AbstractType {
     private Type returnType;
     private List<VarDefinition> parameters;
 
+    private int parametersBytes;
+
     public FunctionType(int line, int column, Type returnType, List<VarDefinition> parameters) {
         super(line, column);
         this.returnType = returnType;
@@ -34,6 +36,14 @@ public class FunctionType extends AbstractType {
         this.parameters = parameters;
     }
 
+    public int getParametersBytes() {
+        return parametersBytes;
+    }
+
+    public void setParametersBytes(int parametersBytes) {
+        this.parametersBytes = parametersBytes;
+    }
+
     @Override
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return v.visit(this, o);
@@ -45,18 +55,28 @@ public class FunctionType extends AbstractType {
 
     @Override
     public Type parenthesis(List<Type> expressionList, ASTNode node) {
-        if( this.getParameters().size() != expressionList.size())
+        if( parameters.size() != expressionList.size())
             return new ErrorType("El número de parametros es incorrecto", node.getLine(), node.getColumn());
 
-        for (int i = 0; i < expressionList.size(); i++){
-            if(getParameters().get(i).getType() != expressionList.get(i)) {
-                // Aqui solo entrara si el tipo de es de ErrorType
-                if(expressionList.get(i) instanceof ErrorType)
+        int j = parameters.size()-1;
+        for (int i=0; i < parameters.size(); i++) {
+            if (!expressionList.get(i).getClass().equals(parameters.get(j).getType().getClass())) {
+                if (expressionList.get(i) instanceof ErrorType) {
                     return expressionList.get(i);
-                else
-                    return new ErrorType("El tipo de los parametros no coinciden con su definicion", node.getLine(), node.getColumn());
+                }
+                return new ErrorType("El tipo del parámetro no coincide con el de la definición", node.getLine(), node.getColumn());
             }
+            j--;
         }
-        return this;
+        return returnType;
+    }
+
+    @Override
+    public int numberOfBytes() {
+        int total = 0;
+        for(VarDefinition p: parameters){
+            total += p.getType().numberOfBytes();
+        }
+        return total;
     }
 }

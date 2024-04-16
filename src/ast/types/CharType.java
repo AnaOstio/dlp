@@ -53,12 +53,12 @@ public class CharType extends AbstractType {
     }
 
     @Override
-    public Type compression(Type expressionType, ASTNode node) {
+    public Type comparison(Type expressionType, ASTNode node) {
         if(this == expressionType)
             return IntType.getInstance();
         if (expressionType instanceof ErrorType)
             return expressionType;
-        return super.compression(expressionType, node);
+        return super.comparison(expressionType, node);
     }
 
     @Override
