@@ -79,4 +79,9 @@ public class FloatType extends AbstractType {
     public boolean isBuiltIn() {
         return true;
     }
+
+    @Override
+    public String suffix() {
+        return "f";
+    }
 }

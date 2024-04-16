@@ -20,4 +20,5 @@ public interface Type extends ASTNode {
     Type mustPromotesTo(Type expression, ASTNode node);
     boolean isBuiltIn();
     int numberOfBytes();
+    String suffix();
 }

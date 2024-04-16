@@ -76,4 +76,9 @@ public abstract class AbstractType extends AbstractASTNode implements Type {
     public int numberOfBytes() {
         throw new IllegalStateException();
     }
+
+    @Override
+    public String suffix() {
+        throw new IllegalStateException("No hay sufijo para tipos compuestos");
+    }
 }
