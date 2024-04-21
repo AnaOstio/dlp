@@ -93,4 +93,9 @@ public class CharType extends AbstractType {
     public String suffix() {
         return "b";
     }
+
+    @Override
+    public String toString() {
+        return "Char";
+    }
 }

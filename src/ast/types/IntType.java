@@ -106,4 +106,9 @@ public class IntType extends AbstractType {
     public String suffix() {
         return "i";
     }
+
+    @Override
+    public String toString() {
+        return "Integer";
+    }
 }

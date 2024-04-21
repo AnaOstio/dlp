@@ -1,0 +1,21 @@
+
+#source "fichero.txt"
+
+	 ' * Tipo Char c (offset 0)
+	 ' * Tipo Integer i (offset 1)
+	 ' * Tipo Float32 r (offset 3)
+
+ ' Invocation to the main function
+call main
+halt
+
+
+#line	5
+main:
+	 ' * Parameters
+	 ' * Local variables
+	 ' * Tipo Integer i (offset -6)
+	 ' * Tipo Integer a (offset -8)
+enter 4
+#line	8
+	 ' * Assignment

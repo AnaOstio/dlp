@@ -84,4 +84,9 @@ public class FloatType extends AbstractType {
     public String suffix() {
         return "f";
     }
+
+    @Override
+    public String toString() {
+        return "Float32";
+    }
 }
