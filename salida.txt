@@ -16,6 +16,15 @@ main:
 	 ' * Local variables
 	 ' * Tipo Integer i (offset -6)
 	 ' * Tipo Integer a (offset -8)
-enter 4
+	enter 4
 #line	8
 	 ' * Assignment
+	pusha	0
+	pushi	97
+store b
+#line	9
+	 ' * Write
+	pusha	0
+	outb
+#line	9
+	 ' * Write

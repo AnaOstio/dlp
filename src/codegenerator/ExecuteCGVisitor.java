@@ -99,7 +99,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
         a.getLeft().accept(av, param);
         a.getRight().accept(vv, param);
         getCodeGenerator().store(a.getLeft().getType());
-        return super.visit(a, param);
+        return null;
     }
 
     /*

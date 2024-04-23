@@ -1,0 +1,9 @@
+Generar codigo para:
+- Indexing
+- FieldAccess
+- While statements -> listo
+- If statements -> listo
+
+
+
+-> Si sumamos dos char tiene que devolver un int
