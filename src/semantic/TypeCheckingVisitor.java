@@ -35,7 +35,13 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
     @Override
     public Void visit(Arithmetic a, Type param) {
         super.visit(a, param);
-        a.setType(a.getLeft().getType().arithmetic(a.getRight().getType(), a));
+
+        // TODO mirar esto de TypeChecking
+        if (a.getLeft().getType() == CharType.getInstance() && a.getRight().getType() == CharType.getInstance()) {
+            a.setType(IntType.getInstance());
+        } else {
+            a.setType(a.getLeft().getType().arithmetic(a.getRight().getType(), a));
+        }
 
         a.setLValue(false);
         return null;

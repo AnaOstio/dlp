@@ -1,5 +1,8 @@
 package codegenerator;
 
+import ast.types.CharType;
+import ast.types.FloatType;
+import ast.types.IntType;
 import ast.types.Type;
 
 import java.io.IOException;
@@ -53,7 +56,7 @@ public class CodeGenerator {
         out.flush();
     }
 
-    public void push(float f) {
+    public void push(double f) {
         out.println("\tpushf\t" + f);
         out.flush();
     }
@@ -61,6 +64,10 @@ public class CodeGenerator {
     public void pusha(int a) {
         out.println("\tpusha\t" + a);
         out.flush();
+    }
+
+    public void pushBP(){
+        out.println("\tpush BP");
     }
 
     public void out(Type type){
@@ -119,6 +126,46 @@ public class CodeGenerator {
 
     public void pop(Type type){
         out.println("pop" + type.suffix());
+        out.flush();
+    }
+
+    public void load(Type type) {
+        out.println("load" + type.suffix());
+        out.flush();
+    }
+
+    public void operation(String operation, Type type){
+        if (type == null) out.println(operation);
+        else out.println(operation + type.suffix());
+        out.flush();
+    }
+
+    /**
+     * Conversions
+     *
+     * 	b2i 	Pops one character and pushes it as an integer
+     * 	i2f 	Pops one integer and pushes it as a real number
+     * 	f2i 	Pops one real number and pushes it as an integer
+     * 	i2b 	Pops one integer and pushes it as a character
+     * @param newT
+     * @param exprType
+     */
+    public void cast(Type newT, Type exprType){
+        if (exprType == CharType.getInstance() && newT == IntType.getInstance()) {
+            out.println("b2i");
+        } else if (exprType == IntType.getInstance() && newT == CharType.getInstance()) {
+            out.println("i2b");
+        } else if (exprType == FloatType.getInstance() && newT == CharType.getInstance()) {
+            out.println("f2i");
+            out.println("i2b");
+        } else if (exprType == CharType.getInstance() && newT == FloatType.getInstance()) {
+            out.println("b2i");
+            out.println("i2f");
+        } else if (exprType == IntType.getInstance() && newT == FloatType.getInstance()) {
+            out.println("i2f");
+        }else if (exprType == FloatType.getInstance() && newT == IntType.getInstance()) {
+            out.println("f2i");
+        }
         out.flush();
     }
 }
