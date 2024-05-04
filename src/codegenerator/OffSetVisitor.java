@@ -40,11 +40,11 @@ public class OffSetVisitor extends AbstractVisitor<Void, Void> {
     @Override
     public Void visit(FunctionType i, Void param) {
         i.getReturnType().accept(this, param);
-        int offset = 4;
+        int offset = 0;
         // Hay que recorrerlo al reves
-        for(int aux = i.getParameters().size() -1;  aux >= 0; aux--){
+        for(int aux= 0; aux < i.getParameters().size(); aux++){
             VarDefinition v = i.getParameters().get(aux);
-            v.setOffset(offset);
+            v.setOffset(4 + offset);
             offset += v.getType().numberOfBytes();
         }
         i.setParametersBytes(offset);

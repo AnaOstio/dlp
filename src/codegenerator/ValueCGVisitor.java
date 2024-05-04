@@ -132,4 +132,11 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
         this.cg.cast(c.getCastType(), c.getExpression().getType());
         return null;
     }
+
+    @Override
+    public Void visit(FunctionInvocation f, FunctionDefinition param) {
+        f.getParameters().forEach(p -> p.accept(this, param));
+        this.cg.call(f.getName().getName());
+        return null;
+    }
 }

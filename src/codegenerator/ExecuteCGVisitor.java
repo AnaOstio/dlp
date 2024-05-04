@@ -233,7 +233,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
     public Void visit(FunctionInvocation f, FunctionDefinition param) {
         this.cg.line(f.getLine());
         ((Expression) f).accept(vv, param);
-        if(((Expression) f).getType() == VoidType.getInstance())
+        if(!(((Expression) f).getType() == VoidType.getInstance()))
             this.cg.pop(((Expression) f).getType());
 
         this.cg.newLine();
@@ -247,7 +247,6 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
                   funcDefinition.localVariables,
                   funcDefinition.type.paramsBytes
      */
-
     @Override
     public Void visit(Return r, FunctionDefinition param) {
         this.cg.line(r.getLine());

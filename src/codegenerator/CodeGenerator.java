@@ -31,7 +31,8 @@ public class CodeGenerator {
     }
 
     public void call(String method) {
-        out.println("call " + method);
+        if (!method.equals("main")) out.println("\tcall " + method);
+        else out.println("call " + method);
         out.flush();
     }
 

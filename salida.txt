@@ -1,98 +1,228 @@
 
 #source "fichero.txt"
 
-	 ' * Tipo Integer i (offset 0)
-	 ' * Tipo Float32 r (offset 2)
-	 ' * Tipo Char c (offset 6)
+	 ' * Tipo Char c (offset 0)
+	 ' * Tipo Integer i (offset 1)
+	 ' * Tipo Float32 r (offset 3)
 
  ' Invocation to the main function
 call main
 halt
 
 
-#line	7
-f:
+#line	5
+main:
 	 ' * Parameters
-	 ' * Tipo Integer pi (offset 4)
-	 ' * Tipo Float32 pr (offset 6)
 	 ' * Local variables
-	 ' * Tipo Float32 lr (offset -4)
-	 ' * Tipo Integer li (offset -6)
-	enter 6
-#line	11
+	 ' * Tipo Integer i (offset -2)
+	 ' * Tipo Integer a (offset -4)
+	enter 4
+#line	8
 	 ' * Assignment
-	pushi	-6
-	push BP
-	addi
-	pushi	4
-	push BP
-	addi
-	loadi
-	storei
+	pusha	0
+	pushb	97
+	storeb
 
-#line	12
+#line	9
+	 ' * Write
+	pusha	0
+	loadb
+	outb
+
+#line	9
+	 ' * Write
+	pushb	10
+	outb
+
+#line	11
 	 ' * Assignment
 	pushi	-4
 	push BP
 	addi
-	pushi	6
+	pushi	1
+	storei
+
+#line	12
+	 ' * Assignment
+	pushi	-2
 	push BP
 	addi
-	loadf
-	storef
+	pushb	48
+	b2i
+	pushi	3
+	muli
+	storei
 
 #line	13
-	 ' * Return
-	pushi	4
+	 ' * Write
+	pushi	-4
 	push BP
 	addi
 	loadi
-	ret 2, 6, 10
+	outi
 
+#line	13
+	 ' * Write
+	pushb	32
+	outb
 
-#line	17
-main:
-	 ' * Parameters
-	 ' * Local variables
-	 ' * Tipo ast.types.StructType@58ceff1 pair (offset -3)
-	enter 3
-#line	23
-	 ' * Assignment
-	pusha	0
-	pushi	3
-	storei
+#line	13
+	 ' * Write
+	pushi	-2
+	push BP
+	addi
+	loadi
+	outi
 
-#line	24
-	 ' * Assignment
-	pusha	6
-	pushb	97
-	storeb
+#line	13
+	 ' * Write
+	pushb	10
+	outb
 
-#line	25
-	 ' * Assignment
-	pusha	2
-	pushf	3.8
+#line	15
+	 ' * Read
+	pusha	3
+	inf
 	storef
 
-#line	26
-	 ' * Assignment
-	pushi	-3
-	push BP
-	addi
+#line	0
+	 ' * Write
+	pushi	2
+	i2f
+	pusha	3
+	loadf
+	mulf
+	outf
+
+#line	16
+	 ' * Write
+	pushb	10
+	outb
+
+#line	0
+	 ' * Write
+	pushi	3
+	i2f
+	pushf	4.5
+	subf
+	outf
+
+#line	18
+	 ' * Write
+	pushb	32
+	outb
+
+#line	0
+	 ' * Write
+	pushb	48
+	b2i
+	i2f
+	pushf	48.0
+	divf
+	outf
+
+#line	19
+	 ' * Write
+	pushb	32
+	outb
+
+#line	0
+	 ' * Write
+	pushb	48
+	b2i
+	pushb	49
+	b2i
+	modi
+	outi
+
+#line	20
+	 ' * Write
+	pushb	32
+	outb
+
+#line	21
+	 ' * Write
 	pushi	0
+	pushb	49
+	b2i
 	addi
-	pusha	0
-	loadi
-	storei
+	outi
+
+#line	21
+	 ' * Write
+	pushb	10
+	outb
+
+#line	22
+	 ' * Write
+	pushi	1
+	pushi	2
+	lti
+	outi
+
+#line	22
+	 ' * Write
+	pushb	32
+	outb
+
+#line	23
+	 ' * Write
+	pushi	4
+	pushi	3
+	gei
+	outi
+
+#line	23
+	 ' * Write
+	pushb	32
+	outb
+
+#line	24
+	 ' * Write
+	pushi	5
+	pushi	5
+	eqi
+	outi
+
+#line	24
+	 ' * Write
+	pushb	32
+	outb
+
+#line	25
+	 ' * Write
+	pushi	1
+	pushi	2
+	and
+	outi
+
+#line	25
+	 ' * Write
+	pushb	32
+	outb
+
+#line	26
+	 ' * Write
+	pushi	0
+	pushi	3
+	or
+	outi
+
+#line	26
+	 ' * Write
+	pushb	32
+	outb
 
 #line	27
-	 ' * Assignment
-	pushi	-3
-	push BP
-	addi
-	pushi	2
-	addi
-	pusha	6
-	loadb
-	storeb
+	 ' * Write
+	pushi	0
+	not
+	outi
+
+#line	27
+	 ' * Write
+	pushb	10
+	outb
+
+	ret 0, 4, 0
 
