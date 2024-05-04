@@ -36,6 +36,11 @@ public class ArrayType extends AbstractType {
         return v.visit(this, o);
     }
 
+    @Override
+    public int numberOfBytes() {
+        return size * arrayType.numberOfBytes();
+    }
+
     /*
         COMPROBACIÓN DE TIPOS
      */

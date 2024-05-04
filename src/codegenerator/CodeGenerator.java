@@ -112,7 +112,7 @@ public class CodeGenerator {
     }
 
     public String nextLabel(){
-        return "label " + this.count++;
+        return "label" + this.count++;
     }
 
     public void jmp(String label){

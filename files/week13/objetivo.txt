@@ -1,0 +1,3 @@
+Generar codigo para:
+- Invocaciones a función
+- Return statements
