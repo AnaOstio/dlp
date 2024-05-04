@@ -28,6 +28,14 @@ public class StructType extends AbstractType {
         return v.visit(this, o);
     }
 
+    public StructField searchField(String name){
+        for (StructField s: fields) {
+            if (s.getName().equals(name))
+                return s;
+        }
+
+        return null;
+    }
     /*
      *  COMPROBACIÓN DE TIPOS
      */

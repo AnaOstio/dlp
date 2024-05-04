@@ -193,7 +193,9 @@ REAL_CONSTANT: (REAL_1 | REAL_2 )
 REAL_1: '.'INT_CONSTANT | INT_CONSTANT'.' | INT_CONSTANT'.'INT_CONSTANT;
 REAL_2: INT_CONSTANT? ('.'?)(INT_CONSTANT?)('E'|'e')(('+'|'-')?)INT_CONSTANT;
 
-CHAR_CONSTANT: '\'' . '\'' | '\'\\n\''
+CHAR_CONSTANT:
+     '\'\\n\''
+    | '\'' . '\''
     | '\'\\t\''
     | '\'\\' [0-9]?[0-9]?[0-9] '\''
     ;

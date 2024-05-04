@@ -14,11 +14,17 @@ import java.util.List;
 
 public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void> {
 
-    private ValueCGVisitor vv = new ValueCGVisitor(getCodeGenerator());
-    private AddressCGVisitor av = new AddressCGVisitor(getCodeGenerator());
+    private final ValueCGVisitor vv;
+    private final AddressCGVisitor av;
+    
+    private CodeGenerator cg;
 
     public ExecuteCGVisitor(CodeGenerator codeGenerator) {
-        super(codeGenerator);
+        this.cg = codeGenerator;
+        this.vv = new ValueCGVisitor(codeGenerator);
+        this.av = new AddressCGVisitor(codeGenerator);
+        av.setValueVisitor(vv);
+        vv.setAddressVisitor(av);
     }
 
     /*
@@ -36,9 +42,9 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
                 d.accept(this, param);
             }
         }
-        getCodeGenerator().mainInvocation();
-        getCodeGenerator().call("main");
-        getCodeGenerator().halt();
+        this.cg.mainInvocation();
+        this.cg.call("main");
+        this.cg.halt();
 
         for (Definition d: p.getBody()) {
             if(d instanceof FunctionDefinition) {
@@ -55,10 +61,11 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
     @Override
     public Void visit(Write w, FunctionDefinition param) {
         for (Expression e: w.getExpression()) {
-            getCodeGenerator().line(e.getLine());
-            getCodeGenerator().comment("Write");
-            e.accept(av, param);
-            getCodeGenerator().out(e.getType());
+            this.cg.line(e.getLine());
+            this.cg.comment("Write");
+            e.accept(vv, param);
+            this.cg.out(e.getType());
+            this.cg.newLine();
         }
 
         return null;
@@ -76,11 +83,12 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
     public Void visit(Read r, FunctionDefinition param) {
 
         for (Expression e: r.getExpression()) {
-            getCodeGenerator().line(e.getLine());
-            getCodeGenerator().comment("Read");
+            this.cg.line(e.getLine());
+            this.cg.comment("Read");
             e.accept(av, param);
-            getCodeGenerator().in(e.getType());
-            getCodeGenerator().store(e.getType());
+            this.cg.in(e.getType());
+            this.cg.store(e.getType());
+            this.cg.newLine();
         }
 
         return null;
@@ -94,11 +102,12 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
      */
     @Override
     public Void visit(Assignment a, FunctionDefinition param) {
-        getCodeGenerator().line(a.getLeft().getLine());
-        getCodeGenerator().comment("Assignment");
+        this.cg.line(a.getLeft().getLine());
+        this.cg.comment("Assignment");
         a.getLeft().accept(av, param);
         a.getRight().accept(vv, param);
-        getCodeGenerator().store(a.getLeft().getType());
+        this.cg.store(a.getLeft().getType());
+        this.cg.newLine();
         return null;
     }
 
@@ -108,7 +117,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
      */
     @Override
     public Void visit(VarDefinition v, FunctionDefinition param) {
-        getCodeGenerator().comment("Tipo " +  v.getType().toString() + " " + v.getName() + " (offset " + v.getOffset() + ")");
+        this.cg.comment("Tipo " +  v.getType().toString() + " " + v.getName() + " (offset " + v.getOffset() + ")");
         return null;
     }
 
@@ -122,21 +131,21 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
      */
     @Override
     public Void visit(FunctionDefinition f, FunctionDefinition param) {
-        getCodeGenerator().line(f.getLine());
-        getCodeGenerator().label(f.getName());
-        getCodeGenerator().comment("Parameters");
+        this.cg.line(f.getLine());
+        this.cg.label(f.getName());
+        this.cg.comment("Parameters");
         List<VarDefinition> params = ((FunctionType)f.getType()).getParameters();
         for(int i = params.size() -1; i >= 0; i--){
             params.get(i).accept(this, param);
         }
 
-        getCodeGenerator().comment("Local variables");
+        this.cg.comment("Local variables");
         for(Statement s: f.getBody()) {
             if(s instanceof VarDefinition)
                 s.accept(this, f);
         }
 
-        getCodeGenerator().enter(f.getLocalVariablesBytes() * -1);
+        this.cg.enter(f.getLocalVariablesBytes() * -1);
         for(Statement s: f.getBody()) {
             if(!(s instanceof VarDefinition))
                 s.accept(this, f);
@@ -144,8 +153,9 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
 
         FunctionType fType = ((FunctionType) f.getType());
         if(fType.getReturnType() == VoidType.getInstance())
-            getCodeGenerator().ret(0, f.getLocalVariablesBytes() * -1, fType.getParametersBytes());
+            this.cg.ret(0, f.getLocalVariablesBytes() * -1, fType.getParametersBytes());
 
+        this.cg.newLine();
         return null;
     }
 
@@ -162,20 +172,20 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
      */
     @Override
     public Void visit(While w, FunctionDefinition param) {
-        getCodeGenerator().line(w.getLine());
-        getCodeGenerator().comment("While");
-        String bucle = getCodeGenerator().nextLabel();
-        String end = getCodeGenerator().nextLabel();
+        this.cg.line(w.getLine());
+        this.cg.comment("While");
+        String bucle = this.cg.nextLabel();
+        String end = this.cg.nextLabel();
 
-        getCodeGenerator().line(w.getExpression().getLine());
-        getCodeGenerator().label(bucle);
+        this.cg.line(w.getExpression().getLine());
+        this.cg.label(bucle);
         w.getExpression().accept(vv, param);
-        getCodeGenerator().jz(end);
-        getCodeGenerator().comment("While body");
+        this.cg.jz(end);
+        this.cg.comment("While body");
         w.getStatements().forEach(s -> s.accept(this, param));
-        getCodeGenerator().jmp(bucle);
-        getCodeGenerator().label(end);
-
+        this.cg.jmp(bucle);
+        this.cg.label(end);
+        this.cg.newLine();
         return null;
     }
 
@@ -193,22 +203,23 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
      */
     @Override
     public Void visit(IfElse i, FunctionDefinition param) {
-        getCodeGenerator().line(i.getLine());
-        getCodeGenerator().comment("If-Else");
+        this.cg.line(i.getLine());
+        this.cg.comment("If-Else");
 
-        String falseS = getCodeGenerator().nextLabel();
-        String end = getCodeGenerator().nextLabel();
-        getCodeGenerator().line(i.getCondition().getLine());
+        String falseS = this.cg.nextLabel();
+        String end = this.cg.nextLabel();
+        this.cg.line(i.getCondition().getLine());
         i.getCondition().accept(vv, param);
-        getCodeGenerator().jz(falseS);
-        getCodeGenerator().comment("True body");
+        this.cg.jz(falseS);
+        this.cg.comment("True body");
         i.getTrueStatements().forEach(s -> s.accept(this, param));
-        getCodeGenerator().jmp(end);
-        getCodeGenerator().label(falseS);
-        getCodeGenerator().comment("False body");
+        this.cg.jmp(end);
+        this.cg.label(falseS);
+        this.cg.comment("False body");
         i.getFalseStatements().forEach(s -> s.accept(this, param));
-        getCodeGenerator().label(end);
+        this.cg.label(end);
 
+        this.cg.newLine();
         return null;
     }
 
@@ -220,11 +231,12 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
      */
     @Override
     public Void visit(FunctionInvocation f, FunctionDefinition param) {
-        getCodeGenerator().line(f.getLine());
+        this.cg.line(f.getLine());
         ((Expression) f).accept(vv, param);
         if(((Expression) f).getType() == VoidType.getInstance())
-            getCodeGenerator().pop(((Expression) f).getType());
+            this.cg.pop(((Expression) f).getType());
 
+        this.cg.newLine();
         return null;
     }
 
@@ -238,11 +250,12 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
 
     @Override
     public Void visit(Return r, FunctionDefinition param) {
-        getCodeGenerator().line(r.getLine());
-        getCodeGenerator().comment("Return");
+        this.cg.line(r.getLine());
+        this.cg.comment("Return");
         r.getExpression().accept(vv, param);
-        getCodeGenerator().ret(((FunctionType)param.getType()).getReturnType().numberOfBytes(), param.getLocalVariablesBytes() * -1, ((FunctionType)param.getType()).getParametersBytes());
+        this.cg.ret(((FunctionType)param.getType()).getReturnType().numberOfBytes(), param.getLocalVariablesBytes() * -1, ((FunctionType)param.getType()).getParametersBytes());
 
+        this.cg.newLine();
         return null;
     }
 }

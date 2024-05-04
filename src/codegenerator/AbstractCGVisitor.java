@@ -10,14 +10,6 @@ import visitor.Visitor;
 
 public class AbstractCGVisitor<TP, TR> implements Visitor<TP, TR> {
 
-    private CodeGenerator cg;
-
-    public AbstractCGVisitor(CodeGenerator codeGenerator) {
-        this.cg = codeGenerator;
-    }
-
-    public CodeGenerator getCodeGenerator() {return this.cg; }
-
     @Override
     public TR visit(Program p, TP param) {
         throw new IllegalStateException("Esta plantilla no es aplicable a 'Program'");

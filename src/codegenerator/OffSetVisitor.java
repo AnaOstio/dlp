@@ -10,7 +10,7 @@ import visitor.AbstractVisitor;
 
 public class OffSetVisitor extends AbstractVisitor<Void, Void> {
 
-    private int localOffset, globalOffset = 0;
+    private int localOffset = 0, globalOffset = 0;
 
     @Override
     public Void visit(FunctionDefinition f, Void param) {
@@ -21,7 +21,7 @@ public class OffSetVisitor extends AbstractVisitor<Void, Void> {
                 s.accept(this, param);
         }
         f.setLocalVariablesBytes( -1 *  localOffset);
-        return super.visit(f, param);
+        return null;
     }
 
     @Override

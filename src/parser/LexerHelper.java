@@ -42,7 +42,7 @@ public class LexerHelper {
 	}
 
 	private static char checkTipo(String str) {
-		switch (str.charAt(1)){
+		switch (str.charAt(2)){
 			case 'n':
 				return '\n';
 			case 't':

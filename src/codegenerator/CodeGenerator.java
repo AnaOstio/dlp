@@ -52,7 +52,7 @@ public class CodeGenerator {
     }
 
     public void push(char c) {
-        out.println("\tpushi\t" + (int) c);
+        out.println("\tpushb\t" + (int) c);
         out.flush();
     }
 
@@ -76,12 +76,12 @@ public class CodeGenerator {
     }
 
     public void in(Type type){
-        out.println("in " + type.suffix());
+        out.println("\tin" + type.suffix());
         out.flush();
     }
 
     public void store(Type type) {
-        out.println("store " + type.suffix());
+        out.println("\tstore" + type.suffix());
         out.flush();
     }
 
@@ -106,7 +106,7 @@ public class CodeGenerator {
     }
 
     public void ret(int a, int b, int c){
-        out.println("ret "+  a  + ", " + b + ", " + c);
+        out.println("\tret "+  a  + ", " + b + ", " + c);
         out.flush();
     }
 
@@ -115,28 +115,33 @@ public class CodeGenerator {
     }
 
     public void jmp(String label){
-        out.println("jmp " + label);
+        out.println("\tjmp " + label);
         out.flush();
     }
 
     public void jz(String label) {
-        out.println("jz " + label);
+        out.println("\tjz " + label);
         out.flush();
     }
 
     public void pop(Type type){
-        out.println("pop" + type.suffix());
+        out.println("\tpop" + type.suffix());
         out.flush();
     }
 
     public void load(Type type) {
-        out.println("load" + type.suffix());
+        out.println("\tload" + type.suffix());
         out.flush();
     }
 
     public void operation(String operation, Type type){
-        if (type == null) out.println(operation);
-        else out.println(operation + type.suffix());
+        if (type == null) out.println("\t" + operation);
+        else out.println("\t" + operation + type.suffix());
+        out.flush();
+    }
+
+    public void newLine(){
+        out.println();
         out.flush();
     }
 
@@ -152,19 +157,19 @@ public class CodeGenerator {
      */
     public void cast(Type newT, Type exprType){
         if (exprType == CharType.getInstance() && newT == IntType.getInstance()) {
-            out.println("b2i");
+            out.println("\tb2i");
         } else if (exprType == IntType.getInstance() && newT == CharType.getInstance()) {
-            out.println("i2b");
+            out.println("\ti2b");
         } else if (exprType == FloatType.getInstance() && newT == CharType.getInstance()) {
-            out.println("f2i");
-            out.println("i2b");
+            out.println("\tf2i");
+            out.println("\ti2b");
         } else if (exprType == CharType.getInstance() && newT == FloatType.getInstance()) {
-            out.println("b2i");
-            out.println("i2f");
+            out.println("\tb2i");
+            out.println("\ti2f");
         } else if (exprType == IntType.getInstance() && newT == FloatType.getInstance()) {
-            out.println("i2f");
+            out.println("\ti2f");
         }else if (exprType == FloatType.getInstance() && newT == IntType.getInstance()) {
-            out.println("f2i");
+            out.println("\tf2i");
         }
         out.flush();
     }

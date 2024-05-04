@@ -5,10 +5,15 @@ import ast.expressions.*;
 
 public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
 
-    private AddressCGVisitor av = new AddressCGVisitor(getCodeGenerator());
+    private AddressCGVisitor av;
+    private CodeGenerator cg;
 
     public ValueCGVisitor(CodeGenerator codeGenerator) {
-        super(codeGenerator);
+        this.cg = codeGenerator;
+    }
+
+    public void setAddressVisitor(AddressCGVisitor av){
+        this.av = av;
     }
 
     /*
@@ -19,7 +24,7 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
     @Override
     public Void visit(Variable v, FunctionDefinition param) {
         v.accept(av, param);
-        getCodeGenerator().load(v.getType());
+        this.cg.load(v.getType());
         return null;
     }
 
@@ -29,7 +34,7 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
      */
     @Override
     public Void visit(IntLiteral i, FunctionDefinition param) {
-        getCodeGenerator().push(i.getValue());
+        this.cg.push(i.getValue());
         return null;
     }
 
@@ -39,7 +44,7 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
      */
     @Override
     public Void visit(FloatLiteral f, FunctionDefinition param) {
-        getCodeGenerator().push(f.getValue());
+        this.cg.push(f.getValue());
         return null;
     }
 
@@ -49,7 +54,7 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
      */
     @Override
     public Void visit(CharLiteral c, FunctionDefinition param) {
-        getCodeGenerator().push(c.getValue());
+        this.cg.push(c.getValue());
         return null;
     }
 
@@ -70,11 +75,11 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
         a.getRight().accept(this, param);
 
         switch (a.getOperator()) {
-            case "*": getCodeGenerator().operation("mul", a.getType()); break;
-            case "/": getCodeGenerator().operation("div", a.getType()); break;
-            case "%": getCodeGenerator().operation("mod", a.getType()); break;
-            case "+": getCodeGenerator().operation("add", a.getType()); break;
-            case "-": getCodeGenerator().operation("sub", a.getType()); break;
+            case "*": this.cg.operation("mul", a.getType()); break;
+            case "/": this.cg.operation("div", a.getType()); break;
+            case "%": this.cg.operation("mod", a.getType()); break;
+            case "+": this.cg.operation("add", a.getType()); break;
+            case "-": this.cg.operation("sub", a.getType()); break;
         }
         return null;
     }
@@ -82,8 +87,8 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
     @Override
     public Void visit(UnaryMinus u, FunctionDefinition param) {
         u.getRight().accept(this, param);
-        getCodeGenerator().push(-1);
-        getCodeGenerator().operation("mul", u.getRight().getType());
+        this.cg.push(-1);
+        this.cg.operation("mul", u.getRight().getType());
         return null;
     }
 
@@ -92,12 +97,12 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
         c.getLeft().accept(this, param);
         c.getRight().accept(this, param);
         switch (c.getOperator()) {
-            case "==": getCodeGenerator().operation("eq", c.getType()); break;
-            case "!=": getCodeGenerator().operation("ne", c.getType()); break;
-            case "<":  getCodeGenerator().operation("lt", c.getType()); break;
-            case "<=": getCodeGenerator().operation("le", c.getType()); break;
-            case ">":  getCodeGenerator().operation("gt", c.getType()); break;
-            case ">=": getCodeGenerator().operation("ge", c.getType()); break;
+            case "==": this.cg.operation("eq", c.getType()); break;
+            case "!=": this.cg.operation("ne", c.getType()); break;
+            case "<":  this.cg.operation("lt", c.getType()); break;
+            case "<=": this.cg.operation("le", c.getType()); break;
+            case ">":  this.cg.operation("gt", c.getType()); break;
+            case ">=": this.cg.operation("ge", c.getType()); break;
         }
         return null;
     }
@@ -107,8 +112,8 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
         l.getLeft().accept(this, param);
         l.getRight().accept(this, param);
         switch (l.getOperator()) {
-            case "&&": getCodeGenerator().operation("and", null); break;
-            case "||": getCodeGenerator().operation("or", null); break;
+            case "&&": this.cg.operation("and", null); break;
+            case "||": this.cg.operation("or", null); break;
         }
 
         return null;
@@ -117,14 +122,14 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
     @Override
     public Void visit(UnaryNot u, FunctionDefinition param) {
         u.getRight().accept(this, param);
-        getCodeGenerator().operation("not", null);
+        this.cg.operation("not", null);
         return null;
     }
 
     @Override
     public Void visit(Cast c, FunctionDefinition param) {
         c.getExpression().accept(this, param);
-        getCodeGenerator().cast(c.getCastType(), c.getExpression().getType());
+        this.cg.cast(c.getCastType(), c.getExpression().getType());
         return null;
     }
 }

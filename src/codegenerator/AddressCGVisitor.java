@@ -2,11 +2,22 @@ package codegenerator;
 
 import ast.definitions.FunctionDefinition;
 import ast.definitions.VarDefinition;
+import ast.expressions.ArrayAccess;
+import ast.expressions.FieldAccess;
 import ast.expressions.Variable;
+import ast.types.StructType;
 
 public class AddressCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
+
+    private ValueCGVisitor vv;
+    private CodeGenerator cg;
+
     public AddressCGVisitor(CodeGenerator codeGenerator) {
-        super(codeGenerator);
+        this.cg = codeGenerator;
+    }
+
+    public void setValueVisitor(ValueCGVisitor vv){
+        this.vv = vv;
     }
 
     /*
@@ -21,14 +32,15 @@ public class AddressCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
     @Override
     public Void visit(Variable v, FunctionDefinition param) {
         if(v.getDefinition().getScope() == 0) {
-            getCodeGenerator().pusha(((VarDefinition) v.getDefinition()).getOffset());
+            this.cg.pusha(((VarDefinition) v.getDefinition()).getOffset());
         } else {
-            getCodeGenerator().push(((VarDefinition) v.getDefinition()).getOffset());
-            getCodeGenerator().pushBP();
-            getCodeGenerator().operation("addi" , null);
+            this.cg.push(((VarDefinition) v.getDefinition()).getOffset());
+            this.cg.pushBP();
+            this.cg.operation("addi" , null);
         }
         return null;
     }
+
     /*
         [ArrayAccess: expresion -> expresion1 expresion2]() =
             addres[expresion1]
@@ -37,4 +49,27 @@ public class AddressCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
             <muli>
             <addi>
      */
+    @Override
+    public Void visit(ArrayAccess a, FunctionDefinition param) {
+        a.getLeft().accept(this, param);
+        a.getRight().accept(vv, param);
+        this.cg.push(a.getType().numberOfBytes());
+        this.cg.operation("muli", null);
+        this.cg.operation("addi", null);
+        return null;
+    }
+
+    /*
+        [FieldAccess: expresion -> expresion1 ID]() =
+            addres[expresion1]
+            <pushi> expr.type.getField(expr1.fieldName).offset
+            <addi>
+     */
+    @Override
+    public Void visit(FieldAccess f, FunctionDefinition param) {
+        f.getLeft().accept(this, param);
+        this.cg.push(((StructType)f.getLeft().getType()).searchField(f.getRight()).getOffset());
+        this.cg.operation("addi", null);
+        return null;
+    }
 }
