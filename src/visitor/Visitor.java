@@ -45,4 +45,6 @@ public interface Visitor<TP, TR> {
     public TR visit(StructField i, TP param);
 
     public TR visit(IntType i, TP o);
+
+    public TR visit(MultipleAssignment m, TP param);
 }

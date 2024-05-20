@@ -188,4 +188,22 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
         super.visit(f,((FunctionType)f.getType()).getReturnType());
         return null;
     }
+
+    @Override
+    public Void visit(MultipleAssignment m, Type param) {
+        super.visit(m, param);
+
+        if(m.getLeft().size() != m.getRight().size())
+            new ErrorType("En la asignacion multiple debe tener el mismo tamaño a ambnos lados", m.getLine(), m.getColumn());
+        else {
+            for (int i = 0; i < m.getLeft().size(); i++){
+                if(!m.getLeft().get(i).getLValue())
+                    new ErrorType("No se puede realizar la asignacion", m.getLine(), m.getColumn());
+
+                m.getLeft().get(i).setType(m.getLeft().get(i).getType().mustPromotesTo(m.getRight().get(i).getType(), m));
+            }
+        }
+
+        return null;
+    }
 }

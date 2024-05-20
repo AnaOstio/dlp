@@ -500,22 +500,22 @@ public class GoJaParser extends Parser {
 		public Statement ast;
 		public List<Expression> fparams = new ArrayList<>();
 		public List<Statement> elseBody = new ArrayList<>();;
-		public ExpresionContext exp1;
-		public ExpresionContext exp2;
+		public ExpresionesContext left;
 		public Token l;
+		public ExpresionesContext rigth;
 		public ExpresionesContext expresiones;
 		public ExpresionContext expresion;
 		public StatementsContext statements;
 		public StatementsContext tBody;
 		public StatementsContext fBody;
-		public List<ExpresionContext> expresion() {
-			return getRuleContexts(ExpresionContext.class);
+		public List<ExpresionesContext> expresiones() {
+			return getRuleContexts(ExpresionesContext.class);
 		}
-		public ExpresionContext expresion(int i) {
-			return getRuleContext(ExpresionContext.class,i);
+		public ExpresionesContext expresiones(int i) {
+			return getRuleContext(ExpresionesContext.class,i);
 		}
-		public ExpresionesContext expresiones() {
-			return getRuleContext(ExpresionesContext.class,0);
+		public ExpresionContext expresion() {
+			return getRuleContext(ExpresionContext.class,0);
 		}
 		public List<StatementsContext> statements() {
 			return getRuleContexts(StatementsContext.class);
@@ -547,14 +547,14 @@ public class GoJaParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(110);
-				((StatementContext)_localctx).exp1 = expresion(0);
+				((StatementContext)_localctx).left = expresiones();
 				setState(111);
-				match(T__8);
+				((StatementContext)_localctx).l = match(T__8);
 				setState(112);
-				((StatementContext)_localctx).exp2 = expresion(0);
+				((StatementContext)_localctx).rigth = expresiones();
 				setState(113);
 				match(T__7);
-				 ((StatementContext)_localctx).ast =  new Assignment(((StatementContext)_localctx).exp1.ast.getLine(),((StatementContext)_localctx).exp1.ast.getColumn(), ((StatementContext)_localctx).exp1.ast, ((StatementContext)_localctx).exp2.ast); 
+				 ((StatementContext)_localctx).ast =  new MultipleAssignment(((StatementContext)_localctx).l.getLine(), ((StatementContext)_localctx).l.getCharPositionInLine() + 1, ((StatementContext)_localctx).left.ast, ((StatementContext)_localctx).rigth.ast); 
 				}
 				break;
 			case 2:
@@ -1666,8 +1666,8 @@ public class GoJaParser extends Parser {
 		"fc\u0001\u0000\u0000\u0000gj\u0001\u0000\u0000\u0000hf\u0001\u0000\u0000"+
 		"\u0000hi\u0001\u0000\u0000\u0000ik\u0001\u0000\u0000\u0000jh\u0001\u0000"+
 		"\u0000\u0000kl\u0005\u0006\u0000\u0000lm\u0006\u0003\uffff\uffff\u0000"+
-		"m\u0007\u0001\u0000\u0000\u0000no\u0003\f\u0006\u0000op\u0005\t\u0000"+
-		"\u0000pq\u0003\f\u0006\u0000qr\u0005\b\u0000\u0000rs\u0006\u0004\uffff"+
+		"m\u0007\u0001\u0000\u0000\u0000no\u0003\u000e\u0007\u0000op\u0005\t\u0000"+
+		"\u0000pq\u0003\u000e\u0007\u0000qr\u0005\b\u0000\u0000rs\u0006\u0004\uffff"+
 		"\uffff\u0000s\u00a2\u0001\u0000\u0000\u0000tu\u0005\n\u0000\u0000uv\u0003"+
 		"\u000e\u0007\u0000vw\u0005\b\u0000\u0000wx\u0006\u0004\uffff\uffff\u0000"+
 		"x\u00a2\u0001\u0000\u0000\u0000yz\u0005\u000b\u0000\u0000z{\u0003\u000e"+

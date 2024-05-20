@@ -65,8 +65,8 @@ func_definition returns [FunctionDefinition ast]
 statement returns [Statement ast]
         locals [List<Expression> fparams = new ArrayList<>(),
                 List<Statement> elseBody = new ArrayList<>();]:
-    exp1=expresion '=' exp2=expresion ';'
-            { $ast = new Assignment($exp1.ast.getLine(),$exp1.ast.getColumn(), $exp1.ast, $exp2.ast); }
+     left=expresiones l='=' rigth=expresiones ';'
+            { $ast = new MultipleAssignment($l.getLine(), $l.getCharPositionInLine() + 1, $left.ast, $rigth.ast); }
     | l='write' expresiones ';'
             { $ast = new Write($l.getLine(), $l.getCharPositionInLine() + 1, $expresiones.ast); }
     | l='read' expresiones ';'

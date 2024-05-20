@@ -200,4 +200,11 @@ public abstract class AbstractVisitor<TP, TR> implements Visitor<TP, TR>{
     public TR visit(IntType i, TP o) {
         return null;
     }
+
+    @Override
+    public TR visit(MultipleAssignment m, TP param) {
+        m.getLeft().forEach(l -> l.accept(this, param));
+        m.getRight().forEach(r -> r.accept(this, param));
+        return null;
+    }
 }

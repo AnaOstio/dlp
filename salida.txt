@@ -11,31 +11,7 @@ halt
 main:
 	 ' * Parameters
 	 ' * Local variables
-	 ' * Tipo StructType[fields=[Field{type=Integer, name='integer', offset=0}, Field{type=Char, name='character', offset=2}, Field{type=StructType[fields=[Field{type=Integer, name='integer2', offset=0}, Field{type=Char, name='character2', offset=2}]], name='pair2', offset=3}]] pair (offset -6)
+	 ' * Tipo Integer c (offset -2)
+	 ' * Tipo Integer b (offset -4)
+	 ' * Tipo Integer a (offset -6)
 	enter 6
-#line	11
-	 ' * Assignment
-	pushi	-6
-	push BP
-	addi
-	pushi	3
-	addi
-	pushi	0
-	addi
-	pushi	2
-	storei
-
-#line	13
-	 ' * Write
-	pushi	-6
-	push BP
-	addi
-	pushi	3
-	addi
-	pushi	0
-	addi
-	loadi
-	outi
-
-	ret 0, 6, 0
-
