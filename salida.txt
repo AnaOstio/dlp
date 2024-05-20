@@ -321,7 +321,7 @@ main:
 #line	51
 	 ' * Assignment
 	pusha	0
-	pushi	2
+	pushi	0
 	addi
 	pushb	48
 	storeb
@@ -343,7 +343,7 @@ main:
 	loadi
 	i2f
 	pusha	0
-	pushi	2
+	pushi	0
 	addi
 	loadb
 	b2i

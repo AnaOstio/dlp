@@ -26,7 +26,7 @@ public class OffSetVisitor extends AbstractVisitor<Void, Void> {
 
     @Override
     public Void visit(VarDefinition v, Void param) {
-        super.visit(v, param);
+        // super.visit(v, param);
         if (v.getScope() == 0) {
             v.setOffset(globalOffset);
             globalOffset += v.getType().numberOfBytes();
@@ -53,11 +53,12 @@ public class OffSetVisitor extends AbstractVisitor<Void, Void> {
 
     @Override
     public Void visit(StructType i, Void param) {
-        super.visit(i, param);
+        // super.visit(i, param);
         int fieldsOffset = 0;
         for (StructField s: i.getFields()){
             s.setOffset(fieldsOffset);
             fieldsOffset += s.getType().numberOfBytes();
+            // s.accept(this, param);
         }
         return null;
     }
