@@ -38,4 +38,21 @@ public class FunctionDefinition extends AbstractDefinition {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return v.visit(this, o);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("func " + this.getName());
+        sb.append(this.getType().toString());
+        sb.append("{");
+
+        for(Statement s: getBody()){
+            sb.append("\t\n");
+            sb.append(s.toString());
+        }
+        sb.append("\n}");
+
+        return sb.toString();
+    }
 }

@@ -53,4 +53,12 @@ public class ArrayType extends AbstractType {
             return expressionType;
         return super.brackets(expressionType, node);
     }
+
+    @Override
+    public String toString() {
+        return "ArrayType[" +
+                "of:" + arrayType +
+                ", size:" + size +
+                ']';
+    }
 }

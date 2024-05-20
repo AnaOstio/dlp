@@ -36,4 +36,22 @@ public class FunctionInvocation extends AbstractExpression implements Statement 
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return v.visit(this, o);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(name + "(");
+
+        for(int i = 0; i < parameters.size() - 1; i++){
+            if( i != parameters.size() - 1){
+                sb.append(parameters.get(i).toString() + ",");
+            } else {
+                sb.append(parameters.get(i).toString());
+            }
+        }
+
+        sb.append(")");
+
+        return sb.toString();
+    }
 }

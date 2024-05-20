@@ -57,4 +57,11 @@ public class StructType extends AbstractType {
         }
         return aux;
     }
+
+    @Override
+    public String toString() {
+        return "StructType[" +
+                "fields=" + fields +
+                ']';
+    }
 }

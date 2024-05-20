@@ -44,4 +44,13 @@ public class StructField extends AbstractASTNode  {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return v.visit(this, o);
     }
+
+    @Override
+    public String toString() {
+        return "Field{" +
+                "type=" + type +
+                ", name='" + name + '\'' +
+                ", offset=" + offset +
+                '}';
+    }
 }

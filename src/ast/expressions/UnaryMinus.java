@@ -23,4 +23,9 @@ public class UnaryMinus extends AbstractExpression {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return v.visit(this, o);
     }
+
+    @Override
+    public String toString() {
+        return "-" + right.toString();
+    }
 }

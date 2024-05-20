@@ -79,4 +79,16 @@ public class FunctionType extends AbstractType {
         }
         return total;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("(");
+        for (int i=0; i < parameters.size(); i++) {
+            sb.append(parameters.get(i).toString());
+        }
+        sb.append(") ");
+        sb.append(returnType.toString());
+        return sb.toString();
+    }
 }

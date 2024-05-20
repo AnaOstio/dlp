@@ -23,4 +23,18 @@ public class CharLiteral extends AbstractExpression {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return v.visit(this, o);
     }
+
+    @Override
+    public String toString() {
+        switch (value) {
+            case '\n':
+                return "'\\n'";
+            case '\r':
+                return "'\\r'";
+            case '\t':
+                return "'\\t'";
+            default:
+                return  "'" + value + "'";
+        }
+    }
 }

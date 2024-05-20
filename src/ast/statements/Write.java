@@ -26,4 +26,20 @@ public class Write extends AbstractStatement {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return v.visit(this, o);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("write ");
+
+        for (int i = 0; i < expression.size() - 1; i++) {
+            if (i != expression.size() - 1) {
+                sb.append(expression.get(i).toString() + ",");
+            } else {
+                sb.append(expression.get(i).toString() + ";");
+            }
+        }
+
+        return sb.toString();
+    }
 }

@@ -32,4 +32,9 @@ public class FieldAccess extends AbstractExpression {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return v.visit(this, o);
     }
+
+    @Override
+    public String toString() {
+        return left.toString() + "." + id;
+    }
 }

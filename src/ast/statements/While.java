@@ -36,4 +36,16 @@ public class While extends AbstractStatement {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return v.visit(this, o);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("while (" + expression.toString() + ") {");
+        for (Statement s: statements) {
+            sb.append("\n\t" + s.toString());
+        }
+
+        sb.append("\n}");
+        return sb.toString();
+    }
 }

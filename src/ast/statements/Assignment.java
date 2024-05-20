@@ -33,4 +33,9 @@ public class Assignment extends AbstractStatement {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return v.visit(this, o);
     }
+
+    @Override
+    public String toString() {
+        return left.toString() + " = " + right.toString();
+    }
 }

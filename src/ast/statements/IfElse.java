@@ -46,4 +46,25 @@ public class IfElse extends AbstractStatement {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return v.visit(this, o);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("if (" + condition.toString() + ") {\n");
+        for (int i = 0; i < trueStatements.size() - 1; i++){
+            sb.append("\n\t" + trueStatements.get(i).toString());
+        }
+        sb.append("\n}");
+
+        if(falseStatements.size() > 0){
+            sb.append("else {");
+            for (int i = 0; i < falseStatements.size() - 1; i++){
+                sb.append("\n\t" + falseStatements.get(i).toString());
+            }
+
+            sb.append("\n}");
+        }
+
+        return sb.toString();
+    }
 }

@@ -24,4 +24,9 @@ public class Return extends AbstractStatement {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return v.visit(this, o);
     }
+
+    @Override
+    public String toString() {
+        return "return " + expression.toString() + ";";
+    }
 }
