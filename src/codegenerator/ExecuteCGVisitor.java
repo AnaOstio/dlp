@@ -112,6 +112,31 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
     }
 
     /*
+      [MultipleAssignment: Statement -> expr* expr2*]
+        for (i = 0; i < expr*.size(); i++) {
+             address[[expr[i]]]
+             value[[expr2[i]]]
+             <<store>> e.type.suffix()
+        }
+     */
+    @Override
+    public Void visit(MultipleAssignment a, FunctionDefinition param) {
+        this.cg.line(a.getLeft().getLine());
+        this.cg.comment("Multiple Assignment");
+
+        // Para cada uno de esto ahora lo que tenemos que hacer es recorrer y
+        // pillar el de cada uno
+        for(int i = 0; i < a.getLeft().size(); i++){
+            a.getLeft().get(i).accept(av, param);
+            a.getRight().get(i).accept(vv, param);
+            this.cg.store(a.getLeft().getType());
+            this.cg.newLine();
+        }
+    
+        return null;
+    }
+
+    /*
         [VarDefinition: definition -> var ID type ]]() =
             <' * Tipo'> type ID <(offset > definition.offset <)>
      */
