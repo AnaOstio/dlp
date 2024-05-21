@@ -53,4 +53,9 @@ public class LexerHelper {
 		return '\\';
 	}
 
+	public static boolean lexemeToBoolean(String str){
+		return str.equals("true") ? true : false;
+	}
+
+
 }

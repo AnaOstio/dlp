@@ -1,14 +1,32 @@
+func f(var a boolean, var b boolean, var c boolean) boolean{
+    return (a && b) || !c;
+}
+
 func main() {
-    var pair struct {
-    	var integer int;
-    	var character char;
-    	var pair2 struct {
-            	var integer2 int;
-            	var character2 char;
-        };
-    };
+    var b1, b2, b3, b4 boolean;
+    var a int;
 
-    pair.pair2.integer2 = 2;
+    write (f(true, false, false));       //  Imprime 1
+    write (f(true, false, true));        //  Imprime 0
+    write (f(false, true, true));        //  Imprime 0
+    write (f(false, false, false));      //  Imprime 1
 
-    write pair.pair2.integer2;
+    b1 = true;
+    b2 = 3 > 1;
+    b3 = 4.5 <= 4.2;
+    write  b1;                           //  Imprime 1
+    write  b2;                           //  Imprime 1
+    write  b3;                           //  Imprime 0
+
+    if(b1) {
+        write  'Y';
+    } else{
+        write  'N';
+    }
+
+    a = 0;
+    while (a<10) {
+        write  a;                            //  Imprime 0123456789
+        a = a+1;
+    }
 }

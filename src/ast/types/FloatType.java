@@ -45,7 +45,9 @@ public class FloatType extends AbstractType {
 
     @Override
     public Type comparison(Type expressionType, ASTNode node) {
-        if( this.equals(expressionType) || expressionType instanceof ErrorType )
+        if( this.equals(expressionType))
+            return BooleanType.getInstance();
+        else if (expressionType instanceof ErrorType )
             return expressionType;
         else
             return super.comparison(expressionType, node);
@@ -59,9 +61,8 @@ public class FloatType extends AbstractType {
             return super.mustPromotesTo(expression, node);
     }
 
-    @Override
     public Type canBeCastTo(Type exprToCast, ASTNode node) {
-        if( exprToCast.isBuiltIn() || exprToCast instanceof ast.types.ErrorType)
+        if( exprToCast.isBuiltIn()  && exprToCast != BooleanType.getInstance()|| exprToCast instanceof ErrorType)
             return exprToCast;
         return super.canBeCastTo(exprToCast, node);
     }

@@ -121,6 +121,8 @@ expresion returns [Expression ast]
              { $ast = new CharLiteral($CHAR_CONSTANT.getLine(), $CHAR_CONSTANT.getCharPositionInLine() + 1, LexerHelper.lexemeToChar($CHAR_CONSTANT.text)); }
     | IDENTIFICADOR
              { $ast = new Variable($IDENTIFICADOR.getLine(), $IDENTIFICADOR.getCharPositionInLine() + 1, $IDENTIFICADOR.text); }
+    | BOOLEAN
+             { $ast = new BooleanLiteral($BOOLEAN.getLine(), $BOOLEAN.getCharPositionInLine() + 1, LexerHelper.lexemeToBoolean($BOOLEAN.text)); }
 ;
 
 expresiones returns [List<Expression> ast = new ArrayList<>();]:
@@ -176,6 +178,7 @@ tipo_simple returns [Type ast]:
     'int' { $ast = IntType.getInstance(); }
     | 'char' { $ast = CharType.getInstance(); }
     | 'float32' { $ast = FloatType.getInstance(); }
+    | 'boolean' { $ast = BooleanType.getInstance(); }
 ;
 
 vars returns [List<String> ast = new ArrayList<>();]:
@@ -200,7 +203,11 @@ CHAR_CONSTANT:
     | '\'\\' [0-9]?[0-9]?[0-9] '\''
     ;
 
+// Tenemos que añadir la del boolean
+BOOLEAN: 'true' | 'false';
+
 IDENTIFICADOR: [a-zA-Z][a-zA-Z0-9_]* |  '_'[a-zA-Z0-9_]+;
+
 
 COMMENT
 	: '//' .*? ('\n' | EOF) -> skip

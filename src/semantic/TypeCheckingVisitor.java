@@ -6,6 +6,7 @@ import ast.statements.*;
 import ast.types.*;
 import visitor.AbstractVisitor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,6 +90,8 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
         super.visit(f, param);
         // Recogemos los tipos
         List<Type> types = f.getParameters().stream().map(Expression::getType).collect(Collectors.toList());
+        List<Type> newTypes = new ArrayList<>();
+        f.getParameters().forEach(expression -> newTypes.add(expression.getType()));
         if(f.getName().getType() != null){
             f.setType(f.getName().getType().parenthesis(types, f));
         }

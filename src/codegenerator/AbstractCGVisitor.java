@@ -164,4 +164,14 @@ public class AbstractCGVisitor<TP, TR> implements Visitor<TP, TR> {
     public TR visit(IntType i, TP o) {
         throw new IllegalStateException("Esta plantilla no es aplicable a 'IntType'");
     }
+
+    @Override
+    public TR visit(BooleanType b, TP o) {
+        throw new IllegalStateException("Esta plantilla no es aplicable a 'BooleanType'");
+    }
+
+    @Override
+    public TR visit(BooleanLiteral b, TP o) {
+        throw new IllegalStateException("Esta plantilla no es aplicable a 'BooleanLiteral'");
+    }
 }

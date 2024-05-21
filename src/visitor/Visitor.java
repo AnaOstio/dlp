@@ -45,4 +45,9 @@ public interface Visitor<TP, TR> {
     public TR visit(StructField i, TP param);
 
     public TR visit(IntType i, TP o);
+
+    public TR visit(BooleanType b, TP o);
+
+    public TR visit(BooleanLiteral b, TP o);
+
 }

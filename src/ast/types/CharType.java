@@ -55,7 +55,7 @@ public class CharType extends AbstractType {
     @Override
     public Type comparison(Type expressionType, ASTNode node) {
         if(this == expressionType)
-            return IntType.getInstance();
+            return BooleanType.getInstance();
         if (expressionType instanceof ErrorType)
             return expressionType;
         return super.comparison(expressionType, node);
@@ -63,7 +63,7 @@ public class CharType extends AbstractType {
 
     @Override
     public Type canBeCastTo(Type exprToCast, ASTNode node) {
-        if( exprToCast.isBuiltIn() || exprToCast instanceof ErrorType)
+        if( exprToCast.isBuiltIn() && exprToCast != BooleanType.getInstance() || exprToCast instanceof ErrorType)
             return exprToCast;
         return super.canBeCastTo(exprToCast, node);
     }

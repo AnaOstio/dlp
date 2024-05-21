@@ -38,6 +38,15 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
         return null;
     }
 
+    /*  value[[BooleanLiteral:expression -> value:boolean]]() =
+           <pushi> value
+    */
+    @Override
+    public Void visit(BooleanLiteral b, FunctionDefinition param) {
+        this.cg.push(b.getValue());
+        return null;
+    }
+
     /*
         [FloatLiteral: expresion -> value:double]() =
             <pushf> value
