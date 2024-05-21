@@ -2,6 +2,12 @@
 
 Simula lo que es el código en Go
 
+## COSAS IMPORTANTES A REALIZAR EN EL EXAMEN
+
+- CADA VEZ QUE SE CAMBIE EL .G4 ACORDARSE DE REGENERAR
+- SI SE AÑADE UN TIPO NUEVO Y TIENE LITERAL METERLO EN EL TYPECHEKING PARA ASIGNARLE EL TIPO CORRESPONIENTE
+
+
 ## Lab 01
 Programa tiene una lista de definiciones para los métodos y las variables
 
