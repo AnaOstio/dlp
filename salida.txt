@@ -8,34 +8,194 @@ halt
 
 
 #line	1
+f:
+	 ' * Parameters
+	 ' * Tipo Boolean a (offset 8)
+	 ' * Tipo Boolean b (offset 6)
+	 ' * Tipo Boolean c (offset 4)
+	 ' * Local variables
+	enter 0
+#line	2
+	 ' * Return
+	pushi	8
+	push BP
+	addi
+	loadi
+	pushi	6
+	push BP
+	addi
+	loadi
+	and
+	pushi	4
+	push BP
+	addi
+	loadi
+	not
+	or
+	ret 2, 0, 6
+
+
+#line	5
 main:
 	 ' * Parameters
 	 ' * Local variables
-	 ' * Tipo StructType[fields=[Field{type=Integer, name='integer', offset=0}, Field{type=Char, name='character', offset=2}, Field{type=StructType[fields=[Field{type=Integer, name='integer2', offset=0}, Field{type=Char, name='character2', offset=2}]], name='pair2', offset=3}]] pair (offset -6)
-	enter 6
+	 ' * Tipo Boolean b4 (offset -2)
+	 ' * Tipo Boolean b3 (offset -4)
+	 ' * Tipo Boolean b2 (offset -6)
+	 ' * Tipo Boolean b1 (offset -8)
+	 ' * Tipo Integer a (offset -10)
+	enter 10
+#line	9
+	 ' * Write
+	pushi	1
+	pushi	0
+	pushi	0
+	call f
+	outi
+
+#line	10
+	 ' * Write
+	pushi	1
+	pushi	0
+	pushi	1
+	call f
+	outi
+
 #line	11
+	 ' * Write
+	pushi	0
+	pushi	1
+	pushi	1
+	call f
+	outi
+
+#line	12
+	 ' * Write
+	pushi	0
+	pushi	0
+	pushi	0
+	call f
+	outi
+
+#line	14
+	 ' * Assignment
+	pushi	-8
+	push BP
+	addi
+	pushi	1
+	storei
+
+#line	15
 	 ' * Assignment
 	pushi	-6
 	push BP
 	addi
 	pushi	3
-	addi
-	pushi	0
-	addi
-	pushi	2
+	pushi	1
+	gti
 	storei
 
-#line	13
-	 ' * Write
-	pushi	-6
+#line	16
+	 ' * Assignment
+	pushi	-4
 	push BP
 	addi
-	pushi	3
-	addi
-	pushi	0
+	pushf	4.5
+	pushf	4.2
+	lei
+	storei
+
+#line	17
+	 ' * Write
+	pushi	-8
+	push BP
 	addi
 	loadi
 	outi
 
-	ret 0, 6, 0
+#line	18
+	 ' * Write
+	pushi	-6
+	push BP
+	addi
+	loadi
+	outi
+
+#line	19
+	 ' * Write
+	pushi	-4
+	push BP
+	addi
+	loadi
+	outi
+
+#line	21
+	 ' * If-Else
+#line	21
+	pushi	-8
+	push BP
+	addi
+	loadi
+	jz label1
+	 ' * True body
+#line	22
+	 ' * Write
+	pushb	89
+	outb
+
+	jmp label2
+label1:
+	 ' * False body
+#line	24
+	 ' * Write
+	pushb	78
+	outb
+
+label2:
+
+#line	27
+	 ' * Assignment
+	pushi	-10
+	push BP
+	addi
+	pushi	0
+	storei
+
+#line	28
+	 ' * While
+#line	28
+label3:
+	pushi	-10
+	push BP
+	addi
+	loadi
+	pushi	10
+	lti
+	jz label4
+	 ' * While body
+#line	29
+	 ' * Write
+	pushi	-10
+	push BP
+	addi
+	loadi
+	outi
+
+#line	30
+	 ' * Assignment
+	pushi	-10
+	push BP
+	addi
+	pushi	-10
+	push BP
+	addi
+	loadi
+	pushi	1
+	addi
+	storei
+
+	jmp label3
+label4:
+
+	ret 0, 10, 0
 
