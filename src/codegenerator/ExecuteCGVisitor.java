@@ -121,7 +121,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
      */
     @Override
     public Void visit(MultipleAssignment a, FunctionDefinition param) {
-        this.cg.line(a.getLeft().getLine());
+        this.cg.line(a.getLeft().get(0).getLine());
         this.cg.comment("Multiple Assignment");
 
         // Para cada uno de esto ahora lo que tenemos que hacer es recorrer y
@@ -129,7 +129,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
         for(int i = 0; i < a.getLeft().size(); i++){
             a.getLeft().get(i).accept(av, param);
             a.getRight().get(i).accept(vv, param);
-            this.cg.store(a.getLeft().getType());
+            this.cg.store(a.getLeft().get(i).getType());
             this.cg.newLine();
         }
     

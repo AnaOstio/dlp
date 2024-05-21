@@ -15,3 +15,35 @@ main:
 	 ' * Tipo Integer b (offset -4)
 	 ' * Tipo Integer a (offset -6)
 	enter 6
+#line	4
+	 ' * Multiple Assignment
+	pushi	-4
+	push BP
+	addi
+	pushi	3
+	storei
+
+	pushi	-6
+	push BP
+	addi
+	pushi	5
+	storei
+
+#line	6
+	 ' * Write
+	pushi	-4
+	push BP
+	addi
+	loadi
+	outi
+
+#line	6
+	 ' * Write
+	pushi	-6
+	push BP
+	addi
+	loadi
+	outi
+
+	ret 0, 6, 0
+
