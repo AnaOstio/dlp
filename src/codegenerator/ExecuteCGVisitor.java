@@ -257,4 +257,26 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
         this.cg.newLine();
         return null;
     }
+
+    @Override
+    public Void visit(For f, FunctionDefinition param) {
+        this.cg.line(f.getLine());
+        this.cg.comment("For");
+        String condicion = this.cg.nextLabel();
+        String end = this.cg.nextLabel();
+
+        // inicializacion
+        f.getInicializacion().accept(this, param);
+        cg.label(condicion);
+        f.getCondicion().accept(vv, param);
+        this.cg.jz(end);
+        this.cg.comment("For body");
+        f.getForBody().forEach(s -> s.accept(this, param));
+        f.getIncremento().accept(this, param);
+        this.cg.jmp(condicion);
+        this.cg.label(end);
+        this.cg.newLine();
+
+        return null;
+    }
 }

@@ -19,6 +19,10 @@ public class Main {
 			return;
 		}
 
+		for(int i= 0; i<5; i = i+1){
+			System.out.println( 6);
+		}
+
 		// create a lexer that feeds off of input CharStream
 		CharStream input = CharStreams.fromFileName(args[0]);
 		GoJaLexer lexer = new GoJaLexer(input);

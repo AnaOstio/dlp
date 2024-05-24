@@ -1,14 +1,8 @@
 func main() {
-    var pair struct {
-    	var integer int;
-    	var character char;
-    	var pair2 struct {
-            	var integer2 int;
-            	var character2 char;
-        };
-    };
 
-    pair.pair2.integer2 = 2;
+    var i int;
 
-    write pair.pair2.integer2;
+    for(i= 0; i<5; i = i+1;){
+        write 6;
+    }
 }

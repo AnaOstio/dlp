@@ -125,6 +125,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
 
     @Override
     public Void visit(Variable v, Type param) {
+
         v.setLValue(true);
         v.setType(v.getDefinition().getType());
         return null;
@@ -186,6 +187,17 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
     @Override
     public Void visit(FunctionDefinition f, Type param) {
         super.visit(f,((FunctionType)f.getType()).getReturnType());
+        return null;
+    }
+
+    @Override
+    public Void visit(For w, Type param) {
+        super.visit(w, param);
+
+        if(!w.getCondicion().getType().isLogic(w)) {
+            new ErrorType("La condición de una sentencia For debe ser lógica", w.getLine(), w.getColumn());
+        }
+
         return null;
     }
 }

@@ -77,6 +77,8 @@ statement returns [Statement ast]
             { $ast = new While($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast, $statements.ast); }
     | l='if' '(' expresion ')' tBody=statements ( 'else' (fBody=statements { $elseBody.addAll($fBody.ast); }))?
             { $ast = new IfElse($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast, $tBody.ast, $elseBody); }
+    | l='for' '(' ini=statement  e=expresion ';' inc=statement ')' cuerpo=statements
+            { $ast = new For($l.getLine(), $l.getCharPositionInLine() + 1, $ini.ast, $e.ast, $inc.ast, $cuerpo.ast); }
     |  l=IDENTIFICADOR '(' (expresiones { $fparams.addAll($expresiones.ast); })? ')' ';'
             { $ast = new FunctionInvocation($l.getLine(), $l.getCharPositionInLine() + 1,
                      new Variable($l.getLine(), $l.getCharPositionInLine() + 1, $l.text), $fparams);}
