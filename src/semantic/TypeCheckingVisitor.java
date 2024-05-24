@@ -188,4 +188,14 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
         super.visit(f,((FunctionType)f.getType()).getReturnType());
         return null;
     }
+
+    @Override
+    public Void visit(Pow p, Type param) {
+        super.visit(p, param);
+
+        p.setType(p.getLeft().getType().arithmetic(p.getRigth().getType(), p));
+
+        p.setLValue(false);
+        return null;
+    }
 }

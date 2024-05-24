@@ -102,6 +102,8 @@ expresion returns [Expression ast]
                  { $ast = new UnaryMinus($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast); }
     | l='!' expresion
              { $ast = new UnaryNot($l.getLine(), $l.getCharPositionInLine() + 1, $expresion.ast); }
+    | exp1=expresion op='^' exp2=expresion
+             { $ast = new Pow($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $exp2.ast); }
     | exp1=expresion op=( '*' | '/' | '%' ) exp2=expresion
             { $ast = new Arithmetic($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $exp2.ast, $op.text); }
     | exp1=expresion op=('+' | '-' ) exp2=expresion

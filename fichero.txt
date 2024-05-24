@@ -1,20 +1,4 @@
 func main() {
-    var numero int;
-    var divisor int;
-
-    read numero;
-
-    if (numero < 2)
-        write 0;
-    else {
-        divisor = 2;
-        while(divisor < numero) {
-           if(numero % divisor == 0) {
-             write 0;
-             // return;
-           }
-           divisor = divisor + 1;
-        }
-        write 1;
-    }
+    var a int;
+    a =  7^(2 +6);
 }

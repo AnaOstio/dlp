@@ -153,4 +153,12 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
         this.cg.load(a.getType());
         return null;
     }
+
+    @Override
+    public Void visit(Pow a, FunctionDefinition param) {
+        a.getLeft().accept(this, param);
+        a.getRigth().accept(this, param);
+
+        return null;
+    }
 }
