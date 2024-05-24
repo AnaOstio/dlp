@@ -1,14 +1,20 @@
 func main() {
-    var pair struct {
-    	var integer int;
-    	var character char;
-    	var pair2 struct {
-            	var integer2 int;
-            	var character2 char;
-        };
-    };
+    var numero int;
+    var divisor int;
 
-    pair.pair2.integer2 = 2;
+    read numero;
 
-    write pair.pair2.integer2;
+    if (numero < 2)
+        write 0;
+    else {
+        divisor = 2;
+        while(divisor < numero) {
+           if(numero % divisor == 0) {
+             write 0;
+             // return;
+           }
+           divisor = divisor + 1;
+        }
+        write 1;
+    }
 }
