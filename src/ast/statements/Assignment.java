@@ -1,9 +1,11 @@
 package ast.statements;
 
+import ast.expressions.AbstractExpression;
 import ast.expressions.Expression;
+import ast.types.Type;
 import visitor.Visitor;
 
-public class Assignment extends AbstractStatement {
+public class Assignment extends AbstractExpression implements Statement {
 
     private Expression left, right;
 
@@ -37,5 +39,10 @@ public class Assignment extends AbstractStatement {
     @Override
     public String toString() {
         return left.toString() + " = " + right.toString();
+    }
+
+    @Override
+    public boolean getLValue() {
+        return right.getLValue();
     }
 }

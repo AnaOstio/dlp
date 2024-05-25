@@ -92,7 +92,9 @@ expresion returns [Expression ast]
             locals [List<Expression> fparams = new ArrayList<>();]:
 
     '(' expresion ')' { $ast = $expresion.ast; }
-    | exp1=expresion '.' IDENTIFICADOR
+    |  ex=IDENTIFICADOR '=' exp2=expresion ';'
+                  { $ast = new Assignment($ex.getLine(),$ex.getColumn(), new Variable($ex.getLine(), $ex.getCharPositionInLine() + 1, $ex.text), $exp2.ast); }
+    | e=expresion '.' IDENTIFICADOR
                 { $ast = new FieldAccess($exp1.ast.getLine(), $exp1.ast.getColumn(), $exp1.ast, $IDENTIFICADOR.text) ;}
     | exp1=expresion '[' exp2=expresion ']'
                 { $ast = new ArrayAccess($exp1.ast.getLine(), $exp1.ast.getColumn() + 1, $exp1.ast, $exp2.ast); }

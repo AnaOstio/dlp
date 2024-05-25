@@ -1,6 +1,6 @@
 func main() {
     var numero int;
-    var divisor int;
+    var divisor, a, b int;
 
     read numero;
 
@@ -17,4 +17,6 @@ func main() {
         }
         write 1;
     }
+
+    a = b = 3;
 }
