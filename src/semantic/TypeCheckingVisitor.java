@@ -165,9 +165,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
     @Override
     public Void visit(Return r, Type param) {
         super.visit(r, param);
-        if(r.getExpression().getType() != param){
-            new ErrorType("El tipo de retorno no coincide con el tipo definido en su funcion", r.getLine(), r.getColumn());
-        }
+        r.getExpression().setType(r.getExpression().getType().mustPromotesTo(param, r));
 
         return null;
     }

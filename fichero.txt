@@ -1,20 +1,47 @@
-func main() {
-    var numero int;
-    var divisor int;
+/**
 
-    read numero;
-
-    if (numero < 2)
-        write 0;
-    else {
-        divisor = 2;
-        while(divisor < numero) {
-           if(numero % divisor == 0) {
-             write 0;
-             // return;
-           }
-           divisor = divisor + 1;
-        }
-        write 1;
+    def f(a:int, b:double):double {
+        return a+1;
     }
+
+    def main(): {
+      real:double;
+      integer:int;
+
+      integer='a';  #ASCCI('a') = 97
+      real=integer;
+
+      print real+1,             #muestra 98.0 (en mapl no sale el .0)
+          'a'-integer,
+          real/'a',
+          'a'*'b';
+
+      print 'a'=='a', 'a'>integer, integer<real, 'a'!=real+1;
+
+      print f(integer,'c');
+
+    }
+
+**/
+
+func f(var a int, var b float32) float32 {
+    return a + 1;
+}
+
+func main() {
+    var real float32;
+    var integer int;
+
+    integer='a';  // ASCCI('a') = 97
+    real=integer;
+
+    write real+1,             // muestra 98.0 (en mapl no sale el .0)
+          'a'-integer,
+          real/'a',
+          'a'*'b';
+
+    write 'a'=='a', 'a'>integer, integer<real, 'a'!=real+1;
+
+    write f(integer,'c');
+
 }

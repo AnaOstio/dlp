@@ -8,6 +8,7 @@ import ast.expressions.Expression;
 import ast.expressions.FunctionInvocation;
 import ast.statements.*;
 import ast.types.FunctionType;
+import ast.types.Type;
 import ast.types.VoidType;
 
 import java.util.List;
@@ -106,6 +107,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
         this.cg.comment("Assignment");
         a.getLeft().accept(av, param);
         a.getRight().accept(vv, param);
+        this.cg.cast(a.getLeft().getType(), a.getRight().getType());
         this.cg.store(a.getLeft().getType());
         this.cg.newLine();
         return null;
@@ -252,6 +254,10 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
         this.cg.line(r.getLine());
         this.cg.comment("Return");
         r.getExpression().accept(vv, param);
+
+        FunctionType funcType= (FunctionType) param.getType();
+        Type returnType= funcType.getReturnType();
+        this.cg.cast(r.getExpression().getType(), returnType);
         this.cg.ret(((FunctionType)param.getType()).getReturnType().numberOfBytes(), param.getLocalVariablesBytes() * -1, ((FunctionType)param.getType()).getParametersBytes());
 
         this.cg.newLine();

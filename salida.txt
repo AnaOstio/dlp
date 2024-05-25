@@ -7,111 +7,154 @@ call main
 halt
 
 
-#line	1
+#line	27
+f:
+	 ' * Parameters
+	 ' * Tipo Integer a (offset 8)
+	 ' * Tipo Float32 b (offset 4)
+	 ' * Local variables
+	enter 0
+#line	28
+	 ' * Return
+	pushi	8
+	push BP
+	addi
+	loadi
+	pushi	1
+	f2i
+	f2i
+	addf
+	ret 4, 0, 6
+
+
+#line	31
 main:
 	 ' * Parameters
 	 ' * Local variables
-	 ' * Tipo Integer numero (offset -2)
-	 ' * Tipo Integer divisor (offset -4)
-	enter 4
-#line	5
-	 ' * Read
-	pushi	-2
+	 ' * Tipo Float32 real (offset -4)
+	 ' * Tipo Integer integer (offset -6)
+	enter 6
+#line	35
+	 ' * Assignment
+	pushi	-6
 	push BP
 	addi
-	ini
-	storei
+	pushb	97
+	storeb
 
-#line	7
-	 ' * If-Else
-#line	7
-	pushi	-2
-	push BP
-	addi
-	loadi
-	pushi	2
-	lti
-	jz label1
-	 ' * True body
-#line	8
-	 ' * Write
-	pushi	0
-	outi
-
-	jmp label2
-label1:
-	 ' * False body
-#line	10
+#line	36
 	 ' * Assignment
 	pushi	-4
 	push BP
 	addi
-	pushi	2
+	pushi	-6
+	push BP
+	addi
+	loadi
 	storei
 
-#line	11
-	 ' * While
-#line	11
-label3:
+#line	38
+	 ' * Write
 	pushi	-4
 	push BP
 	addi
-	loadi
-	pushi	-2
+	loadf
+	pushi	1
+	i2f
+	addi
+	outi
+
+#line	39
+	 ' * Write
+	pushb	97
+	pushi	-6
 	push BP
 	addi
 	loadi
-	lti
-	jz label4
-	 ' * While body
-#line	12
-	 ' * If-Else
-#line	12
-	pushi	-2
-	push BP
-	addi
-	loadi
+	i2b
+	subi
+	outi
+
+#line	40
+	 ' * Write
 	pushi	-4
 	push BP
 	addi
-	loadi
-	modi
-	pushi	0
+	loadf
+	pushb	97
+	b2i
+	i2f
+	divf
+	outf
+
+#line	41
+	 ' * Write
+	pushb	97
+	pushb	98
+	i2b
+	i2b
+	muli
+	outi
+
+#line	43
+	 ' * Write
+	pushb	97
+	pushb	97
+	i2b
+	i2b
 	eqi
-	jz label5
-	 ' * True body
-#line	13
-	 ' * Write
-	pushi	0
 	outi
 
-	jmp label6
-label5:
-	 ' * False body
-label6:
-
-#line	16
-	 ' * Assignment
-	pushi	-4
-	push BP
-	addi
-	pushi	-4
+#line	43
+	 ' * Write
+	pushb	97
+	pushi	-6
 	push BP
 	addi
 	loadi
-	pushi	1
-	addi
-	storei
-
-	jmp label3
-label4:
-
-#line	18
-	 ' * Write
-	pushi	1
+	i2b
+	gti
 	outi
 
-label2:
+#line	43
+	 ' * Write
+	pushi	-6
+	push BP
+	addi
+	loadi
+	pushi	-4
+	push BP
+	addi
+	loadf
+	i2f
+	lti
+	outi
 
-	ret 0, 4, 0
+#line	43
+	 ' * Write
+	pushb	97
+	pushi	-4
+	push BP
+	addi
+	loadf
+	pushi	1
+	i2f
+	addi
+	i2b
+	nei
+	outi
+
+#line	45
+	 ' * Write
+	pushi	-6
+	push BP
+	addi
+	loadi
+	f2i
+	pushb	99
+	i2b
+	call f
+	outf
+
+	ret 0, 6, 0
 

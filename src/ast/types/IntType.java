@@ -41,7 +41,7 @@ public class IntType extends AbstractType {
 
     @Override
     public Type arithmetic(Type expressionType, ASTNode node) {
-        if( this.equals(expressionType) || expressionType instanceof ErrorType )
+        if(expressionType.isBuiltIn())
             return expressionType;
         else
             return super.arithmetic(expressionType, node);
@@ -54,16 +54,15 @@ public class IntType extends AbstractType {
 
     @Override
     public Type comparison(Type expressionType, ASTNode node) {
-        if( this.equals(expressionType) || expressionType instanceof ErrorType )
-            return expressionType;
-        else
-            return super.comparison(expressionType, node);
+        if(expressionType.isBuiltIn())
+            return this;
+        return super.comparison(expressionType, node);
     }
 
     @Override
     public Type logical(Type expressionType, ASTNode node) {
-        if( this.equals(expressionType) || expressionType instanceof ErrorType )
-            return expressionType;
+        if( expressionType instanceof IntType)
+            return this;
         else
             return super.logical(expressionType, node);
     }
@@ -75,14 +74,14 @@ public class IntType extends AbstractType {
 
     @Override
     public Type canBeCastTo(Type exprToCast, ASTNode node) {
-        if( exprToCast.isBuiltIn() || exprToCast instanceof ErrorType)
+        if( exprToCast.isBuiltIn())
             return exprToCast;
         return super.canBeCastTo(exprToCast, node);
     }
 
     @Override
     public Type mustPromotesTo(Type expression, ASTNode node) {
-        if( this.equals(expression) || expression instanceof ErrorType )
+        if( expression.isBuiltIn() )
             return expression;
         else
             return super.mustPromotesTo(expression, node);

@@ -40,40 +40,35 @@ public class CharType extends AbstractType {
 
     @Override
     public Type arithmetic(Type expressionType, ASTNode node) {
-        if(this == expressionType)
+        if(expressionType.isBuiltIn())
             return IntType.getInstance();
-        if (expressionType instanceof ErrorType)
-            return expressionType;
         return super.arithmetic(expressionType, node);
     }
 
     @Override
     public Type arithmetic(ASTNode node) {
-        return this;
+        return IntType.getInstance();
     }
 
     @Override
     public Type comparison(Type expressionType, ASTNode node) {
-        if(this == expressionType)
+        if(expressionType.isBuiltIn())
             return IntType.getInstance();
-        if (expressionType instanceof ErrorType)
-            return expressionType;
         return super.comparison(expressionType, node);
     }
 
     @Override
     public Type canBeCastTo(Type exprToCast, ASTNode node) {
-        if( exprToCast.isBuiltIn() || exprToCast instanceof ErrorType)
+        if(exprToCast.isBuiltIn())
             return exprToCast;
         return super.canBeCastTo(exprToCast, node);
     }
 
     @Override
     public Type mustPromotesTo(Type expression, ASTNode node) {
-        if( this.equals(expression) || expression instanceof ErrorType)
+        if(expression.isBuiltIn())
             return expression;
-        else
-            return super.mustPromotesTo(expression, node);
+        return super.comparison(expression, node);
     }
 
     @Override

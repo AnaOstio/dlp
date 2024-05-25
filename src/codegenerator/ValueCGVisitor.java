@@ -2,6 +2,7 @@ package codegenerator;
 
 import ast.definitions.FunctionDefinition;
 import ast.expressions.*;
+import ast.types.FunctionType;
 
 public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
 
@@ -74,6 +75,10 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
         a.getLeft().accept(this, param);
         a.getRight().accept(this, param);
 
+        this.cg.cast(a.getLeft().getType(), a.getType());
+        this.cg.cast(a.getRight().getType(), a.getType());
+
+
         switch (a.getOperator()) {
             case "*": this.cg.operation("mul", a.getType()); break;
             case "/": this.cg.operation("div", a.getType()); break;
@@ -96,6 +101,11 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
     public Void visit(Comparasion c, FunctionDefinition param) {
         c.getLeft().accept(this, param);
         c.getRight().accept(this, param);
+
+        this.cg.cast(c.getLeft().getType(), c.getType());
+        this.cg.cast(c.getRight().getType(), c.getType());
+
+
         switch (c.getOperator()) {
             case "==": this.cg.operation("eq", c.getType()); break;
             case "!=": this.cg.operation("ne", c.getType()); break;
@@ -135,7 +145,13 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
 
     @Override
     public Void visit(FunctionInvocation f, FunctionDefinition param) {
-        f.getParameters().forEach(p -> p.accept(this, param));
+        // Pillamos el typo
+
+        FunctionType type = (FunctionType) f.getName().getDefinition().getType();
+        for(int i = 0; i < f.getParameters().size(); i++) {
+            f.getParameters().get(i).accept(this, param);
+            this.cg.cast(f.getParameters().get(i).getType(), type.getParameters().get(i).getType());
+        }
         this.cg.call(f.getName().getName());
         return null;
     }
@@ -153,4 +169,6 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
         this.cg.load(a.getType());
         return null;
     }
+
+
 }
