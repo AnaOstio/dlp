@@ -49,6 +49,12 @@ public interface GoJaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatement(GoJaParser.StatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link GoJaParser#switch_statements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSwitch_statements(GoJaParser.Switch_statementsContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link GoJaParser#statements}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

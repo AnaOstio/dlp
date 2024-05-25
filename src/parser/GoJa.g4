@@ -82,6 +82,11 @@ statement returns [Statement ast]
                      new Variable($l.getLine(), $l.getCharPositionInLine() + 1, $l.text), $fparams);}
 ;
 
+
+/**
+    Switch[Statement: condition:expression, casos, default]
+**/
+
 statements returns [List<Statement> ast = new ArrayList<>();]:
     statement { $ast.add($statement.ast); }
     | '{' (statement { $ast.add($statement.ast); })* '}'

@@ -61,6 +61,13 @@ public class GoJaBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements G
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitSwitch_statements(GoJaParser.Switch_statementsContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitStatements(GoJaParser.StatementsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
