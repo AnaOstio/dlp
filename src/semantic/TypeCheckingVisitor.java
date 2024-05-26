@@ -193,6 +193,9 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
     public Void visit(Pow p, Type param) {
         super.visit(p, param);
 
+        if (!(p.getRigth().getType() instanceof IntType))
+            new ErrorType("La expresion de la derecha tiene que ser de tipo entero", p.getLine(), p.getColumn());
+
         p.setType(p.getLeft().getType().arithmetic(p.getRigth().getType(), p));
 
         p.setLValue(false);

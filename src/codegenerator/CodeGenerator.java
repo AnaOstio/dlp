@@ -67,6 +67,11 @@ public class CodeGenerator {
         out.flush();
     }
 
+    public void dup(Type type){
+        out.println("\tout" + type.suffix());
+        out.flush();
+    }
+
     public void pushBP(){
         out.println("\tpush BP");
     }

@@ -156,8 +156,17 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
 
     @Override
     public Void visit(Pow a, FunctionDefinition param) {
-        a.getLeft().accept(this, param);
-        a.getRigth().accept(this, param);
+
+        this.cg.line(a.getLine());
+        this.cg.comment("Pow");
+        String bucle = this.cg.nextLabel();
+        String end = this.cg.nextLabel();
+
+        // Tengo que hacer un contador
+        int contador = 0;
+        while
+
+
 
         return null;
     }
