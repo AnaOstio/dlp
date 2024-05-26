@@ -2,6 +2,8 @@ package codegenerator;
 
 import ast.definitions.FunctionDefinition;
 import ast.expressions.*;
+import ast.types.CharType;
+import ast.types.IntType;
 
 public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
 
@@ -95,7 +97,19 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
     @Override
     public Void visit(Comparasion c, FunctionDefinition param) {
         c.getLeft().accept(this, param);
+        if (c.getLeft().getType() instanceof CharType) {
+            this.cg.cast(IntType.getInstance(), c.getLeft().getType());
+        }
         c.getRight().accept(this, param);
+        if (c.getRight().getType() instanceof CharType) {
+            this.cg.cast(IntType.getInstance(), c.getRight().getType());
+        }
+
+        /**
+         * El If se ha realizado para poder permitir hacer comprobaciones de este estilo
+         * if ( 97 == 'a' )
+         */
+
         switch (c.getOperator()) {
             case "==": this.cg.operation("eq", c.getType()); break;
             case "!=": this.cg.operation("ne", c.getType()); break;

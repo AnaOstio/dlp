@@ -2,6 +2,8 @@ func main() {
     var numero int;
     var divisor int;
 
+    var a, k char;
+
     read numero;
 
     if (numero < 2)
@@ -17,4 +19,21 @@ func main() {
         }
         write 1;
     }
+
+    a = 'c';
+
+    if( 'a' == 'a')
+        write a;
+    else
+        write 5;
+
+    /**
+        k := 'a';
+        			if (11 < 12) and not (k = 'n') then
+        				println 'Y';
+        			end
+    **/
+    k = 'a';
+    if (11 < 12 && !(k == 'n'))
+        write 'Y';
 }

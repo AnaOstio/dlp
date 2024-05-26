@@ -13,8 +13,10 @@ main:
 	 ' * Local variables
 	 ' * Tipo Integer numero (offset -2)
 	 ' * Tipo Integer divisor (offset -4)
-	enter 4
-#line	5
+	 ' * Tipo Char k (offset -5)
+	 ' * Tipo Char a (offset -6)
+	enter 6
+#line	7
 	 ' * Read
 	pushi	-2
 	push BP
@@ -22,9 +24,9 @@ main:
 	ini
 	storei
 
-#line	7
+#line	9
 	 ' * If-Else
-#line	7
+#line	9
 	pushi	-2
 	push BP
 	addi
@@ -33,7 +35,7 @@ main:
 	lti
 	jz label1
 	 ' * True body
-#line	8
+#line	10
 	 ' * Write
 	pushi	0
 	outi
@@ -41,7 +43,7 @@ main:
 	jmp label2
 label1:
 	 ' * False body
-#line	10
+#line	12
 	 ' * Assignment
 	pushi	-4
 	push BP
@@ -49,9 +51,9 @@ label1:
 	pushi	2
 	storei
 
-#line	11
+#line	13
 	 ' * While
-#line	11
+#line	13
 label3:
 	pushi	-4
 	push BP
@@ -64,9 +66,9 @@ label3:
 	lti
 	jz label4
 	 ' * While body
-#line	12
+#line	14
 	 ' * If-Else
-#line	12
+#line	14
 	pushi	-2
 	push BP
 	addi
@@ -80,7 +82,7 @@ label3:
 	eqi
 	jz label5
 	 ' * True body
-#line	13
+#line	15
 	 ' * Write
 	pushi	0
 	outi
@@ -90,7 +92,7 @@ label5:
 	 ' * False body
 label6:
 
-#line	16
+#line	18
 	 ' * Assignment
 	pushi	-4
 	push BP
@@ -106,12 +108,84 @@ label6:
 	jmp label3
 label4:
 
-#line	18
+#line	20
 	 ' * Write
 	pushi	1
 	outi
 
 label2:
 
-	ret 0, 4, 0
+#line	23
+	 ' * Assignment
+	pushi	-6
+	push BP
+	addi
+	pushb	99
+	storeb
+
+#line	25
+	 ' * If-Else
+#line	25
+	pushb	97
+	b2i
+	pushb	97
+	b2i
+	eqi
+	jz label7
+	 ' * True body
+#line	26
+	 ' * Write
+	pushi	-6
+	push BP
+	addi
+	loadb
+	outb
+
+	jmp label8
+label7:
+	 ' * False body
+#line	28
+	 ' * Write
+	pushi	5
+	outi
+
+label8:
+
+#line	36
+	 ' * Assignment
+	pushi	-5
+	push BP
+	addi
+	pushb	97
+	storeb
+
+#line	37
+	 ' * If-Else
+#line	37
+	pushi	11
+	pushi	12
+	lti
+	pushi	-5
+	push BP
+	addi
+	loadb
+	b2i
+	pushb	110
+	b2i
+	eqi
+	not
+	and
+	jz label9
+	 ' * True body
+#line	38
+	 ' * Write
+	pushb	89
+	outb
+
+	jmp label10
+label9:
+	 ' * False body
+label10:
+
+	ret 0, 6, 0
 
