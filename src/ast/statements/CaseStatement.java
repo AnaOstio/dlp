@@ -21,4 +21,21 @@ public class CaseStatement extends AbstractASTNode {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP o) {
         return null;
     }
+
+
+    public Expression getCondition() {
+        return condition;
+    }
+
+    public void setCondition(Expression condition) {
+        this.condition = condition;
+    }
+
+    public List<Statement> getStatementList() {
+        return statementList;
+    }
+
+    public void setStatementList(List<Statement> statementList) {
+        this.statementList = statementList;
+    }
 }
