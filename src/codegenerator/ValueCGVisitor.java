@@ -3,6 +3,7 @@ package codegenerator;
 import ast.definitions.FunctionDefinition;
 import ast.expressions.*;
 import ast.types.CharType;
+import ast.types.FloatType;
 import ast.types.IntType;
 
 public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
@@ -97,17 +98,18 @@ public class ValueCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void>{
     @Override
     public Void visit(Comparasion c, FunctionDefinition param) {
         c.getLeft().accept(this, param);
-        if (c.getLeft().getType() instanceof CharType) {
+        if (c.getLeft().getType() instanceof CharType || c.getLeft().getType() instanceof FloatType) {
             this.cg.cast(IntType.getInstance(), c.getLeft().getType());
         }
         c.getRight().accept(this, param);
-        if (c.getRight().getType() instanceof CharType) {
+        if (c.getLeft().getType() instanceof CharType || c.getLeft().getType() instanceof FloatType) {
             this.cg.cast(IntType.getInstance(), c.getRight().getType());
         }
 
         /**
          * El If se ha realizado para poder permitir hacer comprobaciones de este estilo
          * if ( 97 == 'a' )
+         * if(5.3 > 4,4)
          */
 
         switch (c.getOperator()) {

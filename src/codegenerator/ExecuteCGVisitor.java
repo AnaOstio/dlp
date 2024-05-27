@@ -7,6 +7,8 @@ import ast.definitions.VarDefinition;
 import ast.expressions.Expression;
 import ast.expressions.FunctionInvocation;
 import ast.statements.*;
+import ast.types.BooleanType;
+import ast.types.CharType;
 import ast.types.FunctionType;
 import ast.types.VoidType;
 
@@ -64,11 +66,47 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<FunctionDefinition, Void
             this.cg.line(e.getLine());
             this.cg.comment("Write");
             e.accept(vv, param);
-            this.cg.out(e.getType());
+
+            // AQUI TIENE QUE VENIR EL CODIGO A GENERAR
+            if (e.getType() instanceof BooleanType) {
+                // metodo
+                sacarTrueFalse();
+            } else {
+                this.cg.out(e.getType());
+            }
+
+
             this.cg.newLine();
         }
 
         return null;
+    }
+
+    private void sacarTrueFalse() {
+
+        String falseS = this.cg.nextLabel();
+        String end = this.cg.nextLabel();
+
+        String trueValue = "true";
+        String falseValue = "false";
+
+        this.cg.jz(falseS);
+
+        for(int i = 0; i < trueValue.length(); i++) {
+            this.cg.push(trueValue.charAt(i));
+            this.cg.out(CharType.getInstance());
+        }
+
+        this.cg.jmp(end);
+        this.cg.label(falseS);
+
+        for(int i = 0; i < falseValue.length(); i++) {
+            this.cg.push(falseValue.charAt(i));
+            this.cg.out(CharType.getInstance());
+        }
+
+        this.cg.label(end);
+
     }
 
     /*

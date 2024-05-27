@@ -21,4 +21,6 @@ public interface Type extends ASTNode {
     boolean isBuiltIn();
     int numberOfBytes();
     String suffix();
+
+    boolean isBool(ASTNode node);
 }

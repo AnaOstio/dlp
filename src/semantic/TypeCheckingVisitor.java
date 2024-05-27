@@ -70,6 +70,10 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
         super.visit(c, param);
         c.setType(c.getLeft().getType().comparison(c.getRight().getType(), c));
 
+        if( !(c.getType() instanceof ErrorType)) {
+            c.setType(BooleanType.getInstance());
+        }
+
         c.setLValue(false);
         return null;
     }
@@ -101,6 +105,10 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
         super.visit(l, param);
         l.setType(l.getLeft().getType().logical(l.getRight().getType(), l));
 
+        if( !(l.getType() instanceof ErrorType)) {
+            l.setType(BooleanType.getInstance());
+        }
+
         l.setLValue(false);
         return null;
     }
@@ -110,6 +118,10 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
         super.visit(u, param);
         u.setType(u.getRight().getType().arithmetic(u));
 
+        if( !(u.getType() instanceof ErrorType)) {
+            u.setType(BooleanType.getInstance());
+        }
+
         u.setLValue(false);
         return null;
     }
@@ -118,6 +130,10 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
     public Void visit(UnaryNot u, Type param) {
         super.visit(u, param);
         u.setType(u.getRight().getType().logical(u));
+
+        if( !(u.getType() instanceof ErrorType)) {
+            u.setType(BooleanType.getInstance());
+        }
 
         u.setLValue(false);
         return null;
@@ -155,8 +171,8 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
     public Void visit(IfElse i, Type param) {
         super.visit(i, param);
 
-        if(!i.getCondition().getType().isLogic(i)) {
-            new ErrorType("La condición de una sentencia IF debe ser lógica", i.getLine(), i.getColumn());
+        if(!i.getCondition().getType().isBool(i)) {
+            new ErrorType("La condición de una sentencia IF debe ser BOOLEANA", i.getLine(), i.getColumn());
         }
 
         return null;
@@ -176,8 +192,8 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
     public Void visit(While w, Type param) {
         super.visit(w, param);
 
-        if(!w.getExpression().getType().isLogic(w)) {
-            new ErrorType("La condición de una sentencia IF debe ser lógica", w.getLine(), w.getColumn());
+        if(!w.getExpression().getType().isBool(w)) {
+            new ErrorType("La condición de una sentencia IF debe ser BOOLEANA", w.getLine(), w.getColumn());
         }
 
         return null;
